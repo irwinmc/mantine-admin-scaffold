@@ -1,3 +1,17 @@
 {
-	"home": "Home"
+	"home": "Home",
+	"search": "Search",
+	"dashboard": "Dashboard",
+	"analytics": "Analytics",
+	"users": "Users",
+	"all_users": "All Users",
+	"roles": "Roles",
+	"products": "Products",
+	"inventory": "Inventory",
+	"categories": "Categories",
+	"orders": "Orders",
+	"calendar": "Calendar",
+	"messages": "Messages",
+	"settings": "Settings",
+	"notifications": "Notifications"
 }

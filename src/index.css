@@ -1,0 +1,119 @@
+/* 全局样式 */
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+body {
+	margin: 0;
+	font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans',
+		'Droid Sans', 'Helvetica Neue', sans-serif;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+/* Light mode 滚动条样式 */
+::-webkit-scrollbar {
+	width: 8px;
+	height: 8px;
+}
+
+::-webkit-scrollbar-track {
+	background: var(--mantine-color-gray-0);
+}
+
+::-webkit-scrollbar-thumb {
+	background: var(--mantine-color-gray-4);
+	border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+	background: var(--mantine-color-gray-5);
+}
+
+/* Dark mode 滚动条样式 */
+[data-mantine-color-scheme='dark'] ::-webkit-scrollbar-track {
+	background: var(--mantine-color-dark-8);
+}
+
+[data-mantine-color-scheme='dark'] ::-webkit-scrollbar-thumb {
+	background: var(--mantine-color-dark-4);
+}
+
+[data-mantine-color-scheme='dark'] ::-webkit-scrollbar-thumb:hover {
+	background: var(--mantine-color-dark-3);
+}
+
+/* Dark mode body 背景色 */
+[data-mantine-color-scheme='dark'] body {
+	background-color: var(--mantine-color-dark-8);
+	color: var(--mantine-color-dark-0);
+}
+
+/* Light mode body 背景色 */
+[data-mantine-color-scheme='light'] body {
+	background-color: var(--mantine-color-gray-0);
+	color: var(--mantine-color-black);
+}
+
+/* 平滑过渡 - 只应用于颜色相关属性 */
+* {
+	transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+
+/* 禁用链接和按钮的过渡，避免影响交互 */
+a,
+button,
+[role='button'] {
+	transition: none;
+}
+
+/* 保持布局元素的过渡性能 */
+nav,
+aside,
+.navbar,
+.sidebar {
+	transition: none !important;
+}
+
+/* 确保卡片在 dark 模式下有正确的背景 */
+[data-mantine-color-scheme='dark'] .mantine-Card-root {
+	background-color: var(--mantine-color-dark-6);
+	border-color: var(--mantine-color-dark-4);
+}
+
+/* 确保 Paper 组件在 dark 模式下有正确的背景 */
+[data-mantine-color-scheme='dark'] .mantine-Paper-root {
+	background-color: var(--mantine-color-dark-6);
+	border-color: var(--mantine-color-dark-4);
+}
+
+/* Table 在 dark 模式下的样式 */
+[data-mantine-color-scheme='dark'] .mantine-Table-root {
+	color: var(--mantine-color-dark-0);
+}
+
+[data-mantine-color-scheme='dark'] .mantine-Table-thead {
+	background-color: var(--mantine-color-dark-7);
+}
+
+/* DataTable 在 dark 模式下的样式 */
+[data-mantine-color-scheme='dark'] .mantine-datatable {
+	background-color: var(--mantine-color-dark-6);
+}
+
+[data-mantine-color-scheme='dark'] .mantine-datatable-header {
+	background-color: var(--mantine-color-dark-7);
+}
+
+/* 选择焦点颜色 */
+::selection {
+	background-color: var(--mantine-color-blue-2);
+	color: var(--mantine-color-black);
+}
+
+[data-mantine-color-scheme='dark'] ::selection {
+	background-color: var(--mantine-color-blue-8);
+	color: var(--mantine-color-white);
+}

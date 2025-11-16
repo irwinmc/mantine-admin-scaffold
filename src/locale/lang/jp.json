@@ -1,3 +1,17 @@
 {
-	"home": "ホーム"
+	"home": "ホーム",
+	"search": "検索",
+	"dashboard": "ダッシュボード",
+	"analytics": "分析",
+	"users": "ユーザー",
+	"all_users": "すべてのユーザー",
+	"roles": "役割",
+	"products": "製品",
+	"inventory": "在庫",
+	"categories": "カテゴリー",
+	"orders": "注文",
+	"calendar": "カレンダー",
+	"messages": "メッセージ",
+	"settings": "設定",
+	"notifications": "通知"
 }

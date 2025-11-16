@@ -1,0 +1,143 @@
+.layout {
+	display: flex;
+	height: 100vh;
+	overflow: hidden;
+}
+
+.navbar {
+	position: relative;
+	height: 100vh;
+	transition: width 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+	z-index: 100;
+	flex-shrink: 0;
+	will-change: width;
+}
+
+.navbarExpanded {
+	width: 280px;
+}
+
+.navbarCollapsed {
+	width: 70px;
+}
+
+.navbarCollapsed .navbarContent {
+	width: 70px;
+}
+
+.navbarHidden {
+	width: 0;
+	margin-left: -280px;
+	transition: width 0.25s cubic-bezier(0.4, 0, 0.2, 1), margin-left 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.navbarContent {
+	width: 280px;
+	height: 100%;
+	overflow: hidden;
+	transition: width 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+	will-change: width;
+}
+
+
+.mainContainer {
+	flex: 1;
+	display: flex;
+	flex-direction: column;
+	height: 100vh;
+	overflow: hidden;
+	background-color: var(--mantine-color-body);
+}
+
+/* Dark mode */
+[data-mantine-color-scheme='dark'] .mainContainer {
+	background-color: var(--mantine-color-dark-7);
+}
+
+.header {
+	height: 60px;
+	border-bottom: 1px solid var(--mantine-color-gray-3);
+	background-color: var(--mantine-color-white);
+	display: flex;
+	align-items: center;
+	flex-shrink: 0;
+}
+
+/* Dark mode */
+[data-mantine-color-scheme='dark'] .header {
+	background-color: var(--mantine-color-dark-7);
+	border-bottom: 1px solid var(--mantine-color-dark-4);
+}
+
+.main {
+	flex: 1;
+	overflow-y: auto;
+	overflow-x: hidden;
+	padding: var(--mantine-spacing-md);
+	background-color: var(--mantine-color-body);
+}
+
+/* Dark mode */
+[data-mantine-color-scheme='dark'] .main {
+	background-color: var(--mantine-color-dark-8);
+}
+
+.footer {
+	height: 60px;
+	border-top: 1px solid var(--mantine-color-gray-3);
+	background-color: var(--mantine-color-white);
+	display: flex;
+	align-items: center;
+	flex-shrink: 0;
+}
+
+/* Dark mode */
+[data-mantine-color-scheme='dark'] .footer {
+	background-color: var(--mantine-color-dark-7);
+	border-top: 1px solid var(--mantine-color-dark-4);
+}
+
+/* 移动端样式 */
+@media (max-width: 768px) {
+	.navbar {
+		position: fixed;
+		top: 0;
+		left: 0;
+		z-index: 200;
+	}
+
+	.navbarExpanded {
+		width: 280px;
+	}
+
+	.navbarCollapsed,
+	.navbarHidden {
+		width: 0;
+		margin-left: -280px;
+	}
+
+	.overlay {
+		position: fixed;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		background-color: rgba(0, 0, 0, 0.5);
+		z-index: 199;
+		opacity: 0;
+		pointer-events: none;
+		transition: opacity 0.3s ease;
+	}
+
+	.overlayVisible {
+		opacity: 1;
+		pointer-events: all;
+	}
+
+}
+
+@media (min-width: 769px) {
+	.overlay {
+		display: none;
+	}
+}

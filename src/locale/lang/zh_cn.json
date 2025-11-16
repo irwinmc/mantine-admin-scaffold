@@ -1,3 +1,17 @@
 {
-	"home": "首页"
+	"home": "首页",
+	"search": "搜索",
+	"dashboard": "仪表板",
+	"analytics": "分析",
+	"users": "用户",
+	"all_users": "所有用户",
+	"roles": "角色",
+	"products": "产品",
+	"inventory": "库存",
+	"categories": "分类",
+	"orders": "订单",
+	"calendar": "日历",
+	"messages": "消息",
+	"settings": "设置",
+	"notifications": "通知"
 }

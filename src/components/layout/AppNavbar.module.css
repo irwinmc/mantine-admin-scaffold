@@ -1,0 +1,201 @@
+.navbar {
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+	background: linear-gradient(135deg, var(--mantine-color-blue-6) 0%, var(--mantine-color-cyan-6) 100%);
+	padding: 0;
+}
+
+/* Dark mode: 更深的渐变色 */
+[data-mantine-color-scheme='dark'] .navbar {
+	background: linear-gradient(135deg, var(--mantine-color-blue-9) 0%, var(--mantine-color-cyan-9) 100%);
+}
+
+/* 淡入动画 */
+@keyframes fadeIn {
+	from {
+		opacity: 0;
+	}
+	to {
+		opacity: 1;
+	}
+}
+
+.fadeIn {
+	animation: fadeIn 0.2s ease-in;
+	animation-delay: 0.1s;
+	animation-fill-mode: both;
+}
+
+.header {
+	height: 60px;
+	padding: 0 var(--mantine-spacing-md);
+	border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+	display: flex;
+	align-items: center;
+	flex-shrink: 0;
+}
+
+.logo {
+	color: var(--mantine-color-white);
+	font-size: var(--mantine-font-size-xl);
+	font-weight: 700;
+	white-space: nowrap;
+	overflow: hidden;
+}
+
+.version {
+	background-color: rgba(255, 255, 255, 0.2);
+	color: var(--mantine-color-white);
+	backdrop-filter: blur(10px);
+	white-space: nowrap;
+}
+
+.navbarMain {
+	flex: 1;
+	overflow-y: auto;
+	overflow-x: hidden;
+	padding: var(--mantine-spacing-xs);
+}
+
+.navbarMain::-webkit-scrollbar {
+	width: 6px;
+}
+
+.navbarMain::-webkit-scrollbar-track {
+	background: rgba(255, 255, 255, 0.1);
+	border-radius: 3px;
+}
+
+.navbarMain::-webkit-scrollbar-thumb {
+	background: rgba(255, 255, 255, 0.3);
+	border-radius: 3px;
+}
+
+.navbarMain::-webkit-scrollbar-thumb:hover {
+	background: rgba(255, 255, 255, 0.5);
+}
+
+.section {
+	margin-bottom: var(--mantine-spacing-lg);
+}
+
+.sectionLabel {
+	font-size: var(--mantine-font-size-xs);
+	text-transform: uppercase;
+	font-weight: 700;
+	color: rgba(255, 255, 255, 0.7);
+	padding: var(--mantine-spacing-xs) var(--mantine-spacing-sm);
+	margin-bottom: var(--mantine-spacing-xs);
+	letter-spacing: 0.5px;
+	white-space: nowrap;
+	overflow: hidden;
+}
+
+.link {
+	display: flex;
+	align-items: center;
+	justify-content: flex-start;
+	text-decoration: none;
+	font-size: var(--mantine-font-size-sm);
+	color: var(--mantine-color-white);
+	padding: var(--mantine-spacing-xs) var(--mantine-spacing-sm);
+	border-radius: var(--mantine-radius-md);
+	font-weight: 500;
+	transition: all 0.2s ease;
+	margin-bottom: 4px;
+	cursor: pointer;
+	user-select: none;
+}
+
+.link:hover {
+	background-color: rgba(255, 255, 255, 0.15);
+	transform: translateX(2px);
+}
+
+.linkActive {
+	background-color: var(--mantine-color-white);
+	color: var(--mantine-color-blue-6);
+	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.linkActive:hover {
+	background-color: var(--mantine-color-white);
+	color: var(--mantine-color-blue-6);
+	transform: translateX(2px);
+}
+
+.linkActive .linkIcon {
+	color: var(--mantine-color-blue-6);
+}
+
+.linkIcon {
+	color: rgba(255, 255, 255, 0.9);
+	margin-right: var(--mantine-spacing-sm);
+	width: 20px;
+	height: 20px;
+	flex-shrink: 0;
+	transition: color 0.2s ease;
+}
+
+/* 折叠状态下，链接居中对齐 */
+.link:has(> .linkIcon:only-child) {
+	justify-content: center;
+	padding: var(--mantine-spacing-xs);
+}
+
+.link:has(> .linkIcon:only-child) .linkIcon {
+	margin-right: 0;
+}
+
+.linkLabel {
+	flex: 1;
+	white-space: nowrap;
+	overflow: hidden;
+}
+
+.linkChevron {
+	color: rgba(255, 255, 255, 0.7);
+	width: 16px;
+	height: 16px;
+	transition: transform 0.2s ease;
+	flex-shrink: 0;
+}
+
+.linkChevronRotated {
+	transform: rotate(90deg);
+}
+
+.childrenWrapper {
+	margin-left: var(--mantine-spacing-md);
+	border-left: 2px solid rgba(255, 255, 255, 0.2);
+	padding-left: var(--mantine-spacing-xs);
+	margin-top: 4px;
+	margin-bottom: 4px;
+}
+
+.childLink {
+	display: flex;
+	align-items: center;
+	text-decoration: none;
+	font-size: var(--mantine-font-size-sm);
+	color: rgba(255, 255, 255, 0.9);
+	padding: 6px var(--mantine-spacing-sm);
+	border-radius: var(--mantine-radius-sm);
+	font-weight: 400;
+	transition: all 0.2s ease;
+	margin-bottom: 2px;
+	cursor: pointer;
+}
+
+.childLink:hover {
+	background-color: rgba(255, 255, 255, 0.1);
+	color: var(--mantine-color-white);
+	transform: translateX(2px);
+}
+
+.childLinkActive {
+	background-color: rgba(255, 255, 255, 0.2);
+	color: var(--mantine-color-white);
+	font-weight: 500;
+}
