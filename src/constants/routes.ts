@@ -36,4 +36,3 @@ export const ROUTES = {
 	SETTINGS: '/settings',
 	NOTIFICATIONS: '/notifications',
 } as const;
-

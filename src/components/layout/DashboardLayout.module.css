@@ -39,7 +39,6 @@
 	will-change: width;
 }
 
-
 .mainContainer {
 	flex: 1;
 	display: flex;
@@ -133,7 +132,6 @@
 		opacity: 1;
 		pointer-events: all;
 	}
-
 }
 
 @media (min-width: 769px) {

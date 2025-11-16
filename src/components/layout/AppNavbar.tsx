@@ -40,61 +40,61 @@ export function AppNavbar({ collapsed = false }: AppNavbarProps) {
 
 	const navItems: NavItem[] = [
 		{
-			label: t('dashboard') || 'Dashboard',
+			label: t('nav.dashboard'),
 			icon: IconGauge,
 			path: '/',
 		},
 		{
-			label: t('analytics') || 'Analytics',
+			label: t('nav.analytics'),
 			icon: IconChartBar,
 			path: '/analytics',
 		},
 		{
-			label: t('users') || 'Users',
+			label: t('nav.users'),
 			icon: IconUsers,
 			path: '/users',
 			children: [
 				{
-					label: t('all_users') || 'All Users',
+					label: t('nav.all_users'),
 					icon: IconUser,
 					path: '/users/list',
 				},
 				{
-					label: t('roles') || 'Roles',
+					label: t('nav.roles'),
 					icon: IconLock,
 					path: '/users/roles',
 				},
 			],
 		},
 		{
-			label: t('products') || 'Products',
+			label: t('nav.products'),
 			icon: IconBox,
 			path: '/products',
 			children: [
 				{
-					label: t('inventory') || 'Inventory',
+					label: t('nav.inventory'),
 					icon: IconDatabase,
 					path: '/products/inventory',
 				},
 				{
-					label: t('categories') || 'Categories',
+					label: t('nav.categories'),
 					icon: IconFiles,
 					path: '/products/categories',
 				},
 			],
 		},
 		{
-			label: t('orders') || 'Orders',
+			label: t('nav.orders'),
 			icon: IconShoppingCart,
 			path: '/orders',
 		},
 		{
-			label: t('calendar') || 'Calendar',
+			label: t('nav.calendar'),
 			icon: IconCalendar,
 			path: '/calendar',
 		},
 		{
-			label: t('messages') || 'Messages',
+			label: t('nav.messages'),
 			icon: IconMail,
 			path: '/messages',
 		},
@@ -102,12 +102,12 @@ export function AppNavbar({ collapsed = false }: AppNavbarProps) {
 
 	const settingsItems: NavItem[] = [
 		{
-			label: t('settings') || 'Settings',
+			label: t('nav.settings'),
 			icon: IconSettings,
 			path: '/settings',
 		},
 		{
-			label: t('notifications') || 'Notifications',
+			label: t('nav.notifications'),
 			icon: IconBell,
 			path: '/notifications',
 		},

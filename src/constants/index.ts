@@ -5,4 +5,3 @@
 export * from './routes';
 export * from './config';
 export * from './product.constants';
-
