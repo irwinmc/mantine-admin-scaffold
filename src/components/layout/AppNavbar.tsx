@@ -5,7 +5,6 @@ import {
 	IconUsers,
 	IconSettings,
 	IconShoppingCart,
-	IconChartBar,
 	IconFiles,
 	IconCalendar,
 	IconMail,
@@ -43,11 +42,6 @@ export function AppNavbar({ collapsed = false }: AppNavbarProps) {
 			label: t('nav.dashboard'),
 			icon: IconGauge,
 			path: '/',
-		},
-		{
-			label: t('nav.analytics'),
-			icon: IconChartBar,
-			path: '/analytics',
 		},
 		{
 			label: t('nav.users'),

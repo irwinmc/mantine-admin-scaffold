@@ -35,7 +35,6 @@
 	},
 	"nav": {
 		"dashboard": "ダッシュボード",
-		"analytics": "分析",
 		"users": "ユーザー管理",
 		"all_users": "すべてのユーザー",
 		"roles": "役割管理",
@@ -104,26 +103,6 @@
 		"month": "月",
 		"revenue": "収益",
 		"vs_last_month": "前月比"
-	},
-	"analytics": {
-		"title": "分析",
-		"website_traffic": "ウェブサイトトラフィック",
-		"traffic_source": "トラフィックソース",
-		"device_distribution": "デバイス分布",
-		"conversion_funnel": "コンバージョンファネル",
-		"direct": "直接アクセス",
-		"social_media": "ソーシャルメディア",
-		"search_engine": "検索エンジン",
-		"referral": "リファラル",
-		"desktop": "デスクトップ",
-		"mobile": "モバイル",
-		"tablet": "タブレット",
-		"visits": "訪問数",
-		"page_views": "ページビュー",
-		"bounce_rate": "直帰率",
-		"avg_session_duration": "平均セッション時間",
-		"line_chart": "折れ線グラフ",
-		"bar_chart": "棒グラフ"
 	},
 	"products": {
 		"title": "製品管理",

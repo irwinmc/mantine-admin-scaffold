@@ -35,7 +35,6 @@
 	},
 	"nav": {
 		"dashboard": "Dashboard",
-		"analytics": "Analytics",
 		"users": "Users",
 		"all_users": "All Users",
 		"roles": "Roles",
@@ -104,26 +103,6 @@
 		"month": "Month",
 		"revenue": "Revenue",
 		"vs_last_month": "vs last month"
-	},
-	"analytics": {
-		"title": "Analytics",
-		"website_traffic": "Website Traffic",
-		"traffic_source": "Traffic Source",
-		"device_distribution": "Device Distribution",
-		"conversion_funnel": "Conversion Funnel",
-		"direct": "Direct",
-		"social_media": "Social Media",
-		"search_engine": "Search Engine",
-		"referral": "Referral",
-		"desktop": "Desktop",
-		"mobile": "Mobile",
-		"tablet": "Tablet",
-		"visits": "Visits",
-		"page_views": "Page Views",
-		"bounce_rate": "Bounce Rate",
-		"avg_session_duration": "Avg. Session Duration",
-		"line_chart": "Line Chart",
-		"bar_chart": "Bar Chart"
 	},
 	"products": {
 		"title": "Products",

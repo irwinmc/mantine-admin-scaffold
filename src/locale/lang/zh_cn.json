@@ -35,7 +35,6 @@
 	},
 	"nav": {
 		"dashboard": "仪表板",
-		"analytics": "数据分析",
 		"users": "用户管理",
 		"all_users": "所有用户",
 		"roles": "角色管理",
@@ -104,26 +103,6 @@
 		"month": "月份",
 		"revenue": "收入",
 		"vs_last_month": "相比上月"
-	},
-	"analytics": {
-		"title": "数据分析",
-		"website_traffic": "网站流量",
-		"traffic_source": "流量来源",
-		"device_distribution": "设备分布",
-		"conversion_funnel": "转化漏斗",
-		"direct": "直接访问",
-		"social_media": "社交媒体",
-		"search_engine": "搜索引擎",
-		"referral": "推荐",
-		"desktop": "桌面端",
-		"mobile": "移动端",
-		"tablet": "平板端",
-		"visits": "访问量",
-		"page_views": "页面浏览量",
-		"bounce_rate": "跳出率",
-		"avg_session_duration": "平均会话时长",
-		"line_chart": "折线图",
-		"bar_chart": "柱状图"
 	},
 	"products": {
 		"title": "产品管理",

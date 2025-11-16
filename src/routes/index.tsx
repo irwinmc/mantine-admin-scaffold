@@ -2,13 +2,12 @@ import { BrowserRouter, Routes, Route } from 'react-router';
 import { DashboardLayout } from '../components/layout/DashboardLayout';
 // Feature-based imports
 import { Dashboard } from '../pages/dashboard';
-import { Analytics } from '../pages/analytics';
 import { Users } from '../pages/users';
-import { ProductList } from '../pages/products/ProductList';
-import { ProductEdit } from '../pages/products/ProductEdit';
+import { ProductList } from '../pages/products/list';
+import { ProductEdit } from '../pages/products/edit';
 import { Settings } from '../pages/settings';
-import { Login } from '../pages/auth/Login';
-import { Register } from '../pages/auth/Register';
+import { Login } from '../pages/auth/login';
+import { Register } from '../pages/auth/register';
 
 export function AppRoutes() {
 	return (
@@ -21,7 +20,6 @@ export function AppRoutes() {
 				{/* Dashboard 路由 - 使用 DashboardLayout */}
 				<Route path="/" element={<DashboardLayout />}>
 					<Route index element={<Dashboard />} />
-					<Route path="analytics" element={<Analytics />} />
 					<Route path="users" element={<Users />} />
 					<Route path="users/list" element={<Users />} />
 					<Route path="users/roles" element={<Users />} />

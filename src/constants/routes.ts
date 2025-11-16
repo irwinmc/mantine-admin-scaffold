@@ -11,7 +11,6 @@ export const ROUTES = {
 
 	// 主要路由
 	DASHBOARD: '/',
-	ANALYTICS: '/analytics',
 
 	// 用户管理
 	USERS: '/users',
