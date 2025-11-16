@@ -5,13 +5,9 @@ import {
 	IconUsers,
 	IconSettings,
 	IconShoppingCart,
-	IconFiles,
 	IconCalendar,
 	IconMail,
-	IconLock,
-	IconDatabase,
 	IconChevronRight,
-	IconUser,
 	IconBell,
 	IconBox,
 } from '@tabler/icons-react';
@@ -47,35 +43,11 @@ export function AppNavbar({ collapsed = false }: AppNavbarProps) {
 			label: t('nav.users'),
 			icon: IconUsers,
 			path: '/users',
-			children: [
-				{
-					label: t('nav.all_users'),
-					icon: IconUser,
-					path: '/users/list',
-				},
-				{
-					label: t('nav.roles'),
-					icon: IconLock,
-					path: '/users/roles',
-				},
-			],
 		},
 		{
 			label: t('nav.products'),
 			icon: IconBox,
 			path: '/products',
-			children: [
-				{
-					label: t('nav.inventory'),
-					icon: IconDatabase,
-					path: '/products/inventory',
-				},
-				{
-					label: t('nav.categories'),
-					icon: IconFiles,
-					path: '/products/categories',
-				},
-			],
 		},
 		{
 			label: t('nav.orders'),
