@@ -5,6 +5,7 @@ import { DashboardLayout } from '../components/layout/DashboardLayout';
 import { Dashboard } from '../pages/dashboard';
 import { Users } from '../pages/users';
 import { ProductList } from '../pages/products/list';
+import { ProductCreate } from '../pages/products/create';
 import { ProductEdit } from '../pages/products/edit';
 import { Settings } from '../pages/settings';
 import { Login } from '../pages/auth/login';
@@ -23,7 +24,7 @@ export function AppRoutes() {
 					<Route index element={<Dashboard />} />
 					<Route path="users" element={<Users />} />
 					<Route path="products" element={<ProductList />} />
-					<Route path="products/new" element={<ProductEdit />} />
+					<Route path="products/new" element={<ProductCreate />} />
 					<Route path="products/:id/edit" element={<ProductEdit />} />
 					<Route path="orders" element={<Dashboard />} />
 					<Route path="calendar" element={<Dashboard />} />

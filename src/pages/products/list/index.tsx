@@ -3,7 +3,7 @@
  */
 
 import { useState, useMemo } from 'react';
-import { Stack, Title, Badge, Card, TextInput, Button, Box, Group } from '@mantine/core';
+import { Stack, Title, Badge, Card, TextInput, Button, Box, Group, useMantineColorScheme } from '@mantine/core';
 import { DataTable, type DataTableSortStatus } from 'mantine-datatable';
 import { IconSearch, IconPlus } from '@tabler/icons-react';
 import { useNavigate } from 'react-router';
@@ -14,6 +14,7 @@ import type { Product } from './types';
 
 export function ProductList() {
 	const { t } = useTranslation();
+	const { colorScheme } = useMantineColorScheme();
 	const navigate = useNavigate();
 	const [page, setPage] = useState(1);
 	const [pageSize, setPageSize] = useState(10);
@@ -78,30 +79,32 @@ export function ProductList() {
 	});
 
 	return (
-		<Stack gap="lg">
-			<Group justify="space-between" align="center">
-				<Title order={2}>{t('products.title')}</Title>
-			</Group>
+		<>
+			<Stack gap="lg">
+				<Group justify="space-between" align="center">
+					<Title order={2}>{t('products.title')}</Title>
+				</Group>
 
-			<Card p={0} shadow="sm" radius="md" withBorder>
-				<Box p="lg">
-					<Group justify="space-between">
-						<TextInput
-							placeholder={t('products.search_products')}
-							leftSection={<IconSearch size={16} />}
-							value={search}
-							onChange={e => setSearch(e.currentTarget.value)}
-							style={{ flex: 1, maxWidth: 400 }}
-						/>
-						<Button leftSection={<IconPlus size={16} />} onClick={handleAddProduct}>
-							{t('products.add_product')}
-						</Button>
-					</Group>
-				</Box>
+				<Card p={0} shadow="sm" radius="md" withBorder>
+					<Box p="lg">
+						<Group justify="space-between">
+							<TextInput
+								placeholder={t('products.search_products')}
+								leftSection={<IconSearch size={16} />}
+								value={search}
+								onChange={e => setSearch(e.currentTarget.value)}
+								style={{ flex: 1, maxWidth: 400 }}
+							/>
+							<Button leftSection={<IconPlus size={16} />} onClick={handleAddProduct}>
+								{t('products.add_product')}
+							</Button>
+						</Group>
+					</Box>
 
 				<DataTable
 					striped
 					highlightOnHover
+					withColumnBorders
 					records={records}
 					columns={columns}
 					sortStatus={sortStatus}
@@ -118,9 +121,15 @@ export function ProductList() {
 					}
 					paginationSize="sm"
 					minHeight={400}
+					style={{
+						borderTop: `1px solid ${
+							colorScheme === 'dark' ? 'var(--mantine-color-dark-4)' : 'var(--mantine-color-gray-3)'
+						}`,
+					}}
 				/>
-			</Card>
-		</Stack>
+				</Card>
+			</Stack>
+		</>
 	);
 }
 

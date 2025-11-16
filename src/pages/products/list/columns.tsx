@@ -3,7 +3,7 @@
  */
 
 import type { ReactElement } from 'react';
-import { Text, ActionIcon, Group, Rating, Avatar } from '@mantine/core';
+import { Text, ActionIcon, Group, Rating, Avatar, Stack } from '@mantine/core';
 import { IconEdit, IconTrash, IconEye } from '@tabler/icons-react';
 import type { DataTableColumn } from 'mantine-datatable';
 import type { Product } from './types';
@@ -24,24 +24,34 @@ export const getProductColumns = ({
 	handleDelete,
 }: ColumnsParams): DataTableColumn<Product>[] => [
 	{
-		accessor: 'image',
-		title: t('products.image'),
-		width: 80,
-		sortable: false,
-		render: product => <Avatar src={product.image} alt={product.name} size={40} radius="sm" />,
-	},
-	{
 		accessor: 'name',
-		title: t('products.product_name'),
+		title: t('products.product_info'),
 		sortable: true,
-		width: 200,
+		width: 300,
+		render: product => (
+			<Group gap="md" wrap="nowrap" py={4}>
+				<Avatar src={product.image} alt={product.name} size={40} radius="sm" />
+				<Stack gap={4}>
+					<Text fw={500} size="sm">
+						{product.name}
+					</Text>
+					<Text size="xs" c="dimmed">
+						SKU: {product.sku}
+					</Text>
+				</Stack>
+			</Group>
+		),
 	},
 	{
 		accessor: 'price',
 		title: t('products.price'),
 		sortable: true,
 		width: 120,
-		render: product => <Text fw={600}>${product.price.toFixed(2)}</Text>,
+		render: product => (
+			<Text size="sm" fw={600}>
+				${product.price.toFixed(2)}
+			</Text>
+		),
 	},
 	{
 		accessor: 'stock',
@@ -50,7 +60,7 @@ export const getProductColumns = ({
 		width: 150,
 		render: product => (
 			<Group gap="xs">
-				<Text>{product.stock}</Text>
+				<Text size="sm">{product.stock}</Text>
 				{getStockBadge(product.stock)}
 			</Group>
 		),
