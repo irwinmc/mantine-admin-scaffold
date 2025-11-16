@@ -15,6 +15,7 @@ import {
 } from '@mantine/core';
 import { DataTable, type DataTableSortStatus } from 'mantine-datatable';
 import { IconEdit, IconTrash, IconEye, IconSearch, IconPlus } from '@tabler/icons-react';
+import { useNavigate } from 'react-router';
 
 interface Product {
 	id: number;
@@ -151,6 +152,7 @@ const initialProducts: Product[] = [
 ];
 
 export function Products() {
+	const navigate = useNavigate();
 	const [page, setPage] = useState(1);
 	const [pageSize, setPageSize] = useState(10);
 	const [search, setSearch] = useState('');
@@ -192,19 +194,21 @@ export function Products() {
 	}, [search]);
 
 	const handleView = (id: number) => {
+		// TODO: 打开产品详情页
 		console.log('View product:', id);
 	};
 
 	const handleEdit = (id: number) => {
-		console.log('Edit product:', id);
+		navigate(`/products/${id}/edit`);
 	};
 
 	const handleDelete = (id: number) => {
+		// TODO: 实现删除确认对话框
 		console.log('Delete product:', id);
 	};
 
 	const handleAddProduct = () => {
-		console.log('Add new product');
+		navigate('/products/new');
 	};
 
 	const getStockBadge = (stock: number) => {
