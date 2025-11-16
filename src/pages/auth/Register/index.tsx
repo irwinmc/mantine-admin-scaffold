@@ -12,7 +12,7 @@ import {
 	Box,
 } from '@mantine/core';
 import { useNavigate } from 'react-router';
-import classes from './Login.module.css';
+import classes from '../Login/Login.module.css';
 
 export function Register() {
 	const [name, setName] = useState('');
@@ -113,4 +113,6 @@ export function Register() {
 		</div>
 	);
 }
+
+export default Register;
 

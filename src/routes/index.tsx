@@ -1,13 +1,14 @@
 import { BrowserRouter, Routes, Route } from 'react-router';
 import { DashboardLayout } from '../components/layout/DashboardLayout';
-import { Dashboard } from '../pages/Dashboard';
-import { Analytics } from '../pages/Analytics';
-import { Users } from '../pages/Users';
-import { Products } from '../pages/Products';
-import { ProductEdit } from '../pages/ProductEdit';
-import { Settings } from '../pages/Settings';
-import { Login } from '../pages/Login';
-import { Register } from '../pages/Register';
+// Feature-based imports
+import { Dashboard } from '../pages/dashboard';
+import { Analytics } from '../pages/analytics';
+import { Users } from '../pages/users';
+import { ProductList } from '../pages/products/ProductList';
+import { ProductEdit } from '../pages/products/ProductEdit';
+import { Settings } from '../pages/settings';
+import { Login } from '../pages/auth/Login';
+import { Register } from '../pages/auth/Register';
 
 export function AppRoutes() {
 	return (
@@ -24,11 +25,11 @@ export function AppRoutes() {
 					<Route path="users" element={<Users />} />
 					<Route path="users/list" element={<Users />} />
 					<Route path="users/roles" element={<Users />} />
-					<Route path="products" element={<Products />} />
+					<Route path="products" element={<ProductList />} />
 					<Route path="products/new" element={<ProductEdit />} />
 					<Route path="products/:id/edit" element={<ProductEdit />} />
-					<Route path="products/inventory" element={<Products />} />
-					<Route path="products/categories" element={<Products />} />
+					<Route path="products/inventory" element={<ProductList />} />
+					<Route path="products/categories" element={<ProductList />} />
 					<Route path="orders" element={<Dashboard />} />
 					<Route path="calendar" element={<Dashboard />} />
 					<Route path="messages" element={<Dashboard />} />

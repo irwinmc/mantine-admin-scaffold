@@ -1,0 +1,47 @@
+/**
+ * Dashboard 主页面
+ * Feature-Based 架构示例
+ */
+
+import { SimpleGrid, Stack, Grid, Title } from '@mantine/core';
+import { StatsCard, RevenueChart, SalesChart, TopProductsTable, RecentOrdersTable } from './components';
+import { statsData, revenueData, categoryData, topProducts, recentOrders } from './data/mockData';
+
+export function Dashboard() {
+	return (
+		<Stack gap="lg">
+			<Title order={2}>Dashboard</Title>
+
+			{/* 统计卡片 */}
+			<SimpleGrid cols={{ base: 1, sm: 2, lg: 4 }} spacing="lg">
+				{statsData.map(stat => (
+					<StatsCard key={stat.title} {...stat} />
+				))}
+			</SimpleGrid>
+
+			{/* 图表区域 */}
+			<Grid gutter="lg">
+				<Grid.Col span={{ base: 12, lg: 8 }}>
+					<RevenueChart data={revenueData} />
+				</Grid.Col>
+				<Grid.Col span={{ base: 12, lg: 4 }}>
+					<SalesChart data={categoryData} />
+				</Grid.Col>
+			</Grid>
+
+			{/* 表格区域 */}
+			<Grid gutter="lg">
+				<Grid.Col span={{ base: 12, lg: 6 }}>
+					<TopProductsTable data={topProducts} />
+				</Grid.Col>
+				<Grid.Col span={{ base: 12, lg: 6 }}>
+					<RecentOrdersTable data={recentOrders} />
+				</Grid.Col>
+			</Grid>
+		</Stack>
+	);
+}
+
+// 默认导出
+export default Dashboard;
+
