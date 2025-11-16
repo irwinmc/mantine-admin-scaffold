@@ -1,6 +1,7 @@
 import { Card, Text, Stack, Group } from '@mantine/core';
 import { DonutChart } from '@mantine/charts';
 import { ResponsiveContainer } from 'recharts';
+import { useTranslation } from 'react-i18next';
 import type { CategoryData } from '../types';
 
 interface SalesChartProps {
@@ -8,11 +9,13 @@ interface SalesChartProps {
 }
 
 export function SalesChart({ data }: SalesChartProps) {
+	const { t } = useTranslation();
+
 	return (
 		<Card shadow="sm" padding="lg" radius="md" withBorder h="100%">
 			<Stack gap="lg" h="100%" justify="space-between">
 				<Text size="lg" fw={600}>
-					Sales by Category
+					{t('dashboard.sales_by_category')}
 				</Text>
 				<Stack align="center" style={{ flex: 1 }} justify="center">
 					<ResponsiveContainer width="100%" height={240}>
@@ -50,4 +53,3 @@ export function SalesChart({ data }: SalesChartProps) {
 		</Card>
 	);
 }
-

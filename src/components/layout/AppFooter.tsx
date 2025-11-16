@@ -1,11 +1,14 @@
 import { Group, Text, ActionIcon, rem } from '@mantine/core';
 import { IconBrandGithub, IconBrandTwitter, IconBrandLinkedin } from '@tabler/icons-react';
+import { useTranslation } from 'react-i18next';
 
 export function AppFooter() {
+	const { t } = useTranslation();
+
 	return (
 		<Group w="100%" h="100%" px="md" justify="space-between">
 			<Text size="sm" c="dimmed">
-				© {new Date().getFullYear()} Mantine Admin. All rights reserved.
+				{t('footer.copyright')}
 			</Text>
 
 			<Group gap="xs">

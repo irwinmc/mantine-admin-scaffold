@@ -33,7 +33,7 @@ interface AppHeaderProps {
 
 export function AppHeader({ opened, toggle, collapsed = false, onToggleCollapse, isMobile = false }: AppHeaderProps) {
 	const { colorScheme, toggleColorScheme } = useMantineColorScheme();
-	const { i18n } = useTranslation();
+	const { t, i18n } = useTranslation();
 
 	const handleLanguageChange = (lang: string) => {
 		i18n.changeLanguage(lang);
@@ -50,7 +50,7 @@ export function AppHeader({ opened, toggle, collapsed = false, onToggleCollapse,
 						variant="subtle"
 						color="gray"
 						onClick={onToggleCollapse}
-						title={collapsed ? 'Expand sidebar' : 'Collapse sidebar'}
+						title={collapsed ? t('header.expand_sidebar') : t('header.collapse_sidebar')}
 						size="lg"
 					>
 						{collapsed ? (
@@ -68,7 +68,7 @@ export function AppHeader({ opened, toggle, collapsed = false, onToggleCollapse,
 					variant="subtle"
 					color="gray"
 					onClick={() => toggleColorScheme()}
-					title="Toggle color scheme"
+					title={t('header.toggle_theme')}
 				>
 					{colorScheme === 'dark' ? (
 						<IconSun style={{ width: rem(20), height: rem(20) }} />
@@ -84,8 +84,8 @@ export function AppHeader({ opened, toggle, collapsed = false, onToggleCollapse,
 						</ActionIcon>
 					</Menu.Target>
 					<Menu.Dropdown>
-						<Menu.Label>Notifications</Menu.Label>
-						<Menu.Item>No new notifications</Menu.Item>
+						<Menu.Label>{t('header.notifications')}</Menu.Label>
+						<Menu.Item>{t('header.no_notifications')}</Menu.Item>
 					</Menu.Dropdown>
 				</Menu>
 
@@ -98,7 +98,7 @@ export function AppHeader({ opened, toggle, collapsed = false, onToggleCollapse,
 						</ActionIcon>
 					</Menu.Target>
 					<Menu.Dropdown>
-						<Menu.Label>Language</Menu.Label>
+						<Menu.Label>{t('header.change_language')}</Menu.Label>
 						<Menu.Item onClick={() => handleLanguageChange('en')}>English</Menu.Item>
 						<Menu.Item onClick={() => handleLanguageChange('zh_cn')}>简体中文</Menu.Item>
 						<Menu.Item onClick={() => handleLanguageChange('jp')}>日本語</Menu.Item>
@@ -128,16 +128,16 @@ export function AppHeader({ opened, toggle, collapsed = false, onToggleCollapse,
 					</Menu.Target>
 
 					<Menu.Dropdown>
-						<Menu.Label>Account</Menu.Label>
+						<Menu.Label>{t('header.account')}</Menu.Label>
 						<Menu.Item leftSection={<IconUser style={{ width: rem(16), height: rem(16) }} />}>
-							Profile
+							{t('header.profile')}
 						</Menu.Item>
 						<Menu.Item leftSection={<IconSettings style={{ width: rem(16), height: rem(16) }} />}>
-							Settings
+							{t('nav.settings')}
 						</Menu.Item>
 						<Menu.Divider />
 						<Menu.Item color="red" leftSection={<IconLogout style={{ width: rem(16), height: rem(16) }} />}>
-							Logout
+							{t('header.logout')}
 						</Menu.Item>
 					</Menu.Dropdown>
 				</Menu>

@@ -1,10 +1,10 @@
 import { Card, Text, Group, ThemeIcon } from '@mantine/core';
 import { IconArrowUpRight, IconArrowDownRight } from '@tabler/icons-react';
+import { useTranslation } from 'react-i18next';
 import type { StatsCardData } from '../types';
 
-interface StatsCardProps extends StatsCardData {}
-
-export function StatsCard({ title, value, diff, icon: Icon, color }: StatsCardProps) {
+export function StatsCard({ title, value, diff, icon: Icon, color }: StatsCardData) {
+	const { t } = useTranslation();
 	const isPositive = diff > 0;
 
 	return (
@@ -25,7 +25,7 @@ export function StatsCard({ title, value, diff, icon: Icon, color }: StatsCardPr
 							{Math.abs(diff)}%
 						</Text>
 						<Text c="dimmed" size="sm">
-							vs last month
+							{t('dashboard.vs_last_month')}
 						</Text>
 					</Group>
 				</div>
@@ -36,4 +36,3 @@ export function StatsCard({ title, value, diff, icon: Icon, color }: StatsCardPr
 		</Card>
 	);
 }
-

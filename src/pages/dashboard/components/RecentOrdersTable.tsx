@@ -1,4 +1,5 @@
 import { Card, Text, Stack, Table, Group, Avatar, Badge } from '@mantine/core';
+import { useTranslation } from 'react-i18next';
 import type { RecentOrder } from '../types';
 
 interface RecentOrdersTableProps {
@@ -21,20 +22,22 @@ const getStatusColor = (status: string) => {
 };
 
 export function RecentOrdersTable({ data }: RecentOrdersTableProps) {
+	const { t } = useTranslation();
+
 	return (
 		<Card shadow="sm" padding="lg" radius="md" withBorder h="100%">
 			<Stack gap="md" h="100%">
 				<Text size="lg" fw={600}>
-					Recent Orders
+					{t('dashboard.recent_orders')}
 				</Text>
 				<Table striped highlightOnHover>
 					<Table.Thead>
 						<Table.Tr>
-							<Table.Th>Order ID</Table.Th>
-							<Table.Th>Customer</Table.Th>
-							<Table.Th>Product</Table.Th>
-							<Table.Th>Amount</Table.Th>
-							<Table.Th>Status</Table.Th>
+							<Table.Th>{t('dashboard.order_id')}</Table.Th>
+							<Table.Th>{t('dashboard.customer')}</Table.Th>
+							<Table.Th>{t('dashboard.product')}</Table.Th>
+							<Table.Th>{t('dashboard.amount')}</Table.Th>
+							<Table.Th>{t('dashboard.status')}</Table.Th>
 						</Table.Tr>
 					</Table.Thead>
 					<Table.Tbody>
@@ -64,4 +67,3 @@ export function RecentOrdersTable({ data }: RecentOrdersTableProps) {
 		</Card>
 	);
 }
-

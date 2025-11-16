@@ -12,28 +12,28 @@ import type { StatsCardData, RevenueData, CategoryData, TopProduct, RecentOrder 
 
 export const statsData: StatsCardData[] = [
 	{
-		title: 'Total Users',
+		title: 'dashboard.total_users',
 		value: '13,456',
 		diff: 12.5,
 		icon: IconUsers,
 		color: 'blue',
 	},
 	{
-		title: 'Total Orders',
+		title: 'dashboard.total_orders',
 		value: '2,345',
 		diff: 8.3,
 		icon: IconShoppingCart,
 		color: 'cyan',
 	},
 	{
-		title: 'Revenue',
+		title: 'dashboard.total_revenue',
 		value: '$18,765',
 		diff: -3.1,
 		icon: IconCurrencyDollar,
 		color: 'teal',
 	},
 	{
-		title: 'Growth',
+		title: 'dashboard.growth',
 		value: '2.7%',
 		diff: 5.2,
 		icon: IconTrendingUp,

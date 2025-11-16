@@ -4,18 +4,21 @@
  */
 
 import { SimpleGrid, Stack, Grid, Title } from '@mantine/core';
+import { useTranslation } from 'react-i18next';
 import { StatsCard, RevenueChart, SalesChart, TopProductsTable, RecentOrdersTable } from './components';
 import { statsData, revenueData, categoryData, topProducts, recentOrders } from './data/mockData';
 
 export function Dashboard() {
+	const { t } = useTranslation();
+	
 	return (
 		<Stack gap="lg">
-			<Title order={2}>Dashboard</Title>
+			<Title order={2}>{t('nav.dashboard')}</Title>
 
 			{/* 统计卡片 */}
 			<SimpleGrid cols={{ base: 1, sm: 2, lg: 4 }} spacing="lg">
 				{statsData.map(stat => (
-					<StatsCard key={stat.title} {...stat} />
+					<StatsCard key={stat.title} {...stat} title={t(stat.title)} />
 				))}
 			</SimpleGrid>
 

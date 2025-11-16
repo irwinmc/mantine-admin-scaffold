@@ -1,5 +1,6 @@
 import { Card, Text, Stack, Table, Group, ThemeIcon } from '@mantine/core';
 import { IconArrowUpRight, IconArrowDownRight } from '@tabler/icons-react';
+import { useTranslation } from 'react-i18next';
 import type { TopProduct } from '../types';
 
 interface TopProductsTableProps {
@@ -7,19 +8,21 @@ interface TopProductsTableProps {
 }
 
 export function TopProductsTable({ data }: TopProductsTableProps) {
+	const { t } = useTranslation();
+
 	return (
 		<Card shadow="sm" padding="lg" radius="md" withBorder h="100%">
 			<Stack gap="md" h="100%">
 				<Text size="lg" fw={600}>
-					Top Products
+					{t('dashboard.top_products')}
 				</Text>
 				<Table striped highlightOnHover>
 					<Table.Thead>
 						<Table.Tr>
-							<Table.Th>Product</Table.Th>
-							<Table.Th>Sales</Table.Th>
-							<Table.Th>Revenue</Table.Th>
-							<Table.Th>Trend</Table.Th>
+							<Table.Th>{t('dashboard.product')}</Table.Th>
+							<Table.Th>{t('dashboard.sales')}</Table.Th>
+							<Table.Th>{t('dashboard.revenue')}</Table.Th>
+							<Table.Th>{t('dashboard.trend')}</Table.Th>
 						</Table.Tr>
 					</Table.Thead>
 					<Table.Tbody>
@@ -55,4 +58,3 @@ export function TopProductsTable({ data }: TopProductsTableProps) {
 		</Card>
 	);
 }
-
