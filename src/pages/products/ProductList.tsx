@@ -3,9 +3,21 @@
  */
 
 import { useState, useMemo } from 'react';
-import { Stack, Title, Badge, Card, TextInput, Button, Box, Group, useMantineColorScheme } from '@mantine/core';
+import {
+	Stack,
+	Title,
+	Badge,
+	Card,
+	TextInput,
+	Button,
+	Box,
+	Group,
+	Text,
+	Modal,
+	useMantineColorScheme,
+} from '@mantine/core';
 import { DataTable, type DataTableSortStatus } from 'mantine-datatable';
-import { IconSearch, IconPlus } from '@tabler/icons-react';
+import { IconSearch, IconPlus, IconAlertTriangle } from '@tabler/icons-react';
 import { useNavigate } from 'react-router';
 import { useTranslation } from 'react-i18next';
 import { getProductListColumns } from './ProductListColumns';
@@ -26,6 +38,8 @@ export function ProductList() {
 		columnAccessor: 'name',
 		direction: 'asc',
 	});
+	const [deleteModalOpened, setDeleteModalOpened] = useState(false);
+	const [productToDelete, setProductToDelete] = useState<{ id: number; name: string } | null>(null);
 
 	// 将 Product 转换为 ProductListItem 用于列表显示
 	const productListItems = useMemo<ProductListItem[]>(() => {
@@ -76,9 +90,24 @@ export function ProductList() {
 	};
 
 	const handleDelete = (id: number) => {
-		if (window.confirm(t('products.confirm_delete'))) {
-			deleteProduct(id);
+		const product = productListItems.find(p => p.id === id);
+		if (product) {
+			setProductToDelete({ id: product.id, name: product.name });
+			setDeleteModalOpened(true);
 		}
+	};
+
+	const handleConfirmDelete = () => {
+		if (productToDelete) {
+			deleteProduct(productToDelete.id);
+			setDeleteModalOpened(false);
+			setProductToDelete(null);
+		}
+	};
+
+	const handleCancelDelete = () => {
+		setDeleteModalOpened(false);
+		setProductToDelete(null);
 	};
 
 	const handleAddProduct = () => {
@@ -150,6 +179,37 @@ export function ProductList() {
 					/>
 				</Card>
 			</Stack>
+
+			{/* 删除确认 Modal */}
+			<Modal
+				opened={deleteModalOpened}
+				onClose={handleCancelDelete}
+				title={
+					<Group gap="xs">
+						<IconAlertTriangle size={24} color="var(--mantine-color-red-6)" />
+						<Text size="lg" fw={600}>
+							{t('products.delete_product')}
+						</Text>
+					</Group>
+				}
+				centered
+				size="md"
+			>
+				<Stack gap="lg" mt="md">
+					<Text size="sm">
+						{t('products.delete_confirmation_message', { name: productToDelete?.name || '' })}
+					</Text>
+
+					<Group justify="flex-end" gap="sm">
+						<Button variant="default" onClick={handleCancelDelete}>
+							{t('common.cancel')}
+						</Button>
+						<Button color="red" onClick={handleConfirmDelete}>
+							{t('common.delete')}
+						</Button>
+					</Group>
+				</Stack>
+			</Modal>
 		</>
 	);
 }

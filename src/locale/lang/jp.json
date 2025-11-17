@@ -126,7 +126,8 @@
 		"view_product": "製品を表示",
 		"edit_product": "製品を編集",
 		"delete_product": "製品を削除",
-		"confirm_delete": "この製品を削除してもよろしいですか？"
+		"confirm_delete": "この製品を削除してもよろしいですか？",
+		"delete_confirmation_message": "\"{{name}}\" を削除してもよろしいですか？この操作は元に戻せません。"
 	},
 	"product_edit": {
 		"add_new_product": "新しい製品を追加",
@@ -157,6 +158,7 @@
 		"category_books": "書籍",
 		"category_sports": "スポーツ用品",
 		"category_home": "ホーム＆ガーデン",
+		"category_accessories": "アクセサリー",
 		"category_toys": "おもちゃ",
 		"category_others": "その他",
 		"status": "ステータス",

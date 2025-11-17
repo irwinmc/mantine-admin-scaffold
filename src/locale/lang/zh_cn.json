@@ -126,7 +126,8 @@
 		"view_product": "查看产品",
 		"edit_product": "编辑产品",
 		"delete_product": "删除产品",
-		"confirm_delete": "确定要删除此产品吗？"
+		"confirm_delete": "确定要删除此产品吗？",
+		"delete_confirmation_message": "确定要删除 \"{{name}}\" 吗？此操作无法撤销。"
 	},
 	"product_edit": {
 		"add_new_product": "添加新产品",
@@ -157,6 +158,7 @@
 		"category_books": "图书",
 		"category_sports": "体育用品",
 		"category_home": "家居园艺",
+		"category_accessories": "配件",
 		"category_toys": "玩具",
 		"category_others": "其他",
 		"status": "产品状态",

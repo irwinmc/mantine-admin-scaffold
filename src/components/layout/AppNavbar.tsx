@@ -79,6 +79,16 @@ export function AppNavbar({ collapsed = false }: AppNavbarProps) {
 		},
 	];
 
+	// 判断路径是否匹配（支持子路径匹配）
+	const isPathActive = (itemPath: string, currentPath: string): boolean => {
+		// 根路径特殊处理，只精确匹配
+		if (itemPath === '/') {
+			return currentPath === '/';
+		}
+		// 其他路径支持前缀匹配
+		return currentPath === itemPath || currentPath.startsWith(itemPath + '/');
+	};
+
 	// 自动展开包含当前路径的父菜单
 	useEffect(() => {
 		const allItems = [...navItems, ...settingsItems];
@@ -86,7 +96,7 @@ export function AppNavbar({ collapsed = false }: AppNavbarProps) {
 
 		allItems.forEach(item => {
 			if (item.children) {
-				const hasActiveChild = item.children.some(child => child.path === location.pathname);
+				const hasActiveChild = item.children.some(child => isPathActive(child.path, location.pathname));
 				if (hasActiveChild && !openedItems.includes(item.label)) {
 					parentToOpen.push(item.label);
 				}
@@ -118,7 +128,7 @@ export function AppNavbar({ collapsed = false }: AppNavbarProps) {
 	};
 
 	const renderNavItem = (item: NavItem) => {
-		const isActive = location.pathname === item.path;
+		const isActive = isPathActive(item.path, location.pathname);
 		const isOpened = openedItems.includes(item.label);
 		const hasChildren = item.children && item.children.length > 0;
 
@@ -161,7 +171,7 @@ export function AppNavbar({ collapsed = false }: AppNavbarProps) {
 				{hasChildren && isOpened && (
 					<div className={classes.childrenWrapper}>
 						{item.children?.map(child => {
-							const isChildActive = location.pathname === child.path;
+							const isChildActive = isPathActive(child.path, location.pathname);
 							return (
 								<a
 									key={child.label}

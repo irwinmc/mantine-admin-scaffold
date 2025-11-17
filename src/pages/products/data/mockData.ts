@@ -2,7 +2,7 @@
  * Products 模块模拟数据
  */
 
-import type { Product, ProductVariant } from '../types';
+import type { Product } from '../types';
 
 /**
  * 完整的产品数据（SPU + SKU）
@@ -195,33 +195,3 @@ export const mockProducts: Product[] = [
 		],
 	},
 ];
-
-/**
- * 示例产品编辑数据的变体
- */
-export const mockProductEditVariants: ProductVariant[] = [
-	{ id: '1', sku: 'WH-001-BLK-39', size: '39', color: 'white', price: 96.0, stock: 18 },
-	{ id: '2', sku: 'WH-001-BLK-42', size: '42', color: 'black', price: 96.0, stock: 12 },
-	{ id: '3', sku: 'WH-001-WHT-41', size: '41', color: 'white', price: 96.0, stock: 30 },
-	{ id: '4', sku: 'WH-001-RED-44', size: '44', color: 'red', price: 96.0, stock: 27 },
-	{ id: '5', sku: 'WH-001-BLK-43', size: '43', color: 'black', price: 96.0, stock: 15 },
-];
-
-/**
- * 示例产品编辑数据
- */
-export const mockProductEdit: Partial<Product> = {
-	id: 1,
-	spu: 'SPU-WH-001',
-	name: 'Wireless Headphones',
-	description:
-		'High-quality wireless headphones with noise cancellation and premium sound quality. Perfect for music lovers and professionals.',
-	category: 'electronics',
-	status: 'active',
-	featured: true,
-	images: [
-		'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400',
-		'https://images.unsplash.com/photo-1484704849700-f032a568e944?w=400',
-		'https://images.unsplash.com/photo-1545127398-14699f92334b?w=400',
-	],
-};

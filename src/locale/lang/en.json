@@ -126,7 +126,8 @@
 		"view_product": "View Product",
 		"edit_product": "Edit Product",
 		"delete_product": "Delete Product",
-		"confirm_delete": "Are you sure you want to delete this product?"
+		"confirm_delete": "Are you sure you want to delete this product?",
+		"delete_confirmation_message": "Are you sure you want to delete \"{{name}}\"? This action cannot be undone."
 	},
 	"product_edit": {
 		"add_new_product": "Add New Product",
@@ -157,6 +158,7 @@
 		"category_books": "Books",
 		"category_sports": "Sports",
 		"category_home": "Home & Garden",
+		"category_accessories": "Accessories",
 		"category_toys": "Toys",
 		"category_others": "Others",
 		"status": "Status",

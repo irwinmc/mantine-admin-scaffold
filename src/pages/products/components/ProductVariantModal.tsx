@@ -94,7 +94,7 @@ export function ProductVariantModal({ opened, variant, onSave, onCancel }: Produ
 			centered
 		>
 			<form onSubmit={form.onSubmit(handleSubmit)}>
-				<Stack gap="md">
+				<Stack gap="md" mt="md">
 					<TextInput
 						label={t('product_edit.sku')}
 						placeholder={t('product_edit.sku_placeholder')}
