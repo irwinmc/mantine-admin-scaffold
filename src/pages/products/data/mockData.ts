@@ -24,6 +24,8 @@ export const mockProducts: Product[] = [
 		rating: 4.5,
 		featured: true,
 		createdAt: new Date('2024-01-15'),
+		updatedAt: new Date('2024-11-05'),
+		views: 2847,
 		variants: [
 			{ id: '1-1', sku: 'WH-001-BLK', color: 'black', price: 199.99, stock: 45 },
 			{ id: '1-2', sku: 'WH-001-WHT', color: 'white', price: 199.99, stock: 32 },
@@ -40,6 +42,8 @@ export const mockProducts: Product[] = [
 		status: 'active',
 		rating: 4.8,
 		createdAt: new Date('2024-02-20'),
+		updatedAt: new Date('2024-10-18'),
+		views: 3521,
 		variants: [
 			{ id: '2-1', sku: 'SW-002-40MM-BLK', size: '40mm', color: 'black', price: 299.99, stock: 23 },
 			{ id: '2-2', sku: 'SW-002-40MM-SLV', size: '40mm', color: 'silver', price: 299.99, stock: 15 },
@@ -56,6 +60,8 @@ export const mockProducts: Product[] = [
 		status: 'active',
 		rating: 4.2,
 		createdAt: new Date('2024-01-10'),
+		updatedAt: new Date('2024-09-22'),
+		views: 1876,
 		variants: [
 			{ id: '3-1', sku: 'LS-003-SLV', color: 'silver', price: 79.99, stock: 67 },
 			{ id: '3-2', sku: 'LS-003-BLK', color: 'black', price: 79.99, stock: 54 },
@@ -71,6 +77,8 @@ export const mockProducts: Product[] = [
 		status: 'active',
 		rating: 4.6,
 		createdAt: new Date('2024-03-05'),
+		updatedAt: new Date('2024-11-12'),
+		views: 1543,
 		variants: [
 			{ id: '4-1', sku: 'DL-004-WHT', color: 'white', price: 49.99, stock: 89 },
 			{ id: '4-2', sku: 'DL-004-BLK', color: 'black', price: 49.99, stock: 76 },
@@ -86,6 +94,8 @@ export const mockProducts: Product[] = [
 		status: 'active',
 		rating: 4.9,
 		createdAt: new Date('2024-02-14'),
+		updatedAt: new Date('2024-10-08'),
+		views: 4235,
 		variants: [
 			{ id: '5-1', sku: 'MK-005-RED', color: 'red switches', price: 159.99, stock: 34 },
 			{ id: '5-2', sku: 'MK-005-BLU', color: 'blue switches', price: 159.99, stock: 28 },
@@ -102,6 +112,8 @@ export const mockProducts: Product[] = [
 		status: 'active',
 		rating: 4.3,
 		createdAt: new Date('2024-01-25'),
+		updatedAt: new Date('2024-08-30'),
+		views: 2104,
 		variants: [
 			{ id: '6-1', sku: 'WM-006-BLK', color: 'black', price: 39.99, stock: 120 },
 			{ id: '6-2', sku: 'WM-006-WHT', color: 'white', price: 39.99, stock: 95 },
@@ -117,6 +129,8 @@ export const mockProducts: Product[] = [
 		status: 'inactive',
 		rating: 4.1,
 		createdAt: new Date('2024-03-10'),
+		updatedAt: new Date('2024-07-15'),
+		views: 967,
 		variants: [{ id: '7-1', sku: 'UH-007-GRY', color: 'gray', price: 69.99, stock: 0 }],
 	},
 	{
@@ -129,6 +143,8 @@ export const mockProducts: Product[] = [
 		status: 'active',
 		rating: 4.4,
 		createdAt: new Date('2024-02-01'),
+		updatedAt: new Date('2024-11-01'),
+		views: 2687,
 		variants: [
 			{ id: '8-1', sku: 'DM-008-BLK-L', size: 'large', color: 'black', price: 29.99, stock: 156 },
 			{ id: '8-2', sku: 'DM-008-GRY-L', size: 'large', color: 'gray', price: 29.99, stock: 132 },
@@ -145,6 +161,8 @@ export const mockProducts: Product[] = [
 		status: 'active',
 		rating: 4.7,
 		createdAt: new Date('2024-01-30'),
+		updatedAt: new Date('2024-09-14'),
+		views: 1432,
 		variants: [
 			{ id: '9-1', sku: 'MS-009-WD', color: 'wood', price: 89.99, stock: 42 },
 			{ id: '9-2', sku: 'MS-009-BLK', color: 'black', price: 89.99, stock: 38 },
@@ -160,6 +178,8 @@ export const mockProducts: Product[] = [
 		status: 'active',
 		rating: 4.0,
 		createdAt: new Date('2024-03-15'),
+		updatedAt: new Date('2024-10-25'),
+		views: 3198,
 		variants: [
 			{ id: '10-1', sku: 'PS-010-BLK', color: 'black', price: 19.99, stock: 203 },
 			{ id: '10-2', sku: 'PS-010-WHT', color: 'white', price: 19.99, stock: 178 },
@@ -176,6 +196,8 @@ export const mockProducts: Product[] = [
 		status: 'active',
 		rating: 3.9,
 		createdAt: new Date('2024-02-28'),
+		updatedAt: new Date('2024-08-19'),
+		views: 1254,
 		variants: [{ id: '11-1', sku: 'CO-011-SET', price: 14.99, stock: 98 }],
 	},
 	{
@@ -188,6 +210,8 @@ export const mockProducts: Product[] = [
 		status: 'active',
 		rating: 4.5,
 		createdAt: new Date('2024-03-01'),
+		updatedAt: new Date('2024-11-08'),
+		views: 1789,
 		variants: [
 			{ id: '12-1', sku: 'LS-012-13-BLK', size: '13"', color: 'black', price: 24.99, stock: 75 },
 			{ id: '12-2', sku: 'LS-012-15-BLK', size: '15"', color: 'black', price: 29.99, stock: 62 },

@@ -85,11 +85,11 @@ export function ProductCreate() {
 				<ProductForm
 					form={form}
 					isEditMode={false}
+					variants={variants}
+					images={images}
 					onSubmit={handleSubmit}
 					onCancel={handleCancel}
-					variants={variants}
 					onVariantsChange={setVariants}
-					images={images}
 					onImagesChange={setImages}
 				/>
 			</Stack>

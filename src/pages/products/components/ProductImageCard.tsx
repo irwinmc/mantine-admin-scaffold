@@ -1,5 +1,5 @@
 /**
- * ProductImageManager - 产品图片管理组件
+ * ProductImageCard - 产品图片管理卡片组件
  * 显示已上传的图片列表，支持删除和添加新图片
  */
 
@@ -9,13 +9,13 @@ import { IconX } from '@tabler/icons-react';
 import { useTranslation } from 'react-i18next';
 import { ProductImageDropzone } from './ProductImageDropzone';
 
-interface ProductImageManagerProps {
+interface ProductImageCardProps {
 	images: string[];
 	onChange: (images: string[]) => void;
 	maxSize?: number;
 }
 
-export function ProductImageManager({ images, onChange, maxSize = 5 * 1024 * 1024 }: ProductImageManagerProps) {
+export function ProductImageCard({ images, onChange, maxSize = 5 * 1024 * 1024 }: ProductImageCardProps) {
 	const { t } = useTranslation();
 	const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 

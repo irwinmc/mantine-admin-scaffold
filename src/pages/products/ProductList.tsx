@@ -22,7 +22,7 @@ import { useNavigate } from 'react-router';
 import { useTranslation } from 'react-i18next';
 import { getProductListColumns } from './ProductListColumns';
 import { useProductsStore } from './store';
-import type { ProductListItem } from './types';
+import type { Product } from './types';
 
 export function ProductList() {
 	const { t } = useTranslation();
@@ -34,39 +34,27 @@ export function ProductList() {
 	const [page, setPage] = useState(1);
 	const [pageSize, setPageSize] = useState(10);
 	const [search, setSearch] = useState('');
-	const [sortStatus, setSortStatus] = useState<DataTableSortStatus<ProductListItem>>({
+	const [sortStatus, setSortStatus] = useState<DataTableSortStatus<Product>>({
 		columnAccessor: 'name',
 		direction: 'asc',
 	});
 	const [deleteModalOpened, setDeleteModalOpened] = useState(false);
 	const [productToDelete, setProductToDelete] = useState<{ id: number; name: string } | null>(null);
 
-	// 将 Product 转换为 ProductListItem 用于列表显示
-	const productListItems = useMemo<ProductListItem[]>(() => {
-		return products.map(product => ({
-			id: product.id,
-			spu: product.spu,
-			name: product.name,
-			image: product.images[0] || '', // 使用第一张图片作为列表主图
-			defaultSku: product.variants[0]?.sku || '',
-			defaultPrice: product.variants[0]?.price || 0,
-			totalStock: product.variants.reduce((sum, v) => sum + v.stock, 0),
-			rating: product.rating,
-			createdAt: product.createdAt,
-			status: product.status,
-		}));
-	}, [products]);
-
 	const records = useMemo(() => {
 		const from = (page - 1) * pageSize;
 		const to = from + pageSize;
-		const filteredData = productListItems.filter(product =>
-			product.name.toLowerCase().includes(search.toLowerCase())
-		);
+		const filteredData = products.filter(product => product.name.toLowerCase().includes(search.toLowerCase()));
 		const sortedData = [...filteredData].sort((a, b) => {
-			const accessor = sortStatus.columnAccessor as keyof ProductListItem;
+			const accessor = sortStatus.columnAccessor as keyof Product;
 			const aValue = a[accessor];
 			const bValue = b[accessor];
+
+			// 处理 undefined 值
+			if (aValue === undefined && bValue === undefined) return 0;
+			if (aValue === undefined) return 1;
+			if (bValue === undefined) return -1;
+
 			if (aValue === bValue) return 0;
 			if (sortStatus.direction === 'asc') {
 				return aValue > bValue ? 1 : -1;
@@ -75,11 +63,11 @@ export function ProductList() {
 			}
 		});
 		return sortedData.slice(from, to);
-	}, [page, pageSize, sortStatus, search, productListItems]);
+	}, [page, pageSize, sortStatus, search, products]);
 
 	const totalRecords = useMemo(() => {
-		return productListItems.filter(product => product.name.toLowerCase().includes(search.toLowerCase())).length;
-	}, [search, productListItems]);
+		return products.filter(product => product.name.toLowerCase().includes(search.toLowerCase())).length;
+	}, [search, products]);
 
 	const handleView = (id: number) => {
 		console.log('View product:', id);
@@ -90,7 +78,7 @@ export function ProductList() {
 	};
 
 	const handleDelete = (id: number) => {
-		const product = productListItems.find(p => p.id === id);
+		const product = products.find(p => p.id === id);
 		if (product) {
 			setProductToDelete({ id: product.id, name: product.name });
 			setDeleteModalOpened(true);

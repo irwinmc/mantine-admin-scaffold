@@ -11,17 +11,18 @@ export { getProductListColumns } from './ProductListColumns';
 export { useProductsStore } from './store';
 
 // Types
-export type { Product, ProductVariant, ProductListItem } from './types';
+export type { Product, ProductVariant } from './types';
 
 // Schemas
 export { productSchema } from './schemas';
 export type { ProductFormValues } from './schemas';
 
 // Constants
-export { categoryOptions, statusOptions } from './constants';
+export { categoryOptions, statusOptions, sizeOptions, colorOptions } from './constants';
 
 // Components
 export { ProductForm } from './components/ProductForm';
-export { ProductVariants } from './components/ProductVariants';
+export { ProductVariantsCard } from './components/ProductVariantsCard';
 export { ProductVariantModal } from './components/ProductVariantModal';
 export { ProductImageDropzone } from './components/ProductImageDropzone';
+export { ProductImageCard } from './components/ProductImageCard';

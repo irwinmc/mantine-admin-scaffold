@@ -21,6 +21,9 @@ export function ProductEdit() {
 	const [loading, setLoading] = useState(true);
 	const [variants, setVariants] = useState<ProductVariant[]>([]);
 	const [images, setImages] = useState<string[]>([]);
+	const [createdAt, setCreatedAt] = useState<Date | undefined>(undefined);
+	const [updatedAt, setUpdatedAt] = useState<Date | undefined>(undefined);
+	const [views, setViews] = useState<number | undefined>(undefined);
 
 	const getProductById = useProductsStore(state => state.getProductById);
 	const updateProduct = useProductsStore(state => state.updateProduct);
@@ -81,6 +84,11 @@ export function ProductEdit() {
 				// 设置变体和图片
 				setVariants(product.variants);
 				setImages(product.images || []);
+
+				// 设置产品信息
+				setCreatedAt(product.createdAt);
+				setUpdatedAt(product.updatedAt);
+				setViews(product.views);
 
 				// TODO: 如果需要，可以在这里调用 API 获取最新数据
 				// const response = await fetch(`/api/products/${id}`);
@@ -169,11 +177,14 @@ export function ProductEdit() {
 					form={form}
 					isEditMode={true}
 					id={id}
+					variants={variants}
+					images={images}
+					createdAt={createdAt}
+					updatedAt={updatedAt}
+					views={views}
 					onSubmit={handleSubmit}
 					onCancel={handleCancel}
-					variants={variants}
 					onVariantsChange={setVariants}
-					images={images}
 					onImagesChange={setImages}
 				/>
 			</Stack>

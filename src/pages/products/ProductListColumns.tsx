@@ -6,7 +6,7 @@ import type { ReactElement } from 'react';
 import { Text, ActionIcon, Group, Rating, Avatar, Stack } from '@mantine/core';
 import { IconEdit, IconTrash, IconEye } from '@tabler/icons-react';
 import type { DataTableColumn } from 'mantine-datatable';
-import type { ProductListItem } from './types';
+import type { Product } from './types';
 
 interface ColumnsParams {
 	t: (key: string) => string;
@@ -22,7 +22,7 @@ export const getProductListColumns = ({
 	handleView,
 	handleEdit,
 	handleDelete,
-}: ColumnsParams): DataTableColumn<ProductListItem>[] => [
+}: ColumnsParams): DataTableColumn<Product>[] => [
 	{
 		accessor: 'name',
 		title: t('products.product_info'),
@@ -30,40 +30,43 @@ export const getProductListColumns = ({
 		width: 300,
 		render: product => (
 			<Group gap="md" wrap="nowrap" py={4}>
-				<Avatar src={product.image} alt={product.name} size={40} radius="sm" />
+				<Avatar src={product.images[0] || ''} alt={product.name} size={40} radius="sm" />
 				<Stack gap={4}>
 					<Text fw={500} size="sm">
 						{product.name}
 					</Text>
 					<Text size="xs" c="dimmed">
-						SKU: {product.defaultSku}
+						SPU: {product.spu}
 					</Text>
 				</Stack>
 			</Group>
 		),
 	},
 	{
-		accessor: 'defaultPrice',
+		accessor: 'variants',
 		title: t('products.price'),
-		sortable: true,
+		sortable: false,
 		width: 120,
 		render: product => (
 			<Text size="sm" fw={600}>
-				${product.defaultPrice.toFixed(2)}
+				${(product.variants[0]?.price || 0).toFixed(2)}
 			</Text>
 		),
 	},
 	{
-		accessor: 'totalStock',
+		accessor: 'variants',
 		title: t('products.stock'),
-		sortable: true,
+		sortable: false,
 		width: 150,
-		render: product => (
-			<Group gap="xs">
-				<Text size="sm">{product.totalStock}</Text>
-				{getStockBadge(product.totalStock)}
-			</Group>
-		),
+		render: product => {
+			const totalStock = product.variants.reduce((sum, v) => sum + v.stock, 0);
+			return (
+				<Group gap="xs">
+					<Text size="sm">{totalStock}</Text>
+					{getStockBadge(totalStock)}
+				</Group>
+			);
+		},
 	},
 	{
 		accessor: 'rating',

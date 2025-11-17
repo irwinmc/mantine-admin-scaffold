@@ -1,5 +1,5 @@
 /**
- * ProductVariants - 产品变体管理组件
+ * ProductVariantsCard - 产品变体管理卡片组件
  */
 
 import { useState } from 'react';
@@ -9,12 +9,12 @@ import { useTranslation } from 'react-i18next';
 import type { ProductVariant } from '../types';
 import { ProductVariantModal } from './ProductVariantModal';
 
-interface ProductVariantsProps {
+interface ProductVariantsCardProps {
 	variants: ProductVariant[];
 	onChange: (variants: ProductVariant[]) => void;
 }
 
-export function ProductVariants({ variants, onChange }: ProductVariantsProps) {
+export function ProductVariantsCard({ variants, onChange }: ProductVariantsCardProps) {
 	const { t } = useTranslation();
 	const { colorScheme } = useMantineColorScheme();
 	const [modalOpened, setModalOpened] = useState(false);

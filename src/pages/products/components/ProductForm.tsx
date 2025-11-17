@@ -23,18 +23,24 @@ import { useTranslation } from 'react-i18next';
 import type { ProductFormValues } from '../schemas';
 import type { ProductVariant } from '../types';
 import { categoryOptions, statusOptions } from '../constants';
-import { ProductImageManager } from './ProductImageManager';
-import { ProductVariants } from './ProductVariants';
+import { ProductImageCard } from './ProductImageCard';
+import { ProductVariantsCard } from './ProductVariantsCard';
 
 interface ProductFormProps {
+	// 基础属性
 	form: UseFormReturnType<ProductFormValues>;
 	isEditMode: boolean;
 	id?: string;
+	// 数据属性
+	variants: ProductVariant[];
+	images: string[];
+	createdAt?: Date;
+	updatedAt?: Date;
+	views?: number;
+	// 函数回调
 	onSubmit: (values: ProductFormValues) => void;
 	onCancel: () => void;
-	variants: ProductVariant[];
 	onVariantsChange: (variants: ProductVariant[]) => void;
-	images: string[];
 	onImagesChange: (images: string[]) => void;
 }
 
@@ -42,11 +48,14 @@ export function ProductForm({
 	form,
 	isEditMode,
 	id,
+	variants,
+	images,
+	createdAt,
+	updatedAt,
+	views,
 	onSubmit,
 	onCancel,
-	variants,
 	onVariantsChange,
-	images,
 	onImagesChange,
 }: ProductFormProps) {
 	const { t } = useTranslation();
@@ -107,6 +116,14 @@ export function ProductForm({
 								<Box p="lg" bg={colorScheme === 'dark' ? 'dark.7' : 'white'}>
 									<Stack gap="md">
 										<TextInput
+											label={t('product_edit.spu')}
+											placeholder={t('product_edit.spu_placeholder')}
+											withAsterisk
+											key={form.key('spu')}
+											{...form.getInputProps('spu')}
+										/>
+
+										<TextInput
 											label={t('product_edit.product_name')}
 											placeholder={t('product_edit.product_name_placeholder')}
 											withAsterisk
@@ -118,25 +135,22 @@ export function ProductForm({
 											label={t('product_edit.product_description')}
 											placeholder={t('product_edit.product_description_placeholder')}
 											withAsterisk
-											minRows={4}
-											maxRows={8}
+											styles={{
+												input: {
+													minHeight: '80px',
+													maxHeight: '160px',
+													resize: 'vertical',
+												},
+											}}
 											key={form.key('description')}
 											{...form.getInputProps('description')}
-										/>
-
-										<TextInput
-											label={t('product_edit.sku')}
-											placeholder={t('product_edit.sku_placeholder')}
-											withAsterisk
-											key={form.key('sku')}
-											{...form.getInputProps('sku')}
 										/>
 									</Stack>
 								</Box>
 							</Card>
 
 							{/* 产品变体 - Variants */}
-							<ProductVariants variants={variants} onChange={onVariantsChange} />
+							<ProductVariantsCard variants={variants} onChange={onVariantsChange} />
 
 							{/* 产品图片 */}
 							<Card shadow="sm" radius="md" withBorder padding={0} style={{ overflow: 'hidden' }}>
@@ -156,7 +170,7 @@ export function ProductForm({
 									</Text>
 								</Box>
 								<Box p="lg" bg={colorScheme === 'dark' ? 'dark.7' : 'white'}>
-									<ProductImageManager images={images} onChange={onImagesChange} />
+									<ProductImageCard images={images} onChange={onImagesChange} />
 								</Box>
 							</Card>
 						</Stack>
@@ -269,13 +283,16 @@ export function ProductForm({
 									<Box p="lg" bg={colorScheme === 'dark' ? 'dark.7' : 'white'}>
 										<Stack gap="xs">
 											<Text size="xs" c="dimmed">
-												{t('product_edit.created_at')}: 2024-01-15
+												{t('product_edit.created_at')}:{' '}
+												{createdAt ? createdAt.toLocaleDateString() : '-'}
 											</Text>
 											<Text size="xs" c="dimmed">
-												{t('product_edit.updated_at')}: 2024-03-10
+												{t('product_edit.updated_at')}:{' '}
+												{updatedAt ? updatedAt.toLocaleDateString() : '-'}
 											</Text>
 											<Text size="xs" c="dimmed">
-												{t('product_edit.views')}: 1,234
+												{t('product_edit.views')}:{' '}
+												{views !== undefined ? views.toLocaleString() : '-'}
 											</Text>
 										</Stack>
 									</Box>

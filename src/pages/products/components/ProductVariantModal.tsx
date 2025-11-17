@@ -2,11 +2,12 @@
  * ProductVariantModal - 产品变体编辑 Modal
  */
 
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 import { Modal, TextInput, NumberInput, Select, Button, Group, Stack, Grid } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { useTranslation } from 'react-i18next';
 import type { ProductVariant } from '../types';
+import { sizeOptions, colorOptions } from '../constants';
 
 interface ProductVariantModalProps {
 	opened: boolean;
@@ -62,28 +63,15 @@ export function ProductVariantModal({ opened, variant, onSave, onCancel }: Produ
 		form.reset();
 	};
 
-	// Size 和 Color 选项
-	const sizeOptions = [
-		{ value: '36', label: 'EU 36' },
-		{ value: '37', label: 'EU 37' },
-		{ value: '38', label: 'EU 38' },
-		{ value: '39', label: 'EU 39' },
-		{ value: '40', label: 'EU 40' },
-		{ value: '41', label: 'EU 41' },
-		{ value: '42', label: 'EU 42' },
-		{ value: '43', label: 'EU 43' },
-		{ value: '44', label: 'EU 44' },
-		{ value: '45', label: 'EU 45' },
-	];
-
-	const colorOptions = [
-		{ value: 'white', label: t('product_edit.color_white') },
-		{ value: 'black', label: t('product_edit.color_black') },
-		{ value: 'red', label: t('product_edit.color_red') },
-		{ value: 'blue', label: t('product_edit.color_blue') },
-		{ value: 'green', label: t('product_edit.color_green') },
-		{ value: 'yellow', label: t('product_edit.color_yellow') },
-	];
+	// 翻译后的颜色选项
+	const translatedColorOptions = useMemo(
+		() =>
+			colorOptions.map(option => ({
+				value: option.value,
+				label: t(`product_edit.color_${option.value}`),
+			})),
+		[t]
+	);
 
 	return (
 		<Modal
@@ -116,7 +104,7 @@ export function ProductVariantModal({ opened, variant, onSave, onCancel }: Produ
 							<Select
 								label={t('product_edit.color')}
 								placeholder={t('product_edit.select_color')}
-								data={colorOptions}
+								data={translatedColorOptions}
 								{...form.getInputProps('color')}
 							/>
 						</Grid.Col>

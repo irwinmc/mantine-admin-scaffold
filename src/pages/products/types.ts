@@ -31,24 +31,9 @@ export interface Product {
 	rating: number; // 评分
 	featured?: boolean; // 是否精选
 	createdAt: Date; // 创建时间
-	updatedAt?: Date; // 更新时间
+	updatedAt: Date; // 更新时间
+	views: number; // 浏览量
 	variants: ProductVariant[]; // 产品变体列表（至少一个）
-}
-
-/**
- * 产品列表项（用于列表展示）
- */
-export interface ProductListItem {
-	id: number;
-	spu: string;
-	name: string;
-	image: string; // 列表显示的主图（取 images[0]）
-	defaultSku: string; // 默认展示的 SKU
-	defaultPrice: number; // 默认价格（通常是第一个变体的价格）
-	totalStock: number; // 总库存（所有变体库存之和）
-	rating: number;
-	createdAt: Date;
-	status: 'active' | 'inactive';
 }
 
 // ProductFormValues 从 schemas.ts 导出

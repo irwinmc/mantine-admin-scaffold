@@ -52,12 +52,17 @@ export const useProductsStore = create<ProductsState>()(
 					spu: values.spu,
 					name: values.name,
 					description: values.description,
-					images: images.length > 0 ? images : ['https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=100'],
+					images:
+						images.length > 0
+							? images
+							: ['https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=100'],
 					category: values.category,
 					status: values.status,
 					rating: 0,
 					featured: values.featured,
 					createdAt: new Date(),
+					updatedAt: new Date(),
+					views: 0,
 					variants: variants.length > 0 ? variants : [],
 				};
 
@@ -162,4 +167,3 @@ export const useProductsStore = create<ProductsState>()(
 		}
 	)
 );
-
