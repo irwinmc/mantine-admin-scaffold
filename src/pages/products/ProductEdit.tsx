@@ -9,9 +9,9 @@ import { useForm } from '@mantine/form';
 import { zod4Resolver } from 'mantine-form-zod-resolver';
 import { notifications } from '@mantine/notifications';
 import { useTranslation } from 'react-i18next';
-import { ProductForm } from '../components/ProductForm';
-import { productSchema, type ProductFormValues } from './schema';
-import { mockProduct } from './data/mockData';
+import { ProductForm } from './components/ProductForm';
+import { productSchema, type ProductFormValues } from './schemas';
+import { mockProductEdit } from './data/mockData';
 
 export function ProductEdit() {
 	const navigate = useNavigate();
@@ -24,12 +24,9 @@ export function ProductEdit() {
 		initialValues: {
 			name: '',
 			description: '',
-			price: 0,
-			cost: 0,
-			stock: 0,
-			sku: '',
+			spu: '',
 			category: '',
-			status: 'draft',
+			status: 'active',
 			featured: false,
 		},
 		validate: zod4Resolver(productSchema),
@@ -55,17 +52,16 @@ export function ProductEdit() {
 				await new Promise(resolve => setTimeout(resolve, 500));
 
 				// 使用模拟数据
-				form.setValues({
-					name: mockProduct.name,
-					description: mockProduct.description,
-					price: mockProduct.price,
-					cost: mockProduct.cost,
-					stock: mockProduct.stock,
-					sku: mockProduct.sku,
-					category: mockProduct.category,
-					status: mockProduct.status,
-					featured: mockProduct.featured,
-				});
+				if (mockProductEdit) {
+					form.setValues({
+						name: mockProductEdit.name || '',
+						description: mockProductEdit.description || '',
+						spu: mockProductEdit.spu || '',
+						category: mockProductEdit.category || '',
+						status: mockProductEdit.status || 'active',
+						featured: mockProductEdit.featured || false,
+					});
+				}
 			} catch (error) {
 				console.error('Failed to load product:', error);
 				notifications.show({

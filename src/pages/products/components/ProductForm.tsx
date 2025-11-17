@@ -2,7 +2,7 @@
  * ProductEdit Form 组件
  */
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import type { UseFormReturnType } from '@mantine/form';
 import {
 	Card,
@@ -22,11 +22,12 @@ import {
 } from '@mantine/core';
 import { IconArrowLeft, IconDeviceFloppy } from '@tabler/icons-react';
 import { useTranslation } from 'react-i18next';
-import type { ProductFormValues } from '../edit/schema';
-import { categoryOptions, statusOptions } from '../edit/constants';
-import { mockProduct, mockVariants } from '../edit/data/mockData';
+import type { ProductFormValues } from '../schemas';
+import type { ProductVariant } from '../types';
+import { categoryOptions, statusOptions } from '../constants';
+import { mockProductEdit, mockProductEditVariants } from '../data/mockData';
 import { ProductImageDropzone } from './ProductImageDropzone';
-import { ProductVariants, type ProductVariant } from './ProductVariants';
+import { ProductVariants } from './ProductVariants';
 
 interface ProductFormProps {
 	form: UseFormReturnType<ProductFormValues>;
@@ -39,18 +40,9 @@ interface ProductFormProps {
 export function ProductForm({ form, isEditMode, id, onSubmit, onCancel }: ProductFormProps) {
 	const { t } = useTranslation();
 	const { colorScheme } = useMantineColorScheme();
-	const [variants, setVariants] = useState<ProductVariant[]>([]);
-
-	// 根据 isEditMode 初始化 variants
-	useEffect(() => {
-		if (isEditMode) {
-			// 编辑模式：加载 mock variants 数据
-			setVariants(mockVariants);
-		} else {
-			// 新建模式：保持空数组
-			setVariants([]);
-		}
-	}, [isEditMode]);
+	
+	// 根据 isEditMode 初始化 variants（编辑模式加载 mock 数据，新建模式为空）
+	const [variants, setVariants] = useState<ProductVariant[]>(() => (isEditMode ? mockProductEditVariants : []));
 
 	// 翻译选项
 	const translatedCategoryOptions = categoryOptions.map(option => ({

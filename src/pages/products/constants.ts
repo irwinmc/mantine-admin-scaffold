@@ -1,5 +1,5 @@
 /**
- * ProductEdit 常量配置
+ * Products Module 常量配置
  */
 
 export const categoryOptions = [
@@ -10,12 +10,12 @@ export const categoryOptions = [
 	{ value: 'toys', label: 'Toys' },
 	{ value: 'sports', label: 'Sports' },
 	{ value: 'home', label: 'Home & Garden' },
+	{ value: 'accessories', label: 'Accessories' },
 	{ value: 'others', label: 'Others' },
 ];
 
 export const statusOptions = [
 	{ value: 'active', label: 'Active' },
 	{ value: 'inactive', label: 'Inactive' },
-	{ value: 'draft', label: 'Draft' },
 ];
 

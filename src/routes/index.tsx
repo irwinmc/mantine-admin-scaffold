@@ -4,9 +4,7 @@ import { DashboardLayout } from '../components/layout/DashboardLayout';
 // Feature-based imports
 import { Dashboard } from '../pages/dashboard';
 import { Users } from '../pages/users';
-import { ProductList } from '../pages/products/list';
-import { ProductCreate } from '../pages/products/create';
-import { ProductEdit } from '../pages/products/edit';
+import { ProductList, ProductCreate, ProductEdit } from '../pages/products';
 import { Settings } from '../pages/settings';
 import { Login } from '../pages/auth/login';
 import { Register } from '../pages/auth/register';

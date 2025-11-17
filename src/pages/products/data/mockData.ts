@@ -1,0 +1,219 @@
+/**
+ * Products 模块模拟数据
+ */
+
+import type { Product, ProductVariant } from '../types';
+
+/**
+ * 完整的产品数据（SPU + SKU）
+ */
+export const mockProducts: Product[] = [
+	{
+		id: 1,
+		spu: 'SPU-WH-001',
+		name: 'Wireless Headphones',
+		description:
+			'High-quality wireless headphones with noise cancellation and premium sound quality. Perfect for music lovers and professionals.',
+		image: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=100',
+		category: 'electronics',
+		status: 'active',
+		rating: 4.5,
+		featured: true,
+		createdAt: new Date('2024-01-15'),
+		variants: [
+			{ id: '1-1', sku: 'WH-001-BLK', color: 'black', price: 199.99, stock: 45 },
+			{ id: '1-2', sku: 'WH-001-WHT', color: 'white', price: 199.99, stock: 32 },
+			{ id: '1-3', sku: 'WH-001-BLU', color: 'blue', price: 209.99, stock: 18 },
+		],
+	},
+	{
+		id: 2,
+		spu: 'SPU-SW-002',
+		name: 'Smart Watch',
+		description: 'Advanced smartwatch with health tracking, GPS, and long battery life.',
+		image: 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=100',
+		category: 'electronics',
+		status: 'active',
+		rating: 4.8,
+		createdAt: new Date('2024-02-20'),
+		variants: [
+			{ id: '2-1', sku: 'SW-002-40MM-BLK', size: '40mm', color: 'black', price: 299.99, stock: 23 },
+			{ id: '2-2', sku: 'SW-002-40MM-SLV', size: '40mm', color: 'silver', price: 299.99, stock: 15 },
+			{ id: '2-3', sku: 'SW-002-44MM-BLK', size: '44mm', color: 'black', price: 329.99, stock: 28 },
+		],
+	},
+	{
+		id: 3,
+		spu: 'SPU-LS-003',
+		name: 'Laptop Stand',
+		description: 'Ergonomic aluminum laptop stand for better posture and cooling.',
+		image: 'https://images.unsplash.com/photo-1572635196237-14b3f281503f?w=100',
+		category: 'accessories',
+		status: 'active',
+		rating: 4.2,
+		createdAt: new Date('2024-01-10'),
+		variants: [
+			{ id: '3-1', sku: 'LS-003-SLV', color: 'silver', price: 79.99, stock: 67 },
+			{ id: '3-2', sku: 'LS-003-BLK', color: 'black', price: 79.99, stock: 54 },
+		],
+	},
+	{
+		id: 4,
+		spu: 'SPU-DL-004',
+		name: 'Desk Lamp',
+		description: 'LED desk lamp with adjustable brightness and color temperature.',
+		image: 'https://images.unsplash.com/photo-1583394838336-acd977736f90?w=100',
+		category: 'accessories',
+		status: 'active',
+		rating: 4.6,
+		createdAt: new Date('2024-03-05'),
+		variants: [
+			{ id: '4-1', sku: 'DL-004-WHT', color: 'white', price: 49.99, stock: 89 },
+			{ id: '4-2', sku: 'DL-004-BLK', color: 'black', price: 49.99, stock: 76 },
+		],
+	},
+	{
+		id: 5,
+		spu: 'SPU-MK-005',
+		name: 'Mechanical Keyboard',
+		description: 'Premium mechanical keyboard with RGB backlight and custom switches.',
+		image: 'https://images.unsplash.com/photo-1527864550417-7fd91fc51a46?w=100',
+		category: 'electronics',
+		status: 'active',
+		rating: 4.9,
+		createdAt: new Date('2024-02-14'),
+		variants: [
+			{ id: '5-1', sku: 'MK-005-RED', color: 'red switches', price: 159.99, stock: 34 },
+			{ id: '5-2', sku: 'MK-005-BLU', color: 'blue switches', price: 159.99, stock: 28 },
+			{ id: '5-3', sku: 'MK-005-BRN', color: 'brown switches', price: 159.99, stock: 41 },
+		],
+	},
+	{
+		id: 6,
+		spu: 'SPU-WM-006',
+		name: 'Wireless Mouse',
+		description: 'Ergonomic wireless mouse with precision tracking and long battery life.',
+		image: 'https://images.unsplash.com/photo-1527814050087-3793815479db?w=100',
+		category: 'electronics',
+		status: 'active',
+		rating: 4.3,
+		createdAt: new Date('2024-01-25'),
+		variants: [
+			{ id: '6-1', sku: 'WM-006-BLK', color: 'black', price: 39.99, stock: 120 },
+			{ id: '6-2', sku: 'WM-006-WHT', color: 'white', price: 39.99, stock: 95 },
+		],
+	},
+	{
+		id: 7,
+		spu: 'SPU-UH-007',
+		name: 'USB-C Hub',
+		description: 'Multi-port USB-C hub with HDMI, USB 3.0, and SD card reader.',
+		image: 'https://images.unsplash.com/photo-1564466809058-bf4114d55352?w=100',
+		category: 'accessories',
+		status: 'inactive',
+		rating: 4.1,
+		createdAt: new Date('2024-03-10'),
+		variants: [{ id: '7-1', sku: 'UH-007-GRY', color: 'gray', price: 69.99, stock: 0 }],
+	},
+	{
+		id: 8,
+		spu: 'SPU-DM-008',
+		name: 'Desk Mat',
+		description: 'Large desk mat with smooth surface and non-slip backing.',
+		image: 'https://images.unsplash.com/photo-1585060544812-6b45742d762f?w=100',
+		category: 'accessories',
+		status: 'active',
+		rating: 4.4,
+		createdAt: new Date('2024-02-01'),
+		variants: [
+			{ id: '8-1', sku: 'DM-008-BLK-L', size: 'large', color: 'black', price: 29.99, stock: 156 },
+			{ id: '8-2', sku: 'DM-008-GRY-L', size: 'large', color: 'gray', price: 29.99, stock: 132 },
+			{ id: '8-3', sku: 'DM-008-BLK-XL', size: 'xl', color: 'black', price: 39.99, stock: 89 },
+		],
+	},
+	{
+		id: 9,
+		spu: 'SPU-MS-009',
+		name: 'Monitor Stand',
+		description: 'Adjustable monitor stand with storage space.',
+		image: 'https://images.unsplash.com/photo-1589492477829-5e65395b66cc?w=100',
+		category: 'accessories',
+		status: 'active',
+		rating: 4.7,
+		createdAt: new Date('2024-01-30'),
+		variants: [
+			{ id: '9-1', sku: 'MS-009-WD', color: 'wood', price: 89.99, stock: 42 },
+			{ id: '9-2', sku: 'MS-009-BLK', color: 'black', price: 89.99, stock: 38 },
+		],
+	},
+	{
+		id: 10,
+		spu: 'SPU-PS-010',
+		name: 'Phone Stand',
+		description: 'Adjustable phone stand for desk use.',
+		image: 'https://images.unsplash.com/photo-1625948515291-69613efd103f?w=100',
+		category: 'accessories',
+		status: 'active',
+		rating: 4.0,
+		createdAt: new Date('2024-03-15'),
+		variants: [
+			{ id: '10-1', sku: 'PS-010-BLK', color: 'black', price: 19.99, stock: 203 },
+			{ id: '10-2', sku: 'PS-010-WHT', color: 'white', price: 19.99, stock: 178 },
+			{ id: '10-3', sku: 'PS-010-SLV', color: 'silver', price: 19.99, stock: 145 },
+		],
+	},
+	{
+		id: 11,
+		spu: 'SPU-CO-011',
+		name: 'Cable Organizer',
+		description: 'Cable management solution for tidy desk setup.',
+		image: 'https://images.unsplash.com/photo-1585338107529-13afc5f02586?w=100',
+		category: 'accessories',
+		status: 'active',
+		rating: 3.9,
+		createdAt: new Date('2024-02-28'),
+		variants: [{ id: '11-1', sku: 'CO-011-SET', price: 14.99, stock: 98 }],
+	},
+	{
+		id: 12,
+		spu: 'SPU-LS-012',
+		name: 'Laptop Sleeve',
+		description: 'Protective laptop sleeve with soft interior.',
+		image: 'https://images.unsplash.com/photo-1618366712010-f4ae9c647dcb?w=100',
+		category: 'accessories',
+		status: 'active',
+		rating: 4.5,
+		createdAt: new Date('2024-03-01'),
+		variants: [
+			{ id: '12-1', sku: 'LS-012-13-BLK', size: '13"', color: 'black', price: 24.99, stock: 75 },
+			{ id: '12-2', sku: 'LS-012-15-BLK', size: '15"', color: 'black', price: 29.99, stock: 62 },
+			{ id: '12-3', sku: 'LS-012-13-GRY', size: '13"', color: 'gray', price: 24.99, stock: 58 },
+		],
+	},
+];
+
+/**
+ * 示例产品编辑数据的变体
+ */
+export const mockProductEditVariants: ProductVariant[] = [
+	{ id: '1', sku: 'WH-001-BLK-39', size: '39', color: 'white', price: 96.0, stock: 18 },
+	{ id: '2', sku: 'WH-001-BLK-42', size: '42', color: 'black', price: 96.0, stock: 12 },
+	{ id: '3', sku: 'WH-001-WHT-41', size: '41', color: 'white', price: 96.0, stock: 30 },
+	{ id: '4', sku: 'WH-001-RED-44', size: '44', color: 'red', price: 96.0, stock: 27 },
+	{ id: '5', sku: 'WH-001-BLK-43', size: '43', color: 'black', price: 96.0, stock: 15 },
+];
+
+/**
+ * 示例产品编辑数据
+ */
+export const mockProductEdit: Partial<Product> = {
+	id: 1,
+	spu: 'SPU-WH-001',
+	name: 'Wireless Headphones',
+	description:
+		'High-quality wireless headphones with noise cancellation and premium sound quality. Perfect for music lovers and professionals.',
+	category: 'electronics',
+	status: 'active',
+	featured: true,
+	image: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=100',
+};

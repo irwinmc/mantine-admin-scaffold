@@ -8,8 +8,8 @@ import { useForm } from '@mantine/form';
 import { zod4Resolver } from 'mantine-form-zod-resolver';
 import { notifications } from '@mantine/notifications';
 import { useTranslation } from 'react-i18next';
-import { ProductForm } from '../components/ProductForm';
-import { productSchema, type ProductFormValues } from '../edit/schema';
+import { ProductForm } from './components/ProductForm';
+import { productSchema, type ProductFormValues } from './schemas';
 
 export function ProductCreate() {
 	const navigate = useNavigate();
@@ -20,12 +20,9 @@ export function ProductCreate() {
 		initialValues: {
 			name: '',
 			description: '',
-			price: 0,
-			cost: 0,
-			stock: 0,
-			sku: '',
+			spu: '',
 			category: '',
-			status: 'draft',
+			status: 'active',
 			featured: false,
 		},
 		validate: zod4Resolver(productSchema),

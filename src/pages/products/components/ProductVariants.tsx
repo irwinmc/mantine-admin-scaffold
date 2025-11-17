@@ -6,15 +6,8 @@ import { useState } from 'react';
 import { Box, Card, Table, ActionIcon, Group, Button, Text, useMantineColorScheme } from '@mantine/core';
 import { IconPencil, IconTrash } from '@tabler/icons-react';
 import { useTranslation } from 'react-i18next';
+import type { ProductVariant } from '../types';
 import { ProductVariantModal } from './ProductVariantModal';
-
-export interface ProductVariant {
-	id: string;
-	size: string;
-	color: string;
-	price: number;
-	stock: number;
-}
 
 interface ProductVariantsProps {
 	variants: ProductVariant[];

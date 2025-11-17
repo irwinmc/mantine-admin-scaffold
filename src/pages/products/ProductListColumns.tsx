@@ -6,7 +6,7 @@ import type { ReactElement } from 'react';
 import { Text, ActionIcon, Group, Rating, Avatar, Stack } from '@mantine/core';
 import { IconEdit, IconTrash, IconEye } from '@tabler/icons-react';
 import type { DataTableColumn } from 'mantine-datatable';
-import type { Product } from './types';
+import type { ProductListItem } from './types';
 
 interface ColumnsParams {
 	t: (key: string) => string;
@@ -16,13 +16,13 @@ interface ColumnsParams {
 	handleDelete: (id: number) => void;
 }
 
-export const getProductColumns = ({
+export const getProductListColumns = ({
 	t,
 	getStockBadge,
 	handleView,
 	handleEdit,
 	handleDelete,
-}: ColumnsParams): DataTableColumn<Product>[] => [
+}: ColumnsParams): DataTableColumn<ProductListItem>[] => [
 	{
 		accessor: 'name',
 		title: t('products.product_info'),
@@ -36,32 +36,32 @@ export const getProductColumns = ({
 						{product.name}
 					</Text>
 					<Text size="xs" c="dimmed">
-						SKU: {product.sku}
+						SKU: {product.defaultSku}
 					</Text>
 				</Stack>
 			</Group>
 		),
 	},
 	{
-		accessor: 'price',
+		accessor: 'defaultPrice',
 		title: t('products.price'),
 		sortable: true,
 		width: 120,
 		render: product => (
 			<Text size="sm" fw={600}>
-				${product.price.toFixed(2)}
+				${product.defaultPrice.toFixed(2)}
 			</Text>
 		),
 	},
 	{
-		accessor: 'stock',
+		accessor: 'totalStock',
 		title: t('products.stock'),
 		sortable: true,
 		width: 150,
 		render: product => (
 			<Group gap="xs">
-				<Text size="sm">{product.stock}</Text>
-				{getStockBadge(product.stock)}
+				<Text size="sm">{product.totalStock}</Text>
+				{getStockBadge(product.totalStock)}
 			</Group>
 		),
 	},

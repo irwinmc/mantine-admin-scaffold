@@ -3,10 +3,10 @@
  */
 
 import { useEffect } from 'react';
-import { Modal, NumberInput, Select, Button, Group, Stack, Grid } from '@mantine/core';
+import { Modal, TextInput, NumberInput, Select, Button, Group, Stack, Grid } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { useTranslation } from 'react-i18next';
-import type { ProductVariant } from './ProductVariants';
+import type { ProductVariant } from '../types';
 
 interface ProductVariantModalProps {
 	opened: boolean;
@@ -21,6 +21,7 @@ export function ProductVariantModal({ opened, variant, onSave, onCancel }: Produ
 
 	const form = useForm({
 		initialValues: {
+			sku: '',
 			size: '',
 			color: '',
 			price: 0,
@@ -33,8 +34,9 @@ export function ProductVariantModal({ opened, variant, onSave, onCancel }: Produ
 		if (opened) {
 			if (variant) {
 				form.setValues({
-					size: variant.size,
-					color: variant.color,
+					sku: variant.sku,
+					size: variant.size || '',
+					color: variant.color || '',
 					price: variant.price,
 					stock: variant.stock,
 				});
@@ -47,8 +49,12 @@ export function ProductVariantModal({ opened, variant, onSave, onCancel }: Produ
 
 	const handleSubmit = (values: typeof form.values) => {
 		onSave({
-			id: variant?.id || '',
-			...values,
+			id: variant?.id || Math.random().toString(36).substr(2, 9),
+			sku: values.sku,
+			size: values.size || undefined,
+			color: values.color || undefined,
+			price: values.price,
+			stock: values.stock,
 		});
 	};
 
@@ -89,6 +95,13 @@ export function ProductVariantModal({ opened, variant, onSave, onCancel }: Produ
 		>
 			<form onSubmit={form.onSubmit(handleSubmit)}>
 				<Stack gap="md">
+					<TextInput
+						label={t('product_edit.sku')}
+						placeholder={t('product_edit.sku_placeholder')}
+						withAsterisk
+						{...form.getInputProps('sku')}
+					/>
+
 					<Grid>
 						<Grid.Col span={6}>
 							<Select
