@@ -2,7 +2,6 @@
  * ProductEdit Form 组件
  */
 
-import { useState } from 'react';
 import type { UseFormReturnType } from '@mantine/form';
 import {
 	Card,
@@ -15,7 +14,6 @@ import {
 	Grid,
 	Switch,
 	Badge,
-	Avatar,
 	Box,
 	Text,
 	useMantineColorScheme,
@@ -25,8 +23,7 @@ import { useTranslation } from 'react-i18next';
 import type { ProductFormValues } from '../schemas';
 import type { ProductVariant } from '../types';
 import { categoryOptions, statusOptions } from '../constants';
-import { mockProductEdit, mockProductEditVariants } from '../data/mockData';
-import { ProductImageDropzone } from './ProductImageDropzone';
+import { ProductImageManager } from './ProductImageManager';
 import { ProductVariants } from './ProductVariants';
 
 interface ProductFormProps {
@@ -35,14 +32,25 @@ interface ProductFormProps {
 	id?: string;
 	onSubmit: (values: ProductFormValues) => void;
 	onCancel: () => void;
+	variants: ProductVariant[];
+	onVariantsChange: (variants: ProductVariant[]) => void;
+	images: string[];
+	onImagesChange: (images: string[]) => void;
 }
 
-export function ProductForm({ form, isEditMode, id, onSubmit, onCancel }: ProductFormProps) {
+export function ProductForm({
+	form,
+	isEditMode,
+	id,
+	onSubmit,
+	onCancel,
+	variants,
+	onVariantsChange,
+	images,
+	onImagesChange,
+}: ProductFormProps) {
 	const { t } = useTranslation();
 	const { colorScheme } = useMantineColorScheme();
-	
-	// 根据 isEditMode 初始化 variants（编辑模式加载 mock 数据，新建模式为空）
-	const [variants, setVariants] = useState<ProductVariant[]>(() => (isEditMode ? mockProductEditVariants : []));
 
 	// 翻译选项
 	const translatedCategoryOptions = categoryOptions.map(option => ({
@@ -128,7 +136,7 @@ export function ProductForm({ form, isEditMode, id, onSubmit, onCancel }: Produc
 							</Card>
 
 							{/* 产品变体 - Variants */}
-							<ProductVariants variants={variants} onChange={setVariants} />
+							<ProductVariants variants={variants} onChange={onVariantsChange} />
 
 							{/* 产品图片 */}
 							<Card shadow="sm" radius="md" withBorder padding={0} style={{ overflow: 'hidden' }}>
@@ -144,27 +152,11 @@ export function ProductForm({ form, isEditMode, id, onSubmit, onCancel }: Produc
 									}}
 								>
 									<Text size="md" fw={600} c={colorScheme === 'dark' ? 'gray.3' : 'gray.8'}>
-										{t('product_edit.product_image')}
+										{t('product_edit.product_images')}
 									</Text>
 								</Box>
 								<Box p="lg" bg={colorScheme === 'dark' ? 'dark.7' : 'white'}>
-									<Stack gap="md">
-										{isEditMode && mockProduct.image && (
-											<Group>
-												<Avatar src={mockProduct.image} size={80} radius="md" />
-												<Text size="sm" c="dimmed">
-													{t('product_edit.current_image')}
-												</Text>
-											</Group>
-										)}
-
-										<ProductImageDropzone
-											onDrop={files => {
-												console.log('Accepted files:', files);
-											}}
-											maxSize={5 * 1024 * 1024}
-										/>
-									</Stack>
+									<ProductImageManager images={images} onChange={onImagesChange} />
 								</Box>
 							</Card>
 						</Stack>

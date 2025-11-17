@@ -13,6 +13,7 @@ export interface ProductVariant {
 	color?: string; // 颜色（可选）
 	price: number; // 价格
 	stock: number; // 库存数量
+	image?: string; // 变体图片（可选）
 }
 
 /**
@@ -24,7 +25,7 @@ export interface Product {
 	spu: string; // 标准产品单位编码
 	name: string; // 产品名称
 	description?: string; // 产品描述
-	image: string; // 主图
+	images: string[]; // 产品图片数组
 	category: string; // 分类
 	status: 'active' | 'inactive'; // 状态
 	rating: number; // 评分
@@ -41,7 +42,7 @@ export interface ProductListItem {
 	id: number;
 	spu: string;
 	name: string;
-	image: string;
+	image: string; // 列表显示的主图（取 images[0]）
 	defaultSku: string; // 默认展示的 SKU
 	defaultPrice: number; // 默认价格（通常是第一个变体的价格）
 	totalStock: number; // 总库存（所有变体库存之和）

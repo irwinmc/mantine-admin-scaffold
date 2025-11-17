@@ -14,6 +14,7 @@ export const productSchema = z.object({
 	category: z.string().min(1, { error: 'product_edit.select_category' }),
 	status: z.enum(['active', 'inactive']),
 	featured: z.boolean(),
+	images: z.array(z.string()).optional(),
 });
 
 export type ProductFormValues = z.infer<typeof productSchema>;

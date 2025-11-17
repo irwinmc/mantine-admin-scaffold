@@ -8,14 +8,17 @@ import { DataTable, type DataTableSortStatus } from 'mantine-datatable';
 import { IconSearch, IconPlus } from '@tabler/icons-react';
 import { useNavigate } from 'react-router';
 import { useTranslation } from 'react-i18next';
-import { mockProducts } from './data/mockData';
 import { getProductListColumns } from './ProductListColumns';
+import { useProductsStore } from './store';
 import type { ProductListItem } from './types';
 
 export function ProductList() {
 	const { t } = useTranslation();
 	const { colorScheme } = useMantineColorScheme();
 	const navigate = useNavigate();
+	const products = useProductsStore(state => state.products);
+	const deleteProduct = useProductsStore(state => state.deleteProduct);
+
 	const [page, setPage] = useState(1);
 	const [pageSize, setPageSize] = useState(10);
 	const [search, setSearch] = useState('');
@@ -26,19 +29,19 @@ export function ProductList() {
 
 	// 将 Product 转换为 ProductListItem 用于列表显示
 	const productListItems = useMemo<ProductListItem[]>(() => {
-		return mockProducts.map(product => ({
+		return products.map(product => ({
 			id: product.id,
 			spu: product.spu,
 			name: product.name,
-			image: product.image,
-			defaultSku: product.variants[0].sku,
-			defaultPrice: product.variants[0].price,
+			image: product.images[0] || '', // 使用第一张图片作为列表主图
+			defaultSku: product.variants[0]?.sku || '',
+			defaultPrice: product.variants[0]?.price || 0,
 			totalStock: product.variants.reduce((sum, v) => sum + v.stock, 0),
 			rating: product.rating,
 			createdAt: product.createdAt,
 			status: product.status,
 		}));
-	}, []);
+	}, [products]);
 
 	const records = useMemo(() => {
 		const from = (page - 1) * pageSize;
@@ -73,7 +76,9 @@ export function ProductList() {
 	};
 
 	const handleDelete = (id: number) => {
-		console.log('Delete product:', id);
+		if (window.confirm(t('products.confirm_delete'))) {
+			deleteProduct(id);
+		}
 	};
 
 	const handleAddProduct = () => {
@@ -150,4 +155,3 @@ export function ProductList() {
 }
 
 export default ProductList;
-

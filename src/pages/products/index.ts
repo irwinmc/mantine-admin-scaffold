@@ -7,6 +7,9 @@ export { ProductCreate } from './ProductCreate';
 export { ProductEdit } from './ProductEdit';
 export { getProductListColumns } from './ProductListColumns';
 
+// Store
+export { useProductsStore } from './store';
+
 // Types
 export type { Product, ProductVariant, ProductListItem } from './types';
 
@@ -22,4 +25,3 @@ export { ProductForm } from './components/ProductForm';
 export { ProductVariants } from './components/ProductVariants';
 export { ProductVariantModal } from './components/ProductVariantModal';
 export { ProductImageDropzone } from './components/ProductImageDropzone';
-

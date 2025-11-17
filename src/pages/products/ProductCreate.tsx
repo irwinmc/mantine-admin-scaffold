@@ -2,6 +2,7 @@
  * ProductCreate 页面 - 创建新产品
  */
 
+import { useState } from 'react';
 import { useNavigate } from 'react-router';
 import { Container, Stack } from '@mantine/core';
 import { useForm } from '@mantine/form';
@@ -10,10 +11,15 @@ import { notifications } from '@mantine/notifications';
 import { useTranslation } from 'react-i18next';
 import { ProductForm } from './components/ProductForm';
 import { productSchema, type ProductFormValues } from './schemas';
+import { useProductsStore } from './store';
+import type { ProductVariant } from './types';
 
 export function ProductCreate() {
 	const navigate = useNavigate();
 	const { t } = useTranslation();
+	const createProduct = useProductsStore(state => state.createProduct);
+	const [variants, setVariants] = useState<ProductVariant[]>([]);
+	const [images, setImages] = useState<string[]>([]);
 
 	const form = useForm<ProductFormValues>({
 		mode: 'uncontrolled',
@@ -30,15 +36,26 @@ export function ProductCreate() {
 
 	const handleSubmit = async (values: ProductFormValues) => {
 		try {
-			console.log('Creating product:', values);
+			// 验证至少有一个变体
+			if (variants.length === 0) {
+				notifications.show({
+					title: t('messages.error'),
+					message: t('product_edit.at_least_one_variant'),
+					color: 'red',
+				});
+				return;
+			}
 
-			// TODO: 调用创建 API
+			// 使用 store 创建产品
+			const newProduct = createProduct(values, variants, images);
+			console.log('Created product:', newProduct);
+
+			// TODO: 如果需要，可以在这里调用 API 同步到后端
 			// const response = await fetch('/api/products', {
 			//   method: 'POST',
 			//   headers: { 'Content-Type': 'application/json' },
-			//   body: JSON.stringify(values),
+			//   body: JSON.stringify({ ...values, variants }),
 			// });
-			// const data = await response.json();
 
 			notifications.show({
 				title: t('messages.success_create'),
@@ -65,7 +82,16 @@ export function ProductCreate() {
 	return (
 		<Container size="lg">
 			<Stack gap="lg">
-				<ProductForm form={form} isEditMode={false} onSubmit={handleSubmit} onCancel={handleCancel} />
+				<ProductForm
+					form={form}
+					isEditMode={false}
+					onSubmit={handleSubmit}
+					onCancel={handleCancel}
+					variants={variants}
+					onVariantsChange={setVariants}
+					images={images}
+					onImagesChange={setImages}
+				/>
 			</Stack>
 		</Container>
 	);

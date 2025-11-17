@@ -11,13 +11,19 @@ import { notifications } from '@mantine/notifications';
 import { useTranslation } from 'react-i18next';
 import { ProductForm } from './components/ProductForm';
 import { productSchema, type ProductFormValues } from './schemas';
-import { mockProductEdit } from './data/mockData';
+import { useProductsStore } from './store';
+import type { ProductVariant } from './types';
 
 export function ProductEdit() {
 	const navigate = useNavigate();
 	const { id } = useParams();
 	const { t } = useTranslation();
 	const [loading, setLoading] = useState(true);
+	const [variants, setVariants] = useState<ProductVariant[]>([]);
+	const [images, setImages] = useState<string[]>([]);
+
+	const getProductById = useProductsStore(state => state.getProductById);
+	const updateProduct = useProductsStore(state => state.updateProduct);
 
 	const form = useForm<ProductFormValues>({
 		mode: 'uncontrolled',
@@ -28,6 +34,7 @@ export function ProductEdit() {
 			category: '',
 			status: 'active',
 			featured: false,
+			images: [],
 		},
 		validate: zod4Resolver(productSchema),
 	});
@@ -44,24 +51,40 @@ export function ProductEdit() {
 				setLoading(true);
 				console.log('Loading product:', id);
 
-				// TODO: 调用获取产品详情 API
-				// const response = await fetch(`/api/products/${id}`);
-				// const data = await response.json();
-
 				// 模拟 API 延迟
 				await new Promise(resolve => setTimeout(resolve, 500));
 
-				// 使用模拟数据
-				if (mockProductEdit) {
-					form.setValues({
-						name: mockProductEdit.name || '',
-						description: mockProductEdit.description || '',
-						spu: mockProductEdit.spu || '',
-						category: mockProductEdit.category || '',
-						status: mockProductEdit.status || 'active',
-						featured: mockProductEdit.featured || false,
+				// 从 store 获取产品数据
+				const product = getProductById(Number(id));
+
+				if (!product) {
+					notifications.show({
+						title: t('messages.error'),
+						message: t('messages.error_load'),
+						color: 'red',
 					});
+					navigate('/products');
+					return;
 				}
+
+				// 设置表单值
+				form.setValues({
+					name: product.name,
+					description: product.description || '',
+					spu: product.spu,
+					category: product.category,
+					status: product.status,
+					featured: product.featured || false,
+					images: product.images || [],
+				});
+
+				// 设置变体和图片
+				setVariants(product.variants);
+				setImages(product.images || []);
+
+				// TODO: 如果需要，可以在这里调用 API 获取最新数据
+				// const response = await fetch(`/api/products/${id}`);
+				// const data = await response.json();
 			} catch (error) {
 				console.error('Failed to load product:', error);
 				notifications.show({
@@ -81,15 +104,28 @@ export function ProductEdit() {
 
 	const handleSubmit = async (values: ProductFormValues) => {
 		try {
-			console.log('Updating product:', id, values);
+			if (!id) return;
 
-			// TODO: 调用更新 API
+			// 验证至少有一个变体
+			if (variants.length === 0) {
+				notifications.show({
+					title: t('messages.error'),
+					message: t('product_edit.at_least_one_variant'),
+					color: 'red',
+				});
+				return;
+			}
+
+			// 使用 store 更新产品
+			updateProduct(Number(id), values, variants, images);
+			console.log('Updated product:', id, values, variants, images);
+
+			// TODO: 如果需要，可以在这里调用 API 同步到后端
 			// const response = await fetch(`/api/products/${id}`, {
 			//   method: 'PUT',
 			//   headers: { 'Content-Type': 'application/json' },
-			//   body: JSON.stringify(values),
+			//   body: JSON.stringify({ ...values, variants }),
 			// });
-			// const data = await response.json();
 
 			notifications.show({
 				title: t('messages.success_update'),
@@ -129,7 +165,17 @@ export function ProductEdit() {
 	return (
 		<Container size="lg">
 			<Stack gap="lg">
-				<ProductForm form={form} isEditMode={true} id={id} onSubmit={handleSubmit} onCancel={handleCancel} />
+				<ProductForm
+					form={form}
+					isEditMode={true}
+					id={id}
+					onSubmit={handleSubmit}
+					onCancel={handleCancel}
+					variants={variants}
+					onVariantsChange={setVariants}
+					images={images}
+					onImagesChange={setImages}
+				/>
 			</Stack>
 		</Container>
 	);

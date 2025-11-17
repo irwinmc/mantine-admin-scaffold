@@ -105,8 +105,8 @@ export function ProductVariants({ variants, onChange }: ProductVariantsProps) {
 						) : (
 							variants.map(variant => (
 								<Table.Tr key={variant.id}>
-									<Table.Td>{variant.size}</Table.Td>
-									<Table.Td>{variant.color}</Table.Td>
+									<Table.Td>{variant.size || '-'}</Table.Td>
+									<Table.Td>{variant.color || '-'}</Table.Td>
 									<Table.Td>${variant.price.toFixed(2)}</Table.Td>
 									<Table.Td>{variant.stock}</Table.Td>
 									<Table.Td>
