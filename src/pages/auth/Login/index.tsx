@@ -130,8 +130,8 @@ export function Login() {
 								</Title>
 
 								<Text size="lg" c="rgba(255, 255, 255, 0.8)" ta="center" maw={500}>
-									Build organized and well-coded dashboards full of beautiful and rich
-									modules. Join us and start building your application today.
+									Build organized and well-coded dashboards full of beautiful and rich modules. Join
+									us and start building your application today.
 								</Text>
 
 								<Box>
@@ -171,4 +171,3 @@ export function Login() {
 }
 
 export default Login;
-

@@ -36,4 +36,3 @@ export function StockBadge({ stock, label }: StockBadgeProps) {
 		</Badge>
 	);
 }
-

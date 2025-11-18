@@ -3,7 +3,7 @@ import { DashboardLayout } from '../components/layout/DashboardLayout';
 
 // Feature-based imports
 import { Dashboard } from '../pages/dashboard';
-import { Users } from '../pages/users';
+import { UserList } from '../pages/users';
 import { ProductList, ProductCreate, ProductEdit } from '../pages/products';
 import { Settings } from '../pages/settings';
 import { Login } from '../pages/auth/login';
@@ -18,9 +18,9 @@ export function AppRoutes() {
 				<Route path="/register" element={<Register />} />
 
 				{/* Dashboard 路由 - 使用 DashboardLayout */}
-				<Route path="/" element={<DashboardLayout />}>
-					<Route index element={<Dashboard />} />
-					<Route path="users" element={<Users />} />
+			<Route path="/" element={<DashboardLayout />}>
+				<Route index element={<Dashboard />} />
+				<Route path="users" element={<UserList />} />
 					<Route path="products" element={<ProductList />} />
 					<Route path="products/new" element={<ProductCreate />} />
 					<Route path="products/:id/edit" element={<ProductEdit />} />

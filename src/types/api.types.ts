@@ -2,7 +2,9 @@
  * API 相关类型定义
  */
 
-export interface ApiResponse<T = any> {
+import type { JsonValue } from 'type-fest';
+
+export interface ApiResponse<T = JsonValue> {
 	data: T;
 	message: string;
 	success: boolean;
@@ -32,6 +34,5 @@ export interface PaginatedResponse<T> {
 
 export interface SearchParams {
 	query: string;
-	filters?: Record<string, any>;
+	filters?: Record<string, JsonValue>;
 }
-

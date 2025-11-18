@@ -1,5 +1,5 @@
 import { Navigate } from 'react-router';
-import { ReactNode } from 'react';
+import type { ReactNode } from 'react';
 
 interface ProtectedRouteProps {
 	children: ReactNode;
@@ -18,4 +18,3 @@ export function ProtectedRoute({ children }: ProtectedRouteProps) {
 	// 已认证，渲染子组件
 	return <>{children}</>;
 }
-

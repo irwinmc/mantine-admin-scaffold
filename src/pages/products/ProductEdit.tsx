@@ -4,7 +4,7 @@
 
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router';
-import { Container, Stack, Loader, Center, Text } from '@mantine/core';
+import { Stack, Loader, Center, Text } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { zod4Resolver } from 'mantine-form-zod-resolver';
 import { notifications } from '@mantine/notifications';
@@ -192,45 +192,41 @@ export function ProductEdit() {
 
 	if (loading) {
 		return (
-			<Container size="lg">
-				<Center h={400}>
-					<Stack align="center" gap="md">
-						<Loader size="lg" />
-						<Text c="dimmed">{t('common.loading')}</Text>
-					</Stack>
-				</Center>
-			</Container>
+			<Center h={400}>
+				<Stack align="center" gap="md">
+					<Loader size="lg" />
+					<Text c="dimmed">{t('common.loading')}</Text>
+				</Stack>
+			</Center>
 		);
 	}
 
 	return (
-		<Container size="lg">
-			<Stack gap="lg">
-				<ProductForm
-					form={form}
-					isEditMode={true}
-					id={id}
-					variants={variants}
-					images={images}
-					createdAt={createdAt}
-					updatedAt={updatedAt}
-					views={views}
-					onSubmit={handleSubmit}
-					onCancel={handleCancel}
-					onImagesChange={setImages}
-					onVariantAdd={handleVariantAdd}
-					onVariantEdit={handleVariantEdit}
-					onVariantDelete={handleVariantDelete}
-				/>
+		<Stack gap="lg">
+			<ProductForm
+				form={form}
+				isEditMode={true}
+				id={id}
+				variants={variants}
+				images={images}
+				createdAt={createdAt}
+				updatedAt={updatedAt}
+				views={views}
+				onSubmit={handleSubmit}
+				onCancel={handleCancel}
+				onImagesChange={setImages}
+				onVariantAdd={handleVariantAdd}
+				onVariantEdit={handleVariantEdit}
+				onVariantDelete={handleVariantDelete}
+			/>
 
-				<ProductVariantModal
-					opened={modalOpened}
-					variant={editingVariant}
-					onSave={handleVariantSave}
-					onCancel={handleModalCancel}
-				/>
-			</Stack>
-		</Container>
+			<ProductVariantModal
+				opened={modalOpened}
+				variant={editingVariant}
+				onSave={handleVariantSave}
+				onCancel={handleModalCancel}
+			/>
+		</Stack>
 	);
 }
 

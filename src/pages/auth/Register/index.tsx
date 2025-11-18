@@ -1,16 +1,5 @@
 import { useState } from 'react';
-import {
-	Paper,
-	TextInput,
-	PasswordInput,
-	Button,
-	Title,
-	Text,
-	Anchor,
-	Container,
-	Stack,
-	Box,
-} from '@mantine/core';
+import { Paper, TextInput, PasswordInput, Button, Title, Text, Anchor, Container, Stack, Box } from '@mantine/core';
 import { useNavigate } from 'react-router';
 import classes from '../Login/Login.module.css';
 
@@ -115,4 +104,3 @@ export function Register() {
 }
 
 export default Register;
-

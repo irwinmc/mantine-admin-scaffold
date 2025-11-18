@@ -4,7 +4,7 @@
 
 import { useState } from 'react';
 import { useNavigate } from 'react-router';
-import { Container, Stack } from '@mantine/core';
+import { Stack } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { zod4Resolver } from 'mantine-form-zod-resolver';
 import { notifications } from '@mantine/notifications';
@@ -113,29 +113,27 @@ export function ProductCreate() {
 	};
 
 	return (
-		<Container size="lg">
-			<Stack gap="lg">
-				<ProductForm
-					form={form}
-					isEditMode={false}
-					variants={variants}
-					images={images}
-					onSubmit={handleSubmit}
-					onCancel={handleCancel}
-					onImagesChange={setImages}
-					onVariantAdd={handleVariantAdd}
-					onVariantEdit={handleVariantEdit}
-					onVariantDelete={handleVariantDelete}
-				/>
+		<Stack gap="lg">
+			<ProductForm
+				form={form}
+				isEditMode={false}
+				variants={variants}
+				images={images}
+				onSubmit={handleSubmit}
+				onCancel={handleCancel}
+				onImagesChange={setImages}
+				onVariantAdd={handleVariantAdd}
+				onVariantEdit={handleVariantEdit}
+				onVariantDelete={handleVariantDelete}
+			/>
 
-				<ProductVariantModal
-					opened={modalOpened}
-					variant={editingVariant}
-					onSave={handleVariantSave}
-					onCancel={handleModalCancel}
-				/>
-			</Stack>
-		</Container>
+			<ProductVariantModal
+				opened={modalOpened}
+				variant={editingVariant}
+				onSave={handleVariantSave}
+				onCancel={handleModalCancel}
+			/>
+		</Stack>
 	);
 }
 

@@ -72,7 +72,7 @@
 	flex: 1;
 	overflow-y: auto;
 	overflow-x: hidden;
-	padding: var(--mantine-spacing-md);
+	padding: var(--mantine-spacing-xl);
 	background-color: var(--mantine-color-body);
 }
 

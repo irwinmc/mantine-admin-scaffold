@@ -1,0 +1,39 @@
+/* Settings Page Styles */
+
+.settingsTabs :global(.mantine-Tabs-list) {
+	padding-left: 0;
+	padding-right: 0;
+	margin-bottom: var(--mantine-spacing-md);
+	border-bottom: none;
+}
+
+.settingsTabs :global(.mantine-Tabs-tab) {
+	font-weight: 500;
+	padding: var(--mantine-spacing-sm) var(--mantine-spacing-lg);
+}
+
+.settingsTabs :global(.mantine-Tabs-tab:hover) {
+	background-color: transparent;
+}
+
+.settingsTabs :global(.mantine-Tabs-tabSection) {
+	margin-right: var(--mantine-spacing-xs);
+}
+
+.settingsTabs :global(.mantine-Tabs-panel) {
+	padding: 0;
+}
+
+/* Bio Textarea */
+.bioTextarea :global(.mantine-Textarea-input) {
+	min-height: 100px;
+	max-height: 200px;
+	resize: vertical;
+}
+
+/* Section subtitle (e.g., Communication Preferences) */
+.sectionSubtitle {
+	font-size: var(--mantine-font-size-sm);
+	font-weight: 500;
+	margin-bottom: var(--mantine-spacing-sm);
+}

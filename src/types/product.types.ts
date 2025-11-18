@@ -19,15 +19,7 @@ export interface Product {
 	updatedAt: Date;
 }
 
-export type ProductCategory =
-	| 'electronics'
-	| 'clothing'
-	| 'food'
-	| 'books'
-	| 'toys'
-	| 'sports'
-	| 'home'
-	| 'others';
+export type ProductCategory = 'electronics' | 'clothing' | 'food' | 'books' | 'toys' | 'sports' | 'home' | 'others';
 
 export type ProductStatus = 'active' | 'inactive' | 'draft';
 
@@ -53,4 +45,3 @@ export interface ProductListItem {
 	createdAt: Date;
 	status: 'active' | 'inactive';
 }
-
