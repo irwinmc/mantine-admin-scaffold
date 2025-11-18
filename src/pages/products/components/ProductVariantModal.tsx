@@ -28,6 +28,11 @@ export function ProductVariantModal({ opened, variant, onSave, onCancel }: Produ
 			price: 0,
 			stock: 0,
 		},
+		validate: {
+			sku: value => (!value ? t('product_edit.sku_empty') : null),
+			price: value => (value < 0 ? t('product_edit.price_greater_than_zero') : null),
+			stock: value => (value < 0 ? t('product_edit.stock_not_negative') : null),
+		},
 	});
 
 	// 当 modal 打开或 variant 改变时，更新表单值

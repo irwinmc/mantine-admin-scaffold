@@ -3,23 +3,10 @@
  */
 
 import type { UseFormReturnType } from '@mantine/form';
-import {
-	Card,
-	TextInput,
-	Textarea,
-	Select,
-	Button,
-	Group,
-	Stack,
-	Grid,
-	Switch,
-	Badge,
-	Box,
-	Text,
-	useMantineColorScheme,
-} from '@mantine/core';
+import { TextInput, Textarea, Select, Button, Group, Stack, Grid, Switch, Badge, Text } from '@mantine/core';
 import { IconArrowLeft, IconDeviceFloppy } from '@tabler/icons-react';
 import { useTranslation } from 'react-i18next';
+import { SectionCard } from '../../../components/common/SectionCard';
 import type { ProductFormValues } from '../schemas';
 import type { ProductVariant } from '../types';
 import { categoryOptions, statusOptions } from '../constants';
@@ -40,8 +27,10 @@ interface ProductFormProps {
 	// 函数回调
 	onSubmit: (values: ProductFormValues) => void;
 	onCancel: () => void;
-	onVariantsChange: (variants: ProductVariant[]) => void;
 	onImagesChange: (images: string[]) => void;
+	onVariantAdd: () => void;
+	onVariantEdit: (variant: ProductVariant) => void;
+	onVariantDelete: (id: string) => void;
 }
 
 export function ProductForm({
@@ -55,11 +44,12 @@ export function ProductForm({
 	views,
 	onSubmit,
 	onCancel,
-	onVariantsChange,
 	onImagesChange,
+	onVariantAdd,
+	onVariantEdit,
+	onVariantDelete,
 }: ProductFormProps) {
 	const { t } = useTranslation();
-	const { colorScheme } = useMantineColorScheme();
 
 	// 翻译选项
 	const translatedCategoryOptions = categoryOptions.map(option => ({
@@ -97,82 +87,53 @@ export function ProductForm({
 					<Grid.Col span={{ base: 12, md: 8 }}>
 						<Stack gap="lg">
 							{/* 基本信息 */}
-							<Card shadow="sm" radius="md" withBorder padding={0} style={{ overflow: 'hidden' }}>
-								<Box
-									p="md"
-									bg={colorScheme === 'dark' ? 'dark.6' : 'gray.1'}
-									style={{
-										borderBottom: `1px solid ${
-											colorScheme === 'dark'
-												? 'var(--mantine-color-dark-4)'
-												: 'var(--mantine-color-gray-3)'
-										}`,
-									}}
-								>
-									<Text size="md" fw={600} c={colorScheme === 'dark' ? 'gray.3' : 'gray.8'}>
-										{t('product_edit.basic_information')}
-									</Text>
-								</Box>
-								<Box p="lg" bg={colorScheme === 'dark' ? 'dark.7' : 'white'}>
-									<Stack gap="md">
-										<TextInput
-											label={t('product_edit.spu')}
-											placeholder={t('product_edit.spu_placeholder')}
-											withAsterisk
-											key={form.key('spu')}
-											{...form.getInputProps('spu')}
-										/>
+							<SectionCard title={t('product_edit.basic_information')}>
+								<Stack gap="md">
+									<TextInput
+										label={t('product_edit.spu')}
+										placeholder={t('product_edit.spu_placeholder')}
+										withAsterisk
+										key={form.key('spu')}
+										{...form.getInputProps('spu')}
+									/>
 
-										<TextInput
-											label={t('product_edit.product_name')}
-											placeholder={t('product_edit.product_name_placeholder')}
-											withAsterisk
-											key={form.key('name')}
-											{...form.getInputProps('name')}
-										/>
+									<TextInput
+										label={t('product_edit.product_name')}
+										placeholder={t('product_edit.product_name_placeholder')}
+										withAsterisk
+										key={form.key('name')}
+										{...form.getInputProps('name')}
+									/>
 
-										<Textarea
-											label={t('product_edit.product_description')}
-											placeholder={t('product_edit.product_description_placeholder')}
-											withAsterisk
-											styles={{
-												input: {
-													minHeight: '80px',
-													maxHeight: '160px',
-													resize: 'vertical',
-												},
-											}}
-											key={form.key('description')}
-											{...form.getInputProps('description')}
-										/>
-									</Stack>
-								</Box>
-							</Card>
+									<Textarea
+										label={t('product_edit.product_description')}
+										placeholder={t('product_edit.product_description_placeholder')}
+										withAsterisk
+										styles={{
+											input: {
+												minHeight: '80px',
+												maxHeight: '160px',
+												resize: 'vertical',
+											},
+										}}
+										key={form.key('description')}
+										{...form.getInputProps('description')}
+									/>
+								</Stack>
+							</SectionCard>
 
 							{/* 产品变体 - Variants */}
-							<ProductVariantsCard variants={variants} onChange={onVariantsChange} />
+							<ProductVariantsCard
+								variants={variants}
+								onAdd={onVariantAdd}
+								onEdit={onVariantEdit}
+								onDelete={onVariantDelete}
+							/>
 
 							{/* 产品图片 */}
-							<Card shadow="sm" radius="md" withBorder padding={0} style={{ overflow: 'hidden' }}>
-								<Box
-									p="md"
-									bg={colorScheme === 'dark' ? 'dark.6' : 'gray.1'}
-									style={{
-										borderBottom: `1px solid ${
-											colorScheme === 'dark'
-												? 'var(--mantine-color-dark-4)'
-												: 'var(--mantine-color-gray-3)'
-										}`,
-									}}
-								>
-									<Text size="md" fw={600} c={colorScheme === 'dark' ? 'gray.3' : 'gray.8'}>
-										{t('product_edit.product_images')}
-									</Text>
-								</Box>
-								<Box p="lg" bg={colorScheme === 'dark' ? 'dark.7' : 'white'}>
-									<ProductImageCard images={images} onChange={onImagesChange} />
-								</Box>
-							</Card>
+							<SectionCard title={t('product_edit.product_images')}>
+								<ProductImageCard images={images} onChange={onImagesChange} />
+							</SectionCard>
 						</Stack>
 					</Grid.Col>
 
@@ -180,123 +141,72 @@ export function ProductForm({
 					<Grid.Col span={{ base: 12, md: 4 }}>
 						<Stack gap="lg">
 							{/* 分类和状态 */}
-							<Card shadow="sm" radius="md" withBorder padding={0} style={{ overflow: 'hidden' }}>
-								<Box
-									p="md"
-									bg={colorScheme === 'dark' ? 'dark.6' : 'gray.1'}
-									style={{
-										borderBottom: `1px solid ${
-											colorScheme === 'dark'
-												? 'var(--mantine-color-dark-4)'
-												: 'var(--mantine-color-gray-3)'
-										}`,
-									}}
-								>
-									<Text size="md" fw={600} c={colorScheme === 'dark' ? 'gray.3' : 'gray.8'}>
-										{t('product_edit.category_status')}
-									</Text>
-								</Box>
-								<Box p="lg" bg={colorScheme === 'dark' ? 'dark.7' : 'white'}>
-									<Stack gap="md">
-										<Select
-											label={t('product_edit.category')}
-											placeholder={t('product_edit.select_category_placeholder')}
-											withAsterisk
-											data={translatedCategoryOptions}
-											key={form.key('category')}
-											{...form.getInputProps('category')}
-										/>
+							<SectionCard title={t('product_edit.category_status')}>
+								<Stack gap="md">
+									<Select
+										label={t('product_edit.category')}
+										placeholder={t('product_edit.select_category_placeholder')}
+										withAsterisk
+										data={translatedCategoryOptions}
+										key={form.key('category')}
+										{...form.getInputProps('category')}
+									/>
 
-										<Select
-											label={t('product_edit.status')}
-											placeholder={t('product_edit.select_status_placeholder')}
-											withAsterisk
-											data={translatedStatusOptions}
-											key={form.key('status')}
-											{...form.getInputProps('status')}
-										/>
+									<Select
+										label={t('product_edit.status')}
+										placeholder={t('product_edit.select_status_placeholder')}
+										withAsterisk
+										data={translatedStatusOptions}
+										key={form.key('status')}
+										{...form.getInputProps('status')}
+									/>
 
-										<Switch
-											label={t('product_edit.featured_product')}
-											description={t('product_edit.featured_description')}
-											key={form.key('featured')}
-											{...form.getInputProps('featured', { type: 'checkbox' })}
-										/>
-									</Stack>
-								</Box>
-							</Card>
+									<Switch
+										label={t('product_edit.featured_product')}
+										description={t('product_edit.featured_description')}
+										key={form.key('featured')}
+										{...form.getInputProps('featured', { type: 'checkbox' })}
+									/>
+								</Stack>
+							</SectionCard>
 
 							{/* 操作按钮 */}
-							<Card shadow="sm" radius="md" withBorder padding={0} style={{ overflow: 'hidden' }}>
-								<Box
-									p="md"
-									bg={colorScheme === 'dark' ? 'dark.6' : 'gray.1'}
-									style={{
-										borderBottom: `1px solid ${
-											colorScheme === 'dark'
-												? 'var(--mantine-color-dark-4)'
-												: 'var(--mantine-color-gray-3)'
-										}`,
-									}}
-								>
-									<Text size="md" fw={600} c={colorScheme === 'dark' ? 'gray.3' : 'gray.8'}>
-										{t('common.actions')}
-									</Text>
-								</Box>
-								<Box p="lg" bg={colorScheme === 'dark' ? 'dark.7' : 'white'}>
-									<Stack gap="md">
-										<Button type="submit" fullWidth leftSection={<IconDeviceFloppy size={16} />}>
-											{isEditMode ? t('common.save_changes') : t('product_edit.create_product')}
-										</Button>
+							<SectionCard title={t('common.actions')}>
+								<Stack gap="md">
+									<Button type="submit" fullWidth leftSection={<IconDeviceFloppy size={16} />}>
+										{isEditMode ? t('common.save_changes') : t('product_edit.create_product')}
+									</Button>
 
-										<Button variant="default" fullWidth onClick={onCancel}>
-											{t('common.cancel')}
-										</Button>
+									<Button variant="default" fullWidth onClick={onCancel}>
+										{t('common.cancel')}
+									</Button>
 
-										{isEditMode && (
-											<Button variant="light" color="red" fullWidth>
-												{t('common.delete')} {t('nav.products')}
-											</Button>
-										)}
-									</Stack>
-								</Box>
-							</Card>
+									{isEditMode && (
+										<Button variant="light" color="red" fullWidth>
+											{t('common.delete')} {t('nav.products')}
+										</Button>
+									)}
+								</Stack>
+							</SectionCard>
 
 							{/* 产品信息 */}
 							{isEditMode && (
-								<Card shadow="sm" radius="md" withBorder padding={0} style={{ overflow: 'hidden' }}>
-									<Box
-										p="md"
-										bg={colorScheme === 'dark' ? 'dark.6' : 'gray.1'}
-										style={{
-											borderBottom: `1px solid ${
-												colorScheme === 'dark'
-													? 'var(--mantine-color-dark-4)'
-													: 'var(--mantine-color-gray-3)'
-											}`,
-										}}
-									>
-										<Text size="md" fw={600} c={colorScheme === 'dark' ? 'gray.3' : 'gray.8'}>
-											{t('product_edit.product_info')}
+								<SectionCard title={t('product_edit.product_info')}>
+									<Stack gap="xs">
+										<Text size="xs" c="dimmed">
+											{t('product_edit.created_at')}:{' '}
+											{createdAt ? createdAt.toLocaleDateString() : '-'}
 										</Text>
-									</Box>
-									<Box p="lg" bg={colorScheme === 'dark' ? 'dark.7' : 'white'}>
-										<Stack gap="xs">
-											<Text size="xs" c="dimmed">
-												{t('product_edit.created_at')}:{' '}
-												{createdAt ? createdAt.toLocaleDateString() : '-'}
-											</Text>
-											<Text size="xs" c="dimmed">
-												{t('product_edit.updated_at')}:{' '}
-												{updatedAt ? updatedAt.toLocaleDateString() : '-'}
-											</Text>
-											<Text size="xs" c="dimmed">
-												{t('product_edit.views')}:{' '}
-												{views !== undefined ? views.toLocaleString() : '-'}
-											</Text>
-										</Stack>
-									</Box>
-								</Card>
+										<Text size="xs" c="dimmed">
+											{t('product_edit.updated_at')}:{' '}
+											{updatedAt ? updatedAt.toLocaleDateString() : '-'}
+										</Text>
+										<Text size="xs" c="dimmed">
+											{t('product_edit.views')}:{' '}
+											{views !== undefined ? views.toLocaleString() : '-'}
+										</Text>
+									</Stack>
+								</SectionCard>
 							)}
 						</Stack>
 					</Grid.Col>

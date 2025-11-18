@@ -9,7 +9,7 @@ import { useForm } from '@mantine/form';
 import { zod4Resolver } from 'mantine-form-zod-resolver';
 import { notifications } from '@mantine/notifications';
 import { useTranslation } from 'react-i18next';
-import { ProductForm } from './components/ProductForm';
+import { ProductForm, ProductVariantModal } from './components';
 import { productSchema, type ProductFormValues } from './schemas';
 import { useProductsStore } from './store';
 import type { ProductVariant } from './types';
@@ -24,6 +24,8 @@ export function ProductEdit() {
 	const [createdAt, setCreatedAt] = useState<Date | undefined>(undefined);
 	const [updatedAt, setUpdatedAt] = useState<Date | undefined>(undefined);
 	const [views, setViews] = useState<number | undefined>(undefined);
+	const [modalOpened, setModalOpened] = useState(false);
+	const [editingVariant, setEditingVariant] = useState<ProductVariant | null>(null);
 
 	const getProductById = useProductsStore(state => state.getProductById);
 	const updateProduct = useProductsStore(state => state.updateProduct);
@@ -157,6 +159,37 @@ export function ProductEdit() {
 		navigate('/products');
 	};
 
+	const handleVariantAdd = () => {
+		setEditingVariant(null);
+		setModalOpened(true);
+	};
+
+	const handleVariantEdit = (variant: ProductVariant) => {
+		setEditingVariant(variant);
+		setModalOpened(true);
+	};
+
+	const handleVariantDelete = (id: string) => {
+		setVariants(variants.filter(v => v.id !== id));
+	};
+
+	const handleVariantSave = (variant: ProductVariant) => {
+		if (editingVariant) {
+			// 更新现有变体
+			setVariants(variants.map(v => (v.id === variant.id ? variant : v)));
+		} else {
+			// 添加新变体
+			setVariants([...variants, variant]);
+		}
+		setModalOpened(false);
+		setEditingVariant(null);
+	};
+
+	const handleModalCancel = () => {
+		setModalOpened(false);
+		setEditingVariant(null);
+	};
+
 	if (loading) {
 		return (
 			<Container size="lg">
@@ -184,8 +217,17 @@ export function ProductEdit() {
 					views={views}
 					onSubmit={handleSubmit}
 					onCancel={handleCancel}
-					onVariantsChange={setVariants}
 					onImagesChange={setImages}
+					onVariantAdd={handleVariantAdd}
+					onVariantEdit={handleVariantEdit}
+					onVariantDelete={handleVariantDelete}
+				/>
+
+				<ProductVariantModal
+					opened={modalOpened}
+					variant={editingVariant}
+					onSave={handleVariantSave}
+					onCancel={handleModalCancel}
 				/>
 			</Stack>
 		</Container>

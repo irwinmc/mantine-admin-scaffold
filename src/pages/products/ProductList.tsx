@@ -3,23 +3,12 @@
  */
 
 import { useState, useMemo } from 'react';
-import {
-	Stack,
-	Title,
-	Badge,
-	Card,
-	TextInput,
-	Button,
-	Box,
-	Group,
-	Text,
-	Modal,
-	useMantineColorScheme,
-} from '@mantine/core';
+import { Stack, Title, Card, TextInput, Button, Box, Group, Text, Modal, useMantineColorScheme } from '@mantine/core';
 import { DataTable, type DataTableSortStatus } from 'mantine-datatable';
 import { IconSearch, IconPlus, IconAlertTriangle } from '@tabler/icons-react';
 import { useNavigate } from 'react-router';
 import { useTranslation } from 'react-i18next';
+import { StockBadge } from './components';
 import { getProductListColumns } from './ProductListColumns';
 import { useProductsStore } from './store';
 import type { Product } from './types';
@@ -102,11 +91,16 @@ export function ProductList() {
 		navigate('/products/new');
 	};
 
-	const getStockBadge = (stock: number) => {
-		if (stock === 0) return <Badge color="red">{t('products.out_of_stock')}</Badge>;
-		if (stock < 30) return <Badge color="orange">{t('products.low_stock')}</Badge>;
-		return <Badge color="green">{t('products.in_stock')}</Badge>;
-	};
+	const getStockBadge = (stock: number) => (
+		<StockBadge
+			stock={stock}
+			label={{
+				outOfStock: t('products.out_of_stock'),
+				lowStock: t('products.low_stock'),
+				inStock: t('products.in_stock'),
+			}}
+		/>
+	);
 
 	const columns = getProductListColumns({
 		t,

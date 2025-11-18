@@ -21,8 +21,4 @@ export type { ProductFormValues } from './schemas';
 export { categoryOptions, statusOptions, sizeOptions, colorOptions } from './constants';
 
 // Components
-export { ProductForm } from './components/ProductForm';
-export { ProductVariantsCard } from './components/ProductVariantsCard';
-export { ProductVariantModal } from './components/ProductVariantModal';
-export { ProductImageDropzone } from './components/ProductImageDropzone';
-export { ProductImageCard } from './components/ProductImageCard';
+export * from './components';

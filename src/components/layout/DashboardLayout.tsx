@@ -1,7 +1,7 @@
 import { useDisclosure, useMediaQuery } from '@mantine/hooks';
 import { AppHeader } from './AppHeader';
 import { AppNavbar } from './AppNavbar';
-import { AppFooter } from './AppFooter';
+// import { AppFooter } from './AppFooter';
 import { Outlet } from 'react-router';
 import classes from './DashboardLayout.module.css';
 import clsx from 'clsx';
@@ -61,9 +61,9 @@ export function DashboardLayout() {
 				</main>
 
 				{/* Footer */}
-				<div className={classes.footer}>
-					<AppFooter />
-				</div>
+				{/* <div className={classes.footer}>
+				<AppFooter />
+			</div> */}
 			</div>
 		</div>
 	);
