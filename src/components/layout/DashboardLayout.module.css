@@ -46,7 +46,7 @@
 	height: 100vh;
 	overflow-y: auto;
 	overflow-x: hidden;
-	background-color: var(--mantine-color-gray-1);
+	background-color: var(--mantine-color-gray-2);
 }
 
 /* Dark mode */
@@ -75,7 +75,8 @@
 	flex: 1;
 	overflow: visible;
 	padding: var(--mantine-spacing-xl);
-	background-color: var(--mantine-color-gray-1);
+	padding-top: var(--mantine-spacing-md);
+	background-color: var(--mantine-color-gray-2);
 }
 
 /* Dark mode */
