@@ -12,7 +12,7 @@ export function SalesChart({ data }: SalesChartProps) {
 	const { t } = useTranslation();
 
 	return (
-		<Card shadow="sm" padding="lg" radius="md" withBorder h="100%">
+		<Card padding="lg" radius="md" withBorder h="100%">
 			<Stack gap="lg" h="100%" justify="space-between">
 				<Text size="lg" fw={600}>
 					{t('dashboard.sales_by_category')}

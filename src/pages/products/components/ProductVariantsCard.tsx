@@ -19,7 +19,7 @@ export function ProductVariantsCard({ variants, onAdd, onEdit, onDelete }: Produ
 	const { colorScheme } = useMantineColorScheme();
 
 	return (
-		<Card shadow="sm" radius="md" withBorder padding={0} style={{ overflow: 'hidden' }}>
+		<Card radius="md" withBorder padding={0} style={{ overflow: 'hidden' }}>
 			{/* Card Header */}
 			<Box
 				p="md"

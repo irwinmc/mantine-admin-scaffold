@@ -8,7 +8,7 @@ export function StatsCard({ title, value, diff, icon: Icon, color }: StatsCardDa
 	const isPositive = diff > 0;
 
 	return (
-		<Card shadow="sm" padding="lg" radius="md" withBorder>
+		<Card padding="lg" radius="md" withBorder>
 			<Group justify="space-between">
 				<div>
 					<Text c="dimmed" size="sm" fw={500}>

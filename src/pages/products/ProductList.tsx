@@ -117,7 +117,7 @@ export function ProductList() {
 					<Title order={2}>{t('products.title')}</Title>
 				</Group>
 
-				<Card p={0} shadow="sm" radius="md" withBorder>
+				<Card p={0} radius="md" withBorder>
 					<Box p="lg">
 						<Group justify="space-between">
 							<TextInput

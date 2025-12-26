@@ -25,7 +25,7 @@ export function RecentOrdersTable({ data }: RecentOrdersTableProps) {
 	const { t } = useTranslation();
 
 	return (
-		<Card shadow="sm" padding="lg" radius="md" withBorder h="100%">
+		<Card padding="lg" radius="md" withBorder h="100%">
 			<Stack gap="md" h="100%">
 				<Text size="lg" fw={600}>
 					{t('dashboard.recent_orders')}

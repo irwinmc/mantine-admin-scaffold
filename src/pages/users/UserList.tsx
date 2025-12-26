@@ -118,7 +118,7 @@ export function UserList() {
 		<Stack gap="lg">
 			<Title order={2}>{t('nav.users')}</Title>
 
-			<Card shadow="sm" radius="md" withBorder p={0}>
+			<Card radius="md" withBorder p={0}>
 				<Box p="lg">
 					<Group justify="space-between">
 						<TextInput
@@ -148,9 +148,9 @@ export function UserList() {
 					onRecordsPerPageChange={setPageSize}
 					sortStatus={sortStatus}
 					onSortStatusChange={setSortStatus}
-				paginationText={({ from, to, totalRecords }) =>
-					t('products.showing_results', { from, to, total: totalRecords })
-				}
+					paginationText={({ from, to, totalRecords }) =>
+						t('products.showing_results', { from, to, total: totalRecords })
+					}
 					recordsPerPageLabel={t('products.records_per_page')}
 					style={{
 						borderTop: `1px solid ${

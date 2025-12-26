@@ -21,7 +21,7 @@ export function SectionCard({ title, children, rightSection }: SectionCardProps)
 	const contentBg = colorScheme === 'dark' ? 'dark.7' : 'white';
 
 	return (
-		<Card shadow="sm" radius="md" withBorder padding={0} style={{ overflow: 'hidden' }}>
+		<Card radius="md" withBorder padding={0} style={{ overflow: 'hidden' }}>
 			{/* Card Header */}
 			<Box
 				p="md"
