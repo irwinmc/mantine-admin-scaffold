@@ -44,7 +44,8 @@
 	display: flex;
 	flex-direction: column;
 	height: 100vh;
-	overflow: hidden;
+	overflow-y: auto;
+	overflow-x: hidden;
 	background-color: var(--mantine-color-gray-1);
 }
 
@@ -54,24 +55,25 @@
 }
 
 .header {
-	height: 60px;
-	border-bottom: 1px solid var(--mantine-color-gray-3);
+	padding: 10px;
+	margin: var(--mantine-spacing-xl);
+	margin-bottom: 0;
+	border-radius: var(--mantine-radius-md);
 	background-color: var(--mantine-color-white);
+	border: 1px solid var(--mantine-color-gray-3);
 	display: flex;
 	align-items: center;
-	flex-shrink: 0;
 }
 
 /* Dark mode */
 [data-mantine-color-scheme='dark'] .header {
 	background-color: var(--mantine-color-dark-6);
-	border-bottom: 1px solid var(--mantine-color-dark-4);
+	border: 1px solid var(--mantine-color-dark-4);
 }
 
 .main {
 	flex: 1;
-	overflow-y: auto;
-	overflow-x: hidden;
+	overflow: visible;
 	padding: var(--mantine-spacing-xl);
 	background-color: var(--mantine-color-gray-1);
 }
