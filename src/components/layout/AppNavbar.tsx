@@ -196,7 +196,7 @@ export function AppNavbar({ collapsed = false }: AppNavbarProps) {
 		<nav className={classes.navbar}>
 			<div className={classes.header}>
 				<Group justify="space-between" style={{ width: '100%' }}>
-					{!collapsed && <span className={clsx(classes.logo, classes.fadeIn)}>Mantine Admin</span>}
+					{!collapsed && <span className={clsx(classes.logo, classes.fadeIn)}>Dashboard</span>}
 					{!collapsed && (
 						<Code fw={700} className={clsx(classes.version, classes.fadeIn)}>
 							v1.0.0

@@ -45,12 +45,12 @@
 	flex-direction: column;
 	height: 100vh;
 	overflow: hidden;
-	background-color: var(--mantine-color-body);
+	background-color: var(--mantine-color-gray-0);
 }
 
 /* Dark mode */
 [data-mantine-color-scheme='dark'] .mainContainer {
-	background-color: var(--mantine-color-dark-7);
+	background-color: var(--mantine-color-dark-8);
 }
 
 .header {
@@ -73,7 +73,7 @@
 	overflow-y: auto;
 	overflow-x: hidden;
 	padding: var(--mantine-spacing-xl);
-	background-color: var(--mantine-color-body);
+	background-color: var(--mantine-color-gray-0);
 }
 
 /* Dark mode */

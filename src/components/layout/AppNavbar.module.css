@@ -2,13 +2,17 @@
 	height: 100%;
 	display: flex;
 	flex-direction: column;
-	background: linear-gradient(135deg, var(--mantine-color-blue-6) 0%, var(--mantine-color-cyan-6) 100%);
+	background: var(--mantine-color-white);
 	padding: 0;
+	border-right: 1px solid var(--mantine-color-gray-2);
+	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
 }
 
-/* Dark mode: 更深的渐变色 */
+/* Dark mode */
 [data-mantine-color-scheme='dark'] .navbar {
-	background: linear-gradient(135deg, var(--mantine-color-blue-9) 0%, var(--mantine-color-cyan-9) 100%);
+	background: var(--mantine-color-dark-7);
+	border-right: 1px solid var(--mantine-color-dark-5);
+	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3), 0 1px 2px rgba(0, 0, 0, 0.2);
 }
 
 /* 淡入动画 */
@@ -30,10 +34,15 @@
 .header {
 	height: 60px;
 	padding: 0 var(--mantine-spacing-md);
-	border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+	border-bottom: 1px solid var(--mantine-color-gray-2);
 	display: flex;
 	align-items: center;
 	flex-shrink: 0;
+}
+
+/* Dark mode */
+[data-mantine-color-scheme='dark'] .header {
+	border-bottom: 1px solid var(--mantine-color-dark-5);
 }
 
 .logo {
@@ -45,10 +54,16 @@
 }
 
 .version {
-	background-color: rgba(255, 255, 255, 0.2);
-	color: var(--mantine-color-white);
+	background-color: var(--mantine-color-gray-1);
+	color: var(--mantine-color-dark-8);
 	backdrop-filter: blur(10px);
 	white-space: nowrap;
+}
+
+/* Dark mode */
+[data-mantine-color-scheme='dark'] .version {
+	background-color: var(--mantine-color-dark-5);
+	color: var(--mantine-color-white);
 }
 
 .navbarMain {
@@ -63,17 +78,29 @@
 }
 
 .navbarMain::-webkit-scrollbar-track {
-	background: rgba(255, 255, 255, 0.1);
+	background: var(--mantine-color-gray-0);
 	border-radius: 3px;
+}
+
+[data-mantine-color-scheme='dark'] .navbarMain::-webkit-scrollbar-track {
+	background: var(--mantine-color-dark-6);
 }
 
 .navbarMain::-webkit-scrollbar-thumb {
-	background: rgba(255, 255, 255, 0.3);
+	background: var(--mantine-color-gray-3);
 	border-radius: 3px;
 }
 
+[data-mantine-color-scheme='dark'] .navbarMain::-webkit-scrollbar-thumb {
+	background: var(--mantine-color-dark-4);
+}
+
 .navbarMain::-webkit-scrollbar-thumb:hover {
-	background: rgba(255, 255, 255, 0.5);
+	background: var(--mantine-color-gray-4);
+}
+
+[data-mantine-color-scheme='dark'] .navbarMain::-webkit-scrollbar-thumb:hover {
+	background: var(--mantine-color-dark-3);
 }
 
 .section {
@@ -84,12 +111,17 @@
 	font-size: var(--mantine-font-size-xs);
 	text-transform: uppercase;
 	font-weight: 700;
-	color: rgba(255, 255, 255, 0.7);
+	color: var(--mantine-color-gray-6);
 	padding: var(--mantine-spacing-xs) var(--mantine-spacing-sm);
 	margin-bottom: var(--mantine-spacing-xs);
 	letter-spacing: 0.5px;
 	white-space: nowrap;
 	overflow: hidden;
+}
+
+/* Dark mode */
+[data-mantine-color-scheme='dark'] .sectionLabel {
+	color: var(--mantine-color-gray-4);
 }
 
 .link {
@@ -98,7 +130,7 @@
 	justify-content: flex-start;
 	text-decoration: none;
 	font-size: var(--mantine-font-size-sm);
-	color: var(--mantine-color-white);
+	color: var(--mantine-color-dark-8);
 	padding: var(--mantine-spacing-xs) var(--mantine-spacing-sm);
 	border-radius: var(--mantine-radius-md);
 	font-weight: 500;
@@ -108,34 +140,65 @@
 	user-select: none;
 }
 
+/* Dark mode */
+[data-mantine-color-scheme='dark'] .link {
+	color: var(--mantine-color-gray-4);
+}
+
 .link:hover {
-	background-color: rgba(255, 255, 255, 0.15);
+	background-color: var(--mantine-color-gray-1);
+	transform: translateX(2px);
+}
+
+[data-mantine-color-scheme='dark'] .link:hover {
+	background-color: var(--mantine-color-dark-6);
 	transform: translateX(2px);
 }
 
 .linkActive {
-	background-color: var(--mantine-color-white);
-	color: var(--mantine-color-blue-6);
-	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+	background-color: var(--mantine-color-gray-1);
+	color: var(--mantine-color-dark-8);
+	box-shadow: none;
+}
+
+/* Dark mode */
+[data-mantine-color-scheme='dark'] .linkActive {
+	background-color: var(--mantine-color-dark-6);
+	color: var(--mantine-color-white);
 }
 
 .linkActive:hover {
-	background-color: var(--mantine-color-white);
-	color: var(--mantine-color-blue-6);
+	background-color: var(--mantine-color-gray-1);
+	color: var(--mantine-color-dark-8);
+	transform: translateX(2px);
+}
+
+[data-mantine-color-scheme='dark'] .linkActive:hover {
+	background-color: var(--mantine-color-dark-6);
+	color: var(--mantine-color-white);
 	transform: translateX(2px);
 }
 
 .linkActive .linkIcon {
-	color: var(--mantine-color-blue-6);
+	color: var(--mantine-color-dark-8);
+}
+
+[data-mantine-color-scheme='dark'] .linkActive .linkIcon {
+	color: var(--mantine-color-white);
 }
 
 .linkIcon {
-	color: rgba(255, 255, 255, 0.9);
+	color: var(--mantine-color-gray-5);
 	margin-right: var(--mantine-spacing-sm);
 	width: 20px;
 	height: 20px;
 	flex-shrink: 0;
 	transition: color 0.2s ease;
+}
+
+/* Dark mode */
+[data-mantine-color-scheme='dark'] .linkIcon {
+	color: var(--mantine-color-gray-5);
 }
 
 /* 折叠状态下，链接居中对齐 */
@@ -155,11 +218,16 @@
 }
 
 .linkChevron {
-	color: rgba(255, 255, 255, 0.7);
+	color: var(--mantine-color-gray-5);
 	width: 16px;
 	height: 16px;
 	transition: transform 0.2s ease;
 	flex-shrink: 0;
+}
+
+/* Dark mode */
+[data-mantine-color-scheme='dark'] .linkChevron {
+	color: var(--mantine-color-gray-5);
 }
 
 .linkChevronRotated {
@@ -168,10 +236,15 @@
 
 .childrenWrapper {
 	margin-left: var(--mantine-spacing-md);
-	border-left: 2px solid rgba(255, 255, 255, 0.2);
+	border-left: 2px solid var(--mantine-color-gray-3);
 	padding-left: var(--mantine-spacing-xs);
 	margin-top: 4px;
 	margin-bottom: 4px;
+}
+
+/* Dark mode */
+[data-mantine-color-scheme='dark'] .childrenWrapper {
+	border-left: 2px solid var(--mantine-color-dark-5);
 }
 
 .childLink {
@@ -179,7 +252,7 @@
 	align-items: center;
 	text-decoration: none;
 	font-size: var(--mantine-font-size-sm);
-	color: rgba(255, 255, 255, 0.9);
+	color: var(--mantine-color-dark-8);
 	padding: 6px var(--mantine-spacing-sm);
 	border-radius: var(--mantine-radius-sm);
 	font-weight: 400;
@@ -188,14 +261,31 @@
 	cursor: pointer;
 }
 
+/* Dark mode */
+[data-mantine-color-scheme='dark'] .childLink {
+	color: var(--mantine-color-gray-4);
+}
+
 .childLink:hover {
-	background-color: rgba(255, 255, 255, 0.1);
+	background-color: var(--mantine-color-gray-1);
+	color: var(--mantine-color-dark-8);
+	transform: translateX(2px);
+}
+
+[data-mantine-color-scheme='dark'] .childLink:hover {
+	background-color: var(--mantine-color-dark-6);
 	color: var(--mantine-color-white);
 	transform: translateX(2px);
 }
 
 .childLinkActive {
-	background-color: rgba(255, 255, 255, 0.2);
-	color: var(--mantine-color-white);
+	background-color: var(--mantine-color-gray-1);
+	color: var(--mantine-color-dark-8);
 	font-weight: 500;
+}
+
+/* Dark mode */
+[data-mantine-color-scheme='dark'] .childLinkActive {
+	background-color: var(--mantine-color-dark-6);
+	color: var(--mantine-color-white);
 }
