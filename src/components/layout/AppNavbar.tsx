@@ -2,14 +2,22 @@ import { useState, useEffect } from 'react';
 import { Group, Code } from '@mantine/core';
 import {
 	IconGauge,
-	IconUsers,
+	IconGaugeFilled,
+	IconUser,
+	IconUserFilled,
 	IconSettings,
+	IconSettingsFilled,
 	IconShoppingCart,
+	IconShoppingCartFilled,
 	IconCalendar,
+	IconCalendarFilled,
 	IconMail,
+	IconMailFilled,
 	IconChevronRight,
 	IconBell,
-	IconBox,
+	IconBellFilled,
+	IconArchive,
+	IconArchiveFilled,
 } from '@tabler/icons-react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useLocation } from 'react-router';
@@ -19,6 +27,7 @@ import clsx from 'clsx';
 interface NavItem {
 	label: string;
 	icon: React.ComponentType<{ className?: string; stroke?: number }>;
+	iconFilled?: React.ComponentType<{ className?: string; stroke?: number }>;
 	path: string;
 	children?: NavItem[];
 }
@@ -37,31 +46,37 @@ export function AppNavbar({ collapsed = false }: AppNavbarProps) {
 		{
 			label: t('nav.dashboard'),
 			icon: IconGauge,
+			iconFilled: IconGaugeFilled,
 			path: '/',
 		},
 		{
 			label: t('nav.users'),
-			icon: IconUsers,
+			icon: IconUser,
+			iconFilled: IconUserFilled,
 			path: '/users',
 		},
 		{
 			label: t('nav.products'),
-			icon: IconBox,
+			icon: IconArchive,
+			iconFilled: IconArchiveFilled,
 			path: '/products',
 		},
 		{
 			label: t('nav.orders'),
 			icon: IconShoppingCart,
+			iconFilled: IconShoppingCartFilled,
 			path: '/orders',
 		},
 		{
 			label: t('nav.calendar'),
 			icon: IconCalendar,
+			iconFilled: IconCalendarFilled,
 			path: '/calendar',
 		},
 		{
 			label: t('nav.messages'),
 			icon: IconMail,
+			iconFilled: IconMailFilled,
 			path: '/messages',
 		},
 	];
@@ -70,11 +85,13 @@ export function AppNavbar({ collapsed = false }: AppNavbarProps) {
 		{
 			label: t('nav.settings'),
 			icon: IconSettings,
+			iconFilled: IconSettingsFilled,
 			path: '/settings',
 		},
 		{
 			label: t('nav.notifications'),
 			icon: IconBell,
+			iconFilled: IconBellFilled,
 			path: '/notifications',
 		},
 	];
@@ -131,6 +148,7 @@ export function AppNavbar({ collapsed = false }: AppNavbarProps) {
 		const isActive = isPathActive(item.path, location.pathname);
 		const isOpened = openedItems.includes(item.label);
 		const hasChildren = item.children && item.children.length > 0;
+		const IconComponent = isActive && item.iconFilled ? item.iconFilled : item.icon;
 
 		// 在折叠状态下，不显示子菜单
 		if (collapsed) {
@@ -144,7 +162,7 @@ export function AppNavbar({ collapsed = false }: AppNavbarProps) {
 					onClick={e => handleNavClick(item, e)}
 					title={item.label}
 				>
-					<item.icon className={classes.linkIcon} stroke={1.5} />
+					<IconComponent className={classes.linkIcon} stroke={1.5} />
 				</a>
 			);
 		}
@@ -158,7 +176,7 @@ export function AppNavbar({ collapsed = false }: AppNavbarProps) {
 					})}
 					onClick={e => handleNavClick(item, e)}
 				>
-					<item.icon className={classes.linkIcon} stroke={1.5} />
+					<IconComponent className={classes.linkIcon} stroke={1.5} />
 					<span className={clsx(classes.linkLabel, classes.fadeIn)}>{item.label}</span>
 					{hasChildren && (
 						<IconChevronRight
@@ -172,6 +190,8 @@ export function AppNavbar({ collapsed = false }: AppNavbarProps) {
 					<div className={classes.childrenWrapper}>
 						{item.children?.map(child => {
 							const isChildActive = isPathActive(child.path, location.pathname);
+							const ChildIconComponent =
+								isChildActive && child.iconFilled ? child.iconFilled : child.icon;
 							return (
 								<a
 									key={child.label}
@@ -181,7 +201,7 @@ export function AppNavbar({ collapsed = false }: AppNavbarProps) {
 									})}
 									onClick={e => handleChildClick(child.path, e)}
 								>
-									<child.icon className={classes.linkIcon} stroke={1.5} />
+									<ChildIconComponent className={classes.linkIcon} stroke={1.5} />
 									<span className={classes.fadeIn}>{child.label}</span>
 								</a>
 							);
