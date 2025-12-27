@@ -2,315 +2,101 @@
 
 一个基于 React + TypeScript + Vite + Mantine 构建的现代化管理后台系统，采用 Feature-Based 架构。
 
-## 📋 项目简介
+## 🎯 项目概览
 
-这是一个功能完整的管理后台模板，使用最新的前端技术栈构建，提供了丰富的组件和页面示例。采用 Feature-Based 架构设计，代码组织清晰，易于维护和扩展。
+| 项目 | 详情 |
+|------|------|
+| **框架** | React 19 + TypeScript 5.9 + Vite 7 |
+| **UI库** | Mantine 8 + Recharts + mantine-datatable |
+| **架构** | Feature-Based（模块化设计） |
+| **状态管理** | Zustand + LocalStorage 持久化 |
+| **国际化** | i18next（中文、英文、日文） |
+| **表单验证** | Mantine Form + Zod |
+| **路由** | React Router v7 + 路由守卫 |
+| **样式** | CSS Module + Dark Mode 支持 |
 
-## ✨ 特性
+## ✨ 核心特性
 
-- 🚀 **现代化技术栈** - React 19 + TypeScript 5.9 + Vite 7
-- 🏗️ **Feature-Based 架构** - 模块化设计，易维护易扩展
-- 🎨 **Mantine UI** - 完整的 Mantine 8 组件库生态
-- 📊 **数据可视化** - 内置图表组件（@mantine/charts + Recharts）
-- 📋 **DataTable** - 强大的表格组件（mantine-datatable）
-- 🌍 **国际化** - 支持多语言切换（中文、英文、日文）
-- 🌓 **主题切换** - 完整的深色/浅色模式支持，自动检测系统偏好
+- 📦 **Feature-Based 架构** - 按功能模块组织代码，易维护易扩展
+- 🎨 **完整 Dark Mode** - 自动检测系统主题，平滑过渡
+- 🌍 **多语言支持** - 中文、英文、日文动态切换
+- 📊 **数据可视化** - 内置 Area Chart、Donut Chart、Bar Chart 等
+- 📋 **DataTable** - 强大的表格组件，支持排序、分页、搜索
 - 📱 **响应式设计** - 完美支持移动端、平板、桌面
-- 🔐 **路由管理** - React Router v7 + 路由守卫
-- 📦 **状态管理** - Zustand + LocalStorage 持久化
-- 🔍 **类型安全** - 100% TypeScript 支持
-- ✅ **表单验证** - @mantine/form + Zod v4
-
-## 🛠 技术栈
-
-### 核心框架
-- **React** ^19.2.0 - UI 框架
-- **TypeScript** ~5.9.3 - 类型系统
-- **Vite** ^7.2.2 - 构建工具
-- **React Router** ^7.9.6 - 路由管理
-
-### UI 组件库
-- **@mantine/core** ^8.3.8 - 核心组件库
-- **@mantine/hooks** ^8.3.8 - React Hooks 工具集
-- **@mantine/charts** ^8.3.8 - 图表组件
-- **@mantine/form** ^8.3.8 - 表单管理
-- **mantine-datatable** ^8.3.7 - 数据表格组件
-
-### 数据可视化
-- **recharts** ^3.4.1 - 图表库
-- **@tabler/icons-react** ^3.35.0 - 图标库
-
-### 状态管理
-- **zustand** ^5.0.8 - 轻量级状态管理
-
-### 国际化
-- **i18next** ^25.6.2 - 国际化框架
-- **react-i18next** ^16.3.3 - React 国际化
-
-### 表单验证
-- **zod** ^4.1.12 - Schema 验证
-- **mantine-form-zod-resolver** ^1.3.0 - Mantine 表单验证器
-
-### 工具库
-- **dayjs** ^1.11.19 - 日期处理
-- **clsx** ^2.1.1 - 类名工具
+- 🔐 **类型安全** - 100% TypeScript，全程类型保护
+- 🚀 **高性能** - Vite 快速构建，useMemo 数据优化
 
 ## 📁 项目结构
 
 ```
-mantine-admin-v1/
-├── src/
-│   ├── components/              # 布局组件
-│   │   └── layout/
-│   │       ├── AppHeader.tsx           # 顶部导航栏
-│   │       ├── AppNavbar.tsx           # 侧边导航栏
-│   │       ├── AppNavbar.module.css    # 导航栏样式
-│   │       ├── AppFooter.tsx           # 页脚
-│   │       ├── DashboardLayout.tsx     # 主布局容器
-│   │       └── DashboardLayout.module.css # 布局样式
-│   │
-│   ├── constants/               # 常量定义 ✨
-│   │   ├── index.ts                    # 导出所有常量
-│   │   ├── routes.ts                   # 路由常量
-│   │   ├── config.ts                   # 配置常量
-│   │   └── product.constants.ts        # 产品常量
-│   │
-│   ├── hooks/                   # 自定义 Hooks ✨
-│   │   ├── index.ts                    # 导出所有 Hooks
-│   │   ├── useAuth.ts                  # 认证 Hook
-│   │   ├── useLocalStorage.ts          # LocalStorage Hook
-│   │   └── useDebounce.ts              # 防抖 Hook
-│   │
-│   ├── locale/                  # 国际化配置
-│   │   ├── index.ts                    # i18n 初始化
-│   │   └── lang/                       # 语言包
-│   │       ├── en.json                 # 英文
-│   │       ├── zh_cn.json              # 简体中文
-│   │       └── jp.json                 # 日文
-│   │
-│   ├── pages/                   # Feature-Based 页面 ✨
-│   │   ├── auth/                       # 认证模块
-│   │   │   ├── Login/
-│   │   │   │   ├── index.tsx
-│   │   │   │   └── Login.module.css
-│   │   │   └── Register/
-│   │   │       └── index.tsx
-│   │   │
-│   │   ├── dashboard/                  # 仪表板模块
-│   │   │   ├── components/             # 组件
-│   │   │   │   ├── StatsCard.tsx
-│   │   │   │   ├── RevenueChart.tsx
-│   │   │   │   ├── SalesChart.tsx
-│   │   │   │   ├── TopProductsTable.tsx
-│   │   │   │   ├── RecentOrdersTable.tsx
-│   │   │   │   └── index.ts
-│   │   │   ├── data/
-│   │   │   │   └── mockData.ts         # 模拟数据
-│   │   │   ├── types.ts                # 类型定义
-│   │   │   └── index.tsx               # 主页面
-│   │   │
-│   │   ├── products/                   # 产品模块
-│   │   │   ├── ProductList/            # 产品列表
-│   │   │   │   ├── data/
-│   │   │   │   │   └── mockData.ts
-│   │   │   │   ├── types.ts
-│   │   │   │   └── index.tsx
-│   │   │   └── ProductEdit/            # 产品编辑
-│   │   │       └── index.tsx
-│   │   │
-│   │   ├── analytics/                  # 分析模块
-│   │   │   └── index.tsx
-│   │   ├── users/                      # 用户模块
-│   │   │   └── index.tsx
-│   │   └── settings/                   # 设置模块
-│   │       └── index.tsx
-│   │
-│   ├── routes/                  # 路由配置
-│   │   ├── index.tsx                   # 路由入口
-│   │   └── ProtectedRoute.tsx          # 路由守卫 ✨
-│   │
-│   ├── store/                   # 状态管理 ✨
-│   │   ├── index.ts                    # Store 入口
-│   │   ├── authStore.ts                # 认证状态
-│   │   └── themeStore.ts               # 主题状态
-│   │
-│   ├── types/                   # 类型定义 ✨
-│   │   ├── index.ts                    # 类型入口
-│   │   ├── user.types.ts               # 用户类型
-│   │   ├── product.types.ts            # 产品类型
-│   │   └── api.types.ts                # API 类型
-│   │
-│   ├── utils/                   # 工具函数 ✨
-│   │   ├── index.ts                    # 工具入口
-│   │   ├── format.ts                   # 格式化工具
-│   │   ├── validation.ts               # 验证工具
-│   │   └── helpers.ts                  # 辅助工具
-│   │
-│   ├── App.tsx                  # 应用入口
-│   ├── main.tsx                 # 主入口
-│   ├── theme.ts                 # 主题配置
-│   └── index.css                # 全局样式
+src/
+├── components/              # 布局组件
+│   ├── layout/             # 主布局（Header、Navbar、Footer）
+│   └── common/             # 通用组件（SectionCard 等）
 │
-├── CHANGELOG.md                 # 更新日志
-├── README.md                    # 项目说明
-├── eslint.config.js             # ESLint 配置
-├── tsconfig.json                # TypeScript 配置
-├── vite.config.ts               # Vite 配置
-├── postcss.config.cjs           # PostCSS 配置
-├── package.json                 # 项目依赖
-└── pnpm-lock.yaml              # 锁定文件
+├── pages/                  # Feature-Based 页面
+│   ├── dashboard/          # 仪表板（统计卡片、图表、表格）
+│   ├── products/           # 产品管理（列表、创建、编辑）
+│   ├── users/              # 用户管理（列表、搜索、过滤）
+│   ├── settings/           # 系统设置（个人资料、偏好设置）
+│   └── auth/               # 认证（登录、注册）
+│
+├── store/                  # 状态管理
+│   ├── pageTitleStore.ts   # 页面标题管理
+│   ├── authStore.ts        # 认证状态
+│   └── themeStore.ts       # 主题状态
+│
+├── hooks/                  # 自定义 Hooks
+│   ├── usePageTitle.ts     # 页面标题 Hook
+│   ├── useAuth.ts          # 认证 Hook
+│   └── ...
+│
+├── locale/                 # 国际化配置
+│   └── lang/               # 语言包（en.json、zh_cn.json、jp.json）
+│
+├── types/                  # 类型定义
+├── utils/                  # 工具函数
+├── constants/              # 常量定义
+├── routes/                 # 路由配置
+├── theme.ts                # 主题配置
+└── App.tsx                 # 应用入口
 ```
 
-## 🎯 核心功能
+## 🏠 已实现页面
 
-### 1. Feature-Based 架构
+| 页面 | 功能 | 状态 |
+|------|------|------|
+| **Dashboard** | 统计卡片、收入趋势图、销售分类、热门产品、最近订单 | ✅ 完成 |
+| **Products** | 列表、搜索、排序、分页、新增、编辑、删除 | ✅ 完成 |
+| **Users** | 列表、搜索、角色/状态标签、操作菜单 | ✅ 完成 |
+| **Settings** | 个人资料、语言选择、通知设置、安全设置 | ✅ 完成 |
+| **Auth** | 登录、注册、Dark Mode 支持 | ✅ 完成 |
 
-项目采用 Feature-Based 架构，按功能模块组织代码：
+## 🎨 UI 布局
 
-**优势**：
-- 📦 **高度模块化** - 每个功能独立封装
-- 🔍 **易于定位** - 相关代码集中在一起
-- 🤝 **团队协作友好** - 减少代码冲突
-- ♻️ **可复用性强** - 组件独立，易于复用
-- 🧪 **易于测试** - 单元测试更简单
+### 导航栏（AppNavbar）
+- **背景颜色** - Light: 白色 | Dark: dark-7
+- **右侧边框** - 分隔线效果，带阴影
+- **选中状态** - 淡灰色背景 + 黑色文字/图标
+- **未选中图标** - 灰色，选中时变填充样式（如 IconGauge → IconGaugeFilled）
+- **Hover 效果** - 浅灰色背景
 
-**示例 - Dashboard 模块**：
-```
-dashboard/
-├── components/          # 5 个独立组件
-├── data/mockData.ts    # 模拟数据
-├── types.ts            # 类型定义
-└── index.tsx           # 主页面（仅 42 行！）
-```
+### Header（AppHeader）
+- **样式** - 悬浮式，有小圆角和阴影
+- **位置** - sticky，固定在 mainContainer 顶部
+- **高度** - 60px
+- **内容** - 缩放按钮 + 动态页面标题 + 功能按钮（主题切换、通知、语言、用户菜单）
 
-### 2. 页面模块
+### 主内容区（mainContainer）
+- **背景颜色** - Light: gray-1 | Dark: dark-8
+- **滚动** - 在 mainContainer 级别，Header/Footer 保持固定
+- **Padding** - xl 内边距
 
-#### 🏠 Dashboard（仪表板）
-- 📈 统计卡片 - 关键指标展示
-- 📊 收入趋势图 - Area Chart
-- 🍩 销售分类 - Donut Chart（百分比显示）
-- 📋 热门产品表格
-- 📝 最近订单列表
-
-#### 📊 Analytics（数据分析）
-- 📉 流量趋势图 - Line/Bar Chart 切换
-- 📱 设备分布 - Pie Chart
-- 🔄 转化漏斗 - 垂直条形图
-
-#### 📦 Products（产品管理）
-- 📋 产品列表 - DataTable
-- 🔍 搜索过滤
-- 📊 排序功能（所有列）
-- 📄 分页（5/10/15/20）
-- ⚙️ 操作菜单（查看/编辑/删除）
-- ➕ 新增/编辑产品（完整表单）
-
-#### 👥 Users（用户管理）
-- 👤 用户列表 - DataTable
-- 🔍 搜索过滤
-- 🏷️ 角色和状态标签
-- ⚙️ 操作菜单
-
-#### ⚙️ Settings（系统设置）
-- 👤 个人资料设置
-- 🌍 偏好设置（语言、时区、日期格式）
-- 🔔 通知设置
-- 🔒 安全设置
-
-#### 🔐 Auth（认证）
-- 🚪 登录页面（支持第三方登录）
-- 📝 注册页面
-- 🎨 精美的 UI 设计
-- 🌗 Dark Mode 支持
-
-### 3. 布局系统
-
-- **自定义 Flexbox 布局** - 灵活的全屏布局
-- **可折叠导航栏** - 280px ↔ 70px 平滑切换
-- **响应式设计** - 移动端遮罩层，桌面端侧边栏
-- **彩色渐变导航** - 蓝到青的优雅渐变
-- **白色活动高亮** - 当前页面高亮显示
-- **平滑动画** - 所有交互流畅过渡
-
-### 4. 类型系统
-
-**集中式类型管理** (`types/`):
-```typescript
-// 用户类型
-import { User, UserRole } from '@/types/user.types';
-
-// 产品类型
-import { Product, ProductStatus } from '@/types/product.types';
-
-// API 类型
-import { ApiResponse, PaginatedResponse } from '@/types/api.types';
-```
-
-### 5. 常量管理
-
-**统一常量定义** (`constants/`):
-```typescript
-// 路由常量
-import { ROUTES } from '@/constants';
-navigate(ROUTES.PRODUCTS_EDIT(id));
-
-// 配置常量
-import { API_BASE_URL, STORAGE_KEYS } from '@/constants';
-
-// 产品常量
-import { PRODUCT_CATEGORIES, PRODUCT_STATUSES } from '@/constants';
-```
-
-### 6. 工具函数
-
-**实用工具库** (`utils/`):
-```typescript
-// 格式化
-formatCurrency(199.99);        // "$199.99"
-formatDate(new Date());         // "Nov 16, 2025"
-formatPercentage(15.5);         // "15.5%"
-
-// 验证
-isValidEmail('test@email.com'); // true
-getPasswordStrength('Pass123!'); // 3
-
-// 辅助
-deepClone(obj);
-groupBy(array, 'category');
-downloadFile(data, 'export.json');
-```
-
-### 7. 状态管理
-
-**Zustand + Persist** (`store/`):
-```typescript
-// 认证状态
-import { useAuthStore } from '@/store';
-const { user, login, logout } = useAuthStore();
-
-// 主题状态
-import { useThemeStore } from '@/store';
-const { colorScheme, toggleTheme } = useThemeStore();
-```
-
-### 8. UI 特性
-
-- 🎨 **完整的 Dark 模式**
-  - 自动检测系统主题
-  - 一键切换
-  - 所有组件适配
-  - 优化的滚动条
-  - 平滑过渡动画
-
-- 🌍 **国际化支持**
-  - 中文、英文、日文
-  - 动态切换
-  - 完整翻译
-
-- 📱 **响应式设计**
-  - 移动端（< 768px）
-  - 平板端（768px - 1024px）
-  - 桌面端（> 1024px）
+### Card 样式
+- **背景** - 白色（light）/ dark-7（dark）
+- **边框** - 1px solid gray-3（light）/ dark-4（dark）
+- **阴影** - `0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24)`
+- **圆角** - `md`
 
 ## 🚀 快速开始
 
@@ -340,138 +126,90 @@ pnpm preview
 pnpm lint
 ```
 
+## 🔧 关键技术说明
+
+### Feature-Based 架构
+
+每个功能模块独立管理：
+```
+pages/products/
+├── components/         # 产品专用组件
+├── data/              # 模拟数据
+├── store/             # 产品状态管理
+├── types.ts           # 产品类型定义
+├── schemas.ts         # 表单验证 Schema
+└── index.tsx          # 主页面
+```
+
+**优势**：
+- 代码高度内聚，相关文件集中
+- 易于团队协作，减少代码冲突
+- 功能独立，易于测试和维护
+
+### 状态管理（Zustand）
+
+```typescript
+// 页面标题管理
+const pageTitle = usePageTitleStore(state => state.title);
+
+// 产品管理
+const products = useProductsStore(state => state.products);
+const addProduct = useProductsStore(state => state.addProduct);
+```
+
+### 国际化（i18next）
+
+在页面中使用翻译：
+```typescript
+const { t } = useTranslation();
+usePageTitle(t('nav.dashboard'));  // 自动更新页面标题
+```
+
+### 页面标题管理
+
+```typescript
+// 每个页面通过 Hook 自动设置标题，显示在 Header 中
+import { usePageTitle } from '@/hooks/usePageTitle';
+
+export function Dashboard() {
+  usePageTitle(t('nav.dashboard'));  // 设置标题为 "Dashboard"
+  // ...
+}
+```
+
 ## 📝 开发指南
 
-### 添加新页面（Feature-Based）
+### 添加新页面
 
-1. **创建 Feature 目录**
-```bash
-mkdir -p src/pages/orders
-```
-
-2. **创建页面文件**
-```typescript
-// src/pages/orders/index.tsx
-export function Orders() {
-  return <div>Orders Page</div>;
-}
-```
-
-3. **添加路由**
-```typescript
-// src/routes/index.tsx
-import { Orders } from '../pages/orders';
-
-<Route path="orders" element={<Orders />} />
-```
-
-4. **添加导航**
-```typescript
-// src/components/layout/AppNavbar.tsx
-{
-  icon: IconShoppingCart,
-  label: 'Orders',
-  link: '/orders',
-}
-```
+1. 创建 Feature 目录：`src/pages/feature-name/`
+2. 创建页面文件：`src/pages/feature-name/index.tsx`
+3. 添加路由：`src/routes/index.tsx`
+4. 设置标题：`usePageTitle(t('nav.feature'))`
+5. 添加导航项：`src/components/layout/AppNavbar.tsx`
 
 ### 创建可复用组件
 
-**在 Feature 内创建组件**：
-```
-pages/orders/
-├── components/
-│   ├── OrderCard.tsx
-│   ├── OrderTable.tsx
-│   └── index.ts
-├── types.ts
-├── data/mockData.ts
-└── index.tsx
-```
-
-**导出组件**：
+组件放在 Feature 内部的 `components/` 目录：
 ```typescript
-// src/pages/orders/components/index.ts
-export { OrderCard } from './OrderCard';
-export { OrderTable } from './OrderTable';
-```
-
-**使用组件**：
-```typescript
-import { OrderCard, OrderTable } from './components';
-```
-
-### 添加新语言
-
-1. 创建语言文件
-```bash
-# src/locale/lang/fr.json
-```
-
-2. 导入并配置
-```typescript
-// src/locale/index.ts
-import fr from './lang/fr.json';
-resources: { fr: { translation: fr } }
-```
-
-### 主题自定义
-
-编辑 `src/theme.ts`：
-```typescript
-export const theme = createTheme({
-  primaryColor: 'blue',
-  defaultRadius: 'md',
-  fontFamily: 'Inter, sans-serif',
-});
-```
-
-### Dark 模式定制
-
-在 `src/index.css` 中：
-```css
-[data-mantine-color-scheme='dark'] .your-class {
-  background-color: var(--mantine-color-dark-7);
+export function ComponentName() {
+  // 组件逻辑
 }
+
+// 通过 index.ts 导出
+export { ComponentName } from './ComponentName';
 ```
 
-## 📦 常用代码示例
+### 添加表单验证
 
-### 使用 DataTable
-```tsx
-import { DataTable } from 'mantine-datatable';
-
-<DataTable
-  striped
-  highlightOnHover
-  records={records}
-  columns={columns}
-  sortStatus={sortStatus}
-  onSortStatusChange={setSortStatus}
-  page={page}
-  onPageChange={setPage}
-/>
-```
-
-### 使用 Charts
-```tsx
-import { ResponsiveContainer } from 'recharts';
-import { AreaChart } from '@mantine/charts';
-
-<ResponsiveContainer width="100%" height={300}>
-  <AreaChart data={data} dataKey="month" series={series} />
-</ResponsiveContainer>
-```
-
-### 使用 Form + Zod
-```tsx
+使用 Zod + Mantine Form：
+```typescript
+import { z } from 'zod';
 import { useForm } from '@mantine/form';
 import { zod4Resolver } from 'mantine-form-zod-resolver';
-import { z } from 'zod';
 
 const schema = z.object({
-  name: z.string().min(2),
-  email: z.string().email(),
+  name: z.string().min(2, '名称至少2个字符'),
+  email: z.string().email('邮箱格式不正确'),
 });
 
 const form = useForm({
@@ -480,51 +218,98 @@ const form = useForm({
 });
 ```
 
-## 🔧 配置说明
+### Dark Mode 适配
 
-### ESLint
-使用 ESLint 9+ 扁平化配置 (`eslint.config.js`)
+在 CSS Module 中使用：
+```css
+.header {
+  background-color: var(--mantine-color-white);
+  border-bottom: 1px solid var(--mantine-color-gray-3);
+}
 
-### TypeScript
-- `tsconfig.json` - 主配置
-- `tsconfig.app.json` - 应用配置
-- `tsconfig.node.json` - Node 配置
+[data-mantine-color-scheme='dark'] .header {
+  background-color: var(--mantine-color-dark-7);
+  border-bottom: 1px solid var(--mantine-color-dark-4);
+}
+```
 
-### PostCSS
-使用 Mantine 的 PostCSS 预设
+## 🎯 常见需求
 
-## 📚 参考文档
+### 修改主题颜色
 
-- [Mantine Documentation](https://mantine.dev/)
-- [React Documentation](https://react.dev/)
-- [Vite Documentation](https://vitejs.dev/)
-- [React Router Documentation](https://reactrouter.com/)
-- [TypeScript Documentation](https://www.typescriptlang.org/)
-- [Zustand Documentation](https://zustand-demo.pmnd.rs/)
-- [Zod Documentation](https://zod.dev/)
+编辑 `src/theme.ts`：
+```typescript
+export default createTheme({
+  primaryColor: 'blue',  // 修改主要色
+  defaultRadius: 'md',
+  // ... 其他配置
+});
+```
 
-## 🎯 项目特点
+### 添加新语言
 
-### 代码质量
-- ✅ 100% TypeScript
-- ✅ ESLint 规范
-- ✅ 模块化设计
-- ✅ 单一职责原则
-- ✅ DRY 原则
+1. 创建语言文件：`src/locale/lang/fr.json`
+2. 导入配置：`src/locale/index.ts`
+3. 在语言菜单中添加选项
 
-### 性能优化
-- ⚡ ResponsiveContainer 图表
-- 🎨 CSS 优化（cubic-bezier, will-change）
-- 📊 useMemo 数据优化
-- 🔄 防抖处理
+### 使用 DataTable
 
-### 开发体验
-- 🔥 Vite 热更新
-- 🔍 TypeScript 智能提示
-- ✅ ESLint 实时检查
-- 📁 清晰的目录结构
+```typescript
+import { DataTable } from 'mantine-datatable';
 
-## 🤝 贡献
+<DataTable
+  records={records}
+  columns={columns}
+  sortStatus={sortStatus}
+  onSortStatusChange={setSortStatus}
+  page={page}
+  onPageChange={setPage}
+  pageSize={pageSize}
+  onPageSizeChange={setPageSize}
+/>
+```
+
+### 使用图表
+
+```typescript
+import { AreaChart } from '@mantine/charts';
+import { ResponsiveContainer } from 'recharts';
+
+<ResponsiveContainer width="100%" height={300}>
+  <AreaChart data={data} dataKey="month" series={series} />
+</ResponsiveContainer>
+```
+
+## 📚 依赖版本
+
+| 依赖 | 版本 |
+|-----|------|
+| React | ^19.2.0 |
+| TypeScript | ~5.9.3 |
+| Vite | ^7.2.2 |
+| Mantine | ^8.3.8 |
+| React Router | ^7.9.6 |
+| Zustand | ^5.0.8 |
+| i18next | ^25.6.2 |
+| Zod | ^4.1.12 |
+| Recharts | ^3.4.1 |
+
+## 🔐 安全特性
+
+- ✅ 路由守卫（Protected Routes）
+- ✅ 100% TypeScript 类型检查
+- ✅ Zod 数据验证
+- ✅ XSS 防护（React 内置）
+
+## 📊 性能指标
+
+- ⚡ **Vite 开发模式** - 秒级启动和热更新
+- 🎯 **代码分割** - 按路由动态加载
+- 💾 **本地存储缓存** - 主题、认证信息持久化
+- 🔄 **防抖处理** - 搜索、输入防抖优化
+- 📈 **useMemo 优化** - 表格数据、图表数据缓存
+
+## 🤝 贡献指南
 
 欢迎提交 Issue 和 Pull Request！
 
@@ -532,6 +317,6 @@ const form = useForm({
 
 MIT License
 
-## 🙏 致谢
+---
 
-感谢所有开源项目的贡献者！
+**最后更新**：2025-12-27
