@@ -15,6 +15,7 @@ import {
 	Modal,
 	useMantineColorScheme,
 	Tabs,
+	FloatingIndicator,
 } from '@mantine/core';
 import { DataTable, type DataTableSortStatus } from 'mantine-datatable';
 import { IconSearch, IconAlertTriangle, IconList, IconCreditCard, IconTruck, IconCheck } from '@tabler/icons-react';
@@ -23,6 +24,7 @@ import { useTranslation } from 'react-i18next';
 import { getOrderListColumns } from './OrderListColumns';
 import { useOrdersStore } from './store';
 import type { Order } from './types';
+import classes from './OrderList.module.css';
 
 export function OrderList() {
 	const { t } = useTranslation();
@@ -41,6 +43,13 @@ export function OrderList() {
 	});
 	const [deleteModalOpened, setDeleteModalOpened] = useState(false);
 	const [orderToDelete, setOrderToDelete] = useState<{ id: string; customer: string } | null>(null);
+
+	const [rootRef, setRootRef] = useState<HTMLDivElement | null>(null);
+	const [controlsRefs, setControlsRefs] = useState<Record<string, HTMLButtonElement | null>>({});
+	const setControlRef = (val: string) => (node: HTMLButtonElement) => {
+		controlsRefs[val] = node;
+		setControlsRefs(controlsRefs);
+	};
 
 	const records = useMemo(() => {
 		const from = (page - 1) * pageSize;
@@ -134,25 +143,29 @@ export function OrderList() {
 					</Box>
 
 					<Tabs
-						variant="pills"
+						variant="none"
 						value={statusFilter}
 						onChange={value => setStatusFilter(value as 'all' | 'paid' | 'shipped' | 'completed')}
-						styles={{
-							root: {
-								padding: '0.5rem',
-								paddingTop: '0',
-							},
-							tab: {
-								padding: '0.5rem 1rem',
-								fontWeight: 500,
-							},
-						}}
 					>
-						<Tabs.List>
-							<Tabs.Tab value="all" leftSection={<IconList size={16} />}>{t('orders.all')}</Tabs.Tab>
-							<Tabs.Tab value="paid" leftSection={<IconCreditCard size={16} />}>{t('orders.paid')}</Tabs.Tab>
-							<Tabs.Tab value="shipped" leftSection={<IconTruck size={16} />}>{t('orders.shipped')}</Tabs.Tab>
-							<Tabs.Tab value="completed" leftSection={<IconCheck size={16} />}>{t('orders.completed')}</Tabs.Tab>
+						<Tabs.List ref={setRootRef} className={classes.orderTabsList}>
+							<Tabs.Tab value="all" ref={setControlRef('all')} className={classes.orderTabsTab} leftSection={<IconList size={16} />}>
+								{t('orders.all')}
+							</Tabs.Tab>
+							<Tabs.Tab value="paid" ref={setControlRef('paid')} className={classes.orderTabsTab} leftSection={<IconCreditCard size={16} />}>
+								{t('orders.paid')}
+							</Tabs.Tab>
+							<Tabs.Tab value="shipped" ref={setControlRef('shipped')} className={classes.orderTabsTab} leftSection={<IconTruck size={16} />}>
+								{t('orders.shipped')}
+							</Tabs.Tab>
+							<Tabs.Tab value="completed" ref={setControlRef('completed')} className={classes.orderTabsTab} leftSection={<IconCheck size={16} />}>
+								{t('orders.completed')}
+							</Tabs.Tab>
+
+							<FloatingIndicator
+								target={statusFilter ? controlsRefs[statusFilter] : null}
+								parent={rootRef}
+								className={classes.orderTabsIndicator}
+							/>
 						</Tabs.List>
 					</Tabs>
 
