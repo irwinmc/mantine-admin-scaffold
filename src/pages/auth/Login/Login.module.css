@@ -3,12 +3,11 @@
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	background: linear-gradient(135deg, var(--mantine-color-gray-1) 0%, var(--mantine-color-gray-2) 100%);
+	background: light-dark(
+		linear-gradient(135deg, var(--mantine-color-gray-1) 0%, var(--mantine-color-gray-2) 100%),
+		linear-gradient(135deg, var(--mantine-color-dark-8) 0%, var(--mantine-color-dark-9) 100%)
+	);
 	padding: var(--mantine-spacing-xl);
-}
-
-[data-mantine-color-scheme='dark'] .wrapper {
-	background: linear-gradient(135deg, var(--mantine-color-dark-8) 0%, var(--mantine-color-dark-9) 100%);
 }
 
 .card {
@@ -30,15 +29,13 @@
 }
 
 .hero {
-	background: linear-gradient(135deg, var(--mantine-color-blue-6) 0%, var(--mantine-color-cyan-6) 100%);
+	background: light-dark(
+		linear-gradient(135deg, var(--mantine-color-blue-6) 0%, var(--mantine-color-cyan-6) 100%),
+		linear-gradient(135deg, var(--mantine-color-blue-9) 0%, var(--mantine-color-cyan-9) 100%)
+	);
 	padding: var(--mantine-spacing-xl);
 	position: relative;
 	overflow: hidden;
-}
-
-/* Dark mode hero */
-[data-mantine-color-scheme='dark'] .hero {
-	background: linear-gradient(135deg, var(--mantine-color-blue-9) 0%, var(--mantine-color-cyan-9) 100%);
 }
 
 /* 装饰性背景图案 */
@@ -99,4 +96,3 @@
 		padding: var(--mantine-spacing-lg);
 	}
 }
-

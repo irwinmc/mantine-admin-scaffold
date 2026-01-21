@@ -28,7 +28,9 @@
 .navbarHidden {
 	width: 0;
 	margin-left: -280px;
-	transition: width 0.25s cubic-bezier(0.4, 0, 0.2, 1), margin-left 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+	transition:
+		width 0.25s cubic-bezier(0.4, 0, 0.2, 1),
+		margin-left 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .navbarContent {
@@ -46,12 +48,7 @@
 	height: 100vh;
 	overflow-y: auto;
 	overflow-x: hidden;
-	background-color: var(--mantine-color-gray-2);
-}
-
-/* Dark mode */
-[data-mantine-color-scheme='dark'] .mainContainer {
-	background-color: var(--mantine-color-dark-8);
+	background-color: light-dark(var(--mantine-color-gray-0), var(--mantine-color-dark-8));
 }
 
 .header {
@@ -59,16 +56,10 @@
 	margin: var(--mantine-spacing-xl);
 	margin-bottom: 0;
 	border-radius: var(--mantine-radius-md);
-	background-color: var(--mantine-color-white);
-	border: 1px solid var(--mantine-color-gray-3);
+	background-color: light-dark(var(--mantine-color-white), var(--mantine-color-dark-6));
+	border: 1px solid light-dark(var(--mantine-color-gray-3), var(--mantine-color-dark-4));
 	display: flex;
 	align-items: center;
-}
-
-/* Dark mode */
-[data-mantine-color-scheme='dark'] .header {
-	background-color: var(--mantine-color-dark-6);
-	border: 1px solid var(--mantine-color-dark-4);
 }
 
 .main {
@@ -76,27 +67,16 @@
 	overflow: visible;
 	padding: var(--mantine-spacing-xl);
 	padding-top: var(--mantine-spacing-md);
-	background-color: var(--mantine-color-gray-2);
-}
-
-/* Dark mode */
-[data-mantine-color-scheme='dark'] .main {
-	background-color: var(--mantine-color-dark-8);
+	background-color: light-dark(var(--mantine-color-gray-0), var(--mantine-color-dark-8));
 }
 
 .footer {
 	height: 60px;
-	border-top: 1px solid var(--mantine-color-gray-3);
-	background-color: var(--mantine-color-white);
+	border-top: 1px solid light-dark(var(--mantine-color-gray-3), var(--mantine-color-dark-4));
+	background-color: light-dark(var(--mantine-color-white), var(--mantine-color-dark-7));
 	display: flex;
 	align-items: center;
 	flex-shrink: 0;
-}
-
-/* Dark mode */
-[data-mantine-color-scheme='dark'] .footer {
-	background-color: var(--mantine-color-dark-7);
-	border-top: 1px solid var(--mantine-color-dark-4);
 }
 
 /* 移动端样式 */
