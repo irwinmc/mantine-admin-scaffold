@@ -1,19 +1,16 @@
 import { useMutation } from '@tanstack/react-query';
+import ky from 'ky';
 
 const uploadImageFn = async (file: File): Promise<string> => {
 	const formData = new FormData();
 	formData.append('file', file);
 
-	const response = await fetch('/api/upload', {
-		method: 'POST',
-		body: formData,
-	});
+	const data = await ky
+		.post('/api/upload', {
+			body: formData,
+		})
+		.json<{ url: string }>();
 
-	if (!response.ok) {
-		throw new Error('Upload failed');
-	}
-
-	const data = await response.json();
 	return data.url;
 };
 
