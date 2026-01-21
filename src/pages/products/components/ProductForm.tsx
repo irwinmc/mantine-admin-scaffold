@@ -52,6 +52,22 @@ export function ProductForm({
 }: ProductFormProps) {
 	const { t } = useTranslation();
 
+	const handleImageUpload = async (file: File): Promise<string> => {
+		return new Promise((resolve, reject) => {
+			try {
+				const reader = new FileReader();
+				reader.onload = () => {
+					const base64 = reader.result as string;
+					resolve(base64);
+				};
+				reader.onerror = reject;
+				reader.readAsDataURL(file);
+			} catch (error) {
+				reject(error);
+			}
+		});
+	};
+
 	// 翻译选项
 	const translatedCategoryOptions = categoryOptions.map(option => ({
 		value: option.value,
@@ -112,6 +128,7 @@ export function ProductForm({
 										withAsterisk
 										value={form.values.description}
 										onChange={value => form.setFieldValue('description', value)}
+										onImageUpload={handleImageUpload}
 									/>
 								</Stack>
 							</SectionCard>

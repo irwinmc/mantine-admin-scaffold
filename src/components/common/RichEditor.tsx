@@ -3,15 +3,15 @@
  * 基于 @mantine/tiptap 实现，支持图文混排
  */
 
-import { RichTextEditor, Link } from '@mantine/tiptap';
+import { RichTextEditor } from '@mantine/tiptap';
 import { useEditor, type Extension } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
-import Underline from '@tiptap/extension-underline';
 import Image from '@tiptap/extension-image';
 import { Color } from '@tiptap/extension-color';
 import { TextStyle } from '@tiptap/extension-text-style';
 import Placeholder from '@tiptap/extension-placeholder';
-import { IconPhoto } from '@tabler/icons-react';
+import { IconPhoto, IconLoader } from '@tabler/icons-react';
+import { useState } from 'react';
 
 interface RichEditorProps {
 	value?: string;
@@ -23,13 +23,13 @@ interface RichEditorProps {
 	description?: string;
 	readonly?: boolean;
 	extensions?: Extension[];
+	onImageUpload?: (file: File) => Promise<string>;
 }
 
 const DEFAULT_TOOLBAR: string[][] = [
 	['bold', 'italic', 'underline', 'strike'],
 	['h1', 'h2', 'h3'],
-	['bulletList', 'orderedList'],
-	['blockquote', 'codeBlock'],
+	['bulletList', 'orderedList', 'blockquote'],
 	['link', 'image'],
 	['clear'],
 ];
@@ -44,18 +44,15 @@ export function RichEditor({
 	description,
 	readonly = false,
 	extensions = [],
+	onImageUpload,
 }: RichEditorProps) {
+	const [isUploading, setIsUploading] = useState(false);
+
 	const editor = useEditor({
 		extensions: [
 			StarterKit.configure({
-				bulletList: { keepMarks: true, keepAttributes: false },
-				orderedList: { keepMarks: true, keepAttributes: false },
-			}),
-			Underline,
-			Link.configure({
-				openOnClick: false,
-				HTMLAttributes: {
-					class: 'text-blue-500 underline',
+				heading: {
+					levels: [1, 2, 3],
 				},
 			}),
 			Image.configure({
@@ -86,8 +83,20 @@ export function RichEditor({
 	});
 
 	const handleImageUpload = async (file: File) => {
-		const url = URL.createObjectURL(file);
-		editor?.chain().focus().setImage({ src: url }).run();
+		if (!onImageUpload) {
+			console.warn('onImageUpload prop is not provided');
+			return;
+		}
+
+		setIsUploading(true);
+		try {
+			const url = await onImageUpload(file);
+			editor?.chain().focus().setImage({ src: url }).run();
+		} catch (error) {
+			console.error('Image upload failed:', error);
+		} finally {
+			setIsUploading(false);
+		}
 	};
 
 	return (
@@ -126,8 +135,6 @@ export function RichEditor({
 											return <RichTextEditor.OrderedList key={control} />;
 										case 'blockquote':
 											return <RichTextEditor.Blockquote key={control} />;
-										case 'codeBlock':
-											return <RichTextEditor.CodeBlock key={control} />;
 										case 'link':
 											return <RichTextEditor.Link key={control} />;
 										case 'image':
@@ -136,6 +143,7 @@ export function RichEditor({
 													<input
 														type="file"
 														accept="image/*"
+														disabled={isUploading}
 														onChange={e => {
 															const file = e.target.files?.[0];
 															if (file) handleImageUpload(file);
@@ -145,9 +153,16 @@ export function RichEditor({
 													/>
 													<label
 														htmlFor="rich-editor-image-input"
-														style={{ display: 'contents' }}
+														style={{
+															display: 'contents',
+															cursor: isUploading ? 'not-allowed' : 'pointer',
+														}}
 													>
-														<IconPhoto size={16} />
+														{isUploading ? (
+															<IconLoader size={16} className="animate-spin" />
+														) : (
+															<IconPhoto size={16} />
+														)}
 													</label>
 												</RichTextEditor.Control>
 											);
@@ -167,7 +182,7 @@ export function RichEditor({
 						))}
 					</RichTextEditor.Toolbar>
 
-					<RichTextEditor.Content />
+					<RichTextEditor.Content style={{ minHeight: '200px' }} />
 				</RichTextEditor>
 			)}
 
