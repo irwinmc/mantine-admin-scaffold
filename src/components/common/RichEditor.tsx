@@ -11,6 +11,7 @@ import Image from '@tiptap/extension-image';
 import { Color } from '@tiptap/extension-color';
 import { TextStyle } from '@tiptap/extension-text-style';
 import Placeholder from '@tiptap/extension-placeholder';
+import { IconPhoto } from '@tabler/icons-react';
 
 interface RichEditorProps {
 	value?: string;
@@ -30,7 +31,6 @@ const DEFAULT_TOOLBAR: string[][] = [
 	['bulletList', 'orderedList'],
 	['blockquote', 'codeBlock'],
 	['link', 'image'],
-	['textAlignLeft', 'textAlignCenter', 'textAlignRight'],
 	['clear'],
 ];
 
@@ -140,14 +140,14 @@ export function RichEditor({
 															const file = e.target.files?.[0];
 															if (file) handleImageUpload(file);
 														}}
-														className="hidden"
-														id={`rich-editor-image-${Math.random()}`}
+														style={{ display: 'none' }}
+														id="rich-editor-image-input"
 													/>
 													<label
-														htmlFor={`rich-editor-image-${Math.random()}`}
-														className="cursor-pointer"
+														htmlFor="rich-editor-image-input"
+														style={{ display: 'contents' }}
 													>
-														Image
+														<IconPhoto size={16} />
 													</label>
 												</RichTextEditor.Control>
 											);

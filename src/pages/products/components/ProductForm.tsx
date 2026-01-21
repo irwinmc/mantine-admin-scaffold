@@ -3,10 +3,11 @@
  */
 
 import type { UseFormReturnType } from '@mantine/form';
-import { TextInput, Textarea, Select, Button, Group, Stack, Grid, Switch, Badge, Text } from '@mantine/core';
+import { TextInput, Select, Button, Group, Stack, Grid, Switch, Badge, Text } from '@mantine/core';
 import { IconArrowLeft, IconDeviceFloppy } from '@tabler/icons-react';
 import { useTranslation } from 'react-i18next';
-import { SectionCard } from '../../../components/common/SectionCard';
+import { SectionCard } from '@/components/common/SectionCard';
+import { RichEditor } from '@/components/common/RichEditor';
 import type { ProductFormValues } from '../schemas';
 import type { ProductVariant } from '../types';
 import { categoryOptions, statusOptions } from '../constants';
@@ -105,19 +106,12 @@ export function ProductForm({
 										{...form.getInputProps('name')}
 									/>
 
-									<Textarea
+									<RichEditor
 										label={t('product_edit.product_description')}
 										placeholder={t('product_edit.product_description_placeholder')}
 										withAsterisk
-										styles={{
-											input: {
-												minHeight: '80px',
-												maxHeight: '160px',
-												resize: 'vertical',
-											},
-										}}
-										key={form.key('description')}
-										{...form.getInputProps('description')}
+										value={form.values.description}
+										onChange={value => form.setFieldValue('description', value)}
 									/>
 								</Stack>
 							</SectionCard>
