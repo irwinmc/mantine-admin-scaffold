@@ -6,6 +6,7 @@ import type { UseFormReturnType } from '@mantine/form';
 import { TextInput, Select, Button, Group, Stack, Grid, Switch, Badge, Text } from '@mantine/core';
 import { IconArrowLeft, IconDeviceFloppy } from '@tabler/icons-react';
 import { useTranslation } from 'react-i18next';
+import { useImageUpload } from '@/hooks';
 import { SectionCard } from '@/components/common/SectionCard';
 import { RichEditor } from '@/components/common/RichEditor';
 import type { ProductFormValues } from '../schemas';
@@ -51,22 +52,7 @@ export function ProductForm({
 	onVariantDelete,
 }: ProductFormProps) {
 	const { t } = useTranslation();
-
-	const handleImageUpload = async (file: File): Promise<string> => {
-		return new Promise((resolve, reject) => {
-			try {
-				const reader = new FileReader();
-				reader.onload = () => {
-					const base64 = reader.result as string;
-					resolve(base64);
-				};
-				reader.onerror = reject;
-				reader.readAsDataURL(file);
-			} catch (error) {
-				reject(error);
-			}
-		});
-	};
+	const { uploadImage } = useImageUpload();
 
 	// 翻译选项
 	const translatedCategoryOptions = categoryOptions.map(option => ({
@@ -128,7 +114,7 @@ export function ProductForm({
 										withAsterisk
 										value={form.values.description}
 										onChange={value => form.setFieldValue('description', value)}
-										onImageUpload={handleImageUpload}
+										onImageUpload={uploadImage}
 									/>
 								</Stack>
 							</SectionCard>

@@ -43,7 +43,7 @@ export const getProductListColumns = ({
 		),
 	},
 	{
-		accessor: 'variants',
+		accessor: 'price',
 		title: t('products.price'),
 		sortable: false,
 		width: 120,
@@ -54,7 +54,7 @@ export const getProductListColumns = ({
 		),
 	},
 	{
-		accessor: 'variants',
+		accessor: 'stock',
 		title: t('products.stock'),
 		sortable: false,
 		width: 150,
