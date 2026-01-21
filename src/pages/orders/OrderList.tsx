@@ -148,16 +148,36 @@ export function OrderList() {
 						onChange={value => setStatusFilter(value as 'all' | 'paid' | 'shipped' | 'completed')}
 					>
 						<Tabs.List ref={setRootRef} className={classes.orderTabsList}>
-							<Tabs.Tab value="all" ref={setControlRef('all')} className={classes.orderTabsTab} leftSection={<IconList size={16} />}>
+							<Tabs.Tab
+								value="all"
+								ref={setControlRef('all')}
+								className={classes.orderTabsTab}
+								leftSection={<IconList size={16} />}
+							>
 								{t('orders.all')}
 							</Tabs.Tab>
-							<Tabs.Tab value="paid" ref={setControlRef('paid')} className={classes.orderTabsTab} leftSection={<IconCreditCard size={16} />}>
+							<Tabs.Tab
+								value="paid"
+								ref={setControlRef('paid')}
+								className={classes.orderTabsTab}
+								leftSection={<IconCreditCard size={16} />}
+							>
 								{t('orders.paid')}
 							</Tabs.Tab>
-							<Tabs.Tab value="shipped" ref={setControlRef('shipped')} className={classes.orderTabsTab} leftSection={<IconTruck size={16} />}>
+							<Tabs.Tab
+								value="shipped"
+								ref={setControlRef('shipped')}
+								className={classes.orderTabsTab}
+								leftSection={<IconTruck size={16} />}
+							>
 								{t('orders.shipped')}
 							</Tabs.Tab>
-							<Tabs.Tab value="completed" ref={setControlRef('completed')} className={classes.orderTabsTab} leftSection={<IconCheck size={16} />}>
+							<Tabs.Tab
+								value="completed"
+								ref={setControlRef('completed')}
+								className={classes.orderTabsTab}
+								leftSection={<IconCheck size={16} />}
+							>
 								{t('orders.completed')}
 							</Tabs.Tab>
 
@@ -188,7 +208,6 @@ export function OrderList() {
 							t('orders.showing_results', { from, to, total: totalRecords })
 						}
 						paginationSize="sm"
-						minHeight={400}
 						style={{
 							borderTop: `1px solid ${
 								colorScheme === 'dark' ? 'var(--mantine-color-dark-4)' : 'var(--mantine-color-gray-3)'

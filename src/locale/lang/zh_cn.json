@@ -38,6 +38,10 @@
 	},
 	"dashboard": {
 		"title": "仪表板",
+		"total_revenue": "总收入",
+		"total_orders": "总订单",
+		"total_users": "总用户",
+		"active_users": "活跃用户",
 		"revenue_overview": "收入概览",
 		"last_7_months": "最近7个月",
 		"sales_by_category": "分类销售额",

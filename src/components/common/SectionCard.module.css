@@ -1,0 +1,26 @@
+/* SectionCard Component Styles */
+
+.card {
+	overflow: hidden;
+}
+
+.header {
+	position: relative;
+	border-bottom: 1px solid light-dark(var(--mantine-color-gray-3), var(--mantine-color-dark-4));
+	background-color: light-dark(var(--mantine-color-gray-1), var(--mantine-color-dark-6));
+}
+
+.title {
+	color: light-dark(var(--mantine-color-gray-8), var(--mantine-color-gray-3));
+}
+
+.rightSection {
+	position: absolute;
+	right: var(--mantine-spacing-md);
+	top: 50%;
+	transform: translateY(-50%);
+}
+
+.content {
+	background-color: light-dark(var(--mantine-color-white), var(--mantine-color-dark-7));
+}

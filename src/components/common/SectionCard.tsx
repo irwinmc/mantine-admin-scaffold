@@ -4,7 +4,8 @@
  */
 
 import type { ReactNode } from 'react';
-import { Card, Box, Text, useMantineColorScheme } from '@mantine/core';
+import { Card, Box, Text } from '@mantine/core';
+import classes from './SectionCard.module.css';
 
 interface SectionCardProps {
 	title: string;
@@ -13,43 +14,22 @@ interface SectionCardProps {
 }
 
 export function SectionCard({ title, children, rightSection }: SectionCardProps) {
-	const { colorScheme } = useMantineColorScheme();
-
-	const headerBg = colorScheme === 'dark' ? 'dark.6' : 'gray.1';
-	const borderColor = colorScheme === 'dark' ? 'dark.4' : 'gray.3';
-	const textColor = colorScheme === 'dark' ? 'gray.3' : 'gray.8';
-	const contentBg = colorScheme === 'dark' ? 'dark.7' : 'white';
-
 	return (
-		<Card radius="md" withBorder padding={0} style={{ overflow: 'hidden' }}>
+		<Card radius="md" withBorder padding={0} className={classes.card}>
 			{/* Card Header */}
-			<Box
-				p="md"
-				bg={headerBg}
-				style={{
-					position: 'relative',
-					borderBottom: `1px solid var(--mantine-color-${borderColor})`,
-				}}
-			>
-				<Text size="md" fw={600} c={textColor}>
+			<Box p="md" className={classes.header}>
+				<Text size="md" fw={600} className={classes.title}>
 					{title}
 				</Text>
 				{rightSection && (
-					<Box
-						style={{
-							position: 'absolute',
-							right: 'var(--mantine-spacing-md)',
-							top: '50%',
-							transform: 'translateY(-50%)',
-						}}
-					>
+					<Box className={classes.rightSection}>
 						{rightSection}
 					</Box>
 				)}
 			</Box>
 
 			{/* Card Content */}
-			<Box p="lg" bg={contentBg}>
+			<Box p="lg" className={classes.content}>
 				{children}
 			</Box>
 		</Card>

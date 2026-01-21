@@ -38,6 +38,10 @@
 	},
 	"dashboard": {
 		"title": "Dashboard",
+		"total_revenue": "Total Revenue",
+		"total_orders": "Total Orders",
+		"total_users": "Total Users",
+		"active_users": "Active Users",
 		"revenue_overview": "Revenue Overview",
 		"last_7_months": "Last 7 months",
 		"sales_by_category": "Sales by Category",

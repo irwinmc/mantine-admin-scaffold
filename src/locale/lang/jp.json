@@ -38,6 +38,10 @@
 	},
 	"dashboard": {
 		"title": "ダッシュボード",
+		"total_revenue": "総収益",
+		"total_orders": "総注文数",
+		"total_users": "総ユーザー数",
+		"active_users": "アクティブユーザー",
 		"revenue_overview": "収益概要",
 		"last_7_months": "過去7ヶ月",
 		"sales_by_category": "カテゴリー別売上",
