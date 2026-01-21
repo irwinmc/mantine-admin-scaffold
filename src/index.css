@@ -11,50 +11,27 @@ body {
 		'Droid Sans', 'Helvetica Neue', sans-serif;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
+	background-color: light-dark(var(--mantine-color-gray-0), var(--mantine-color-dark-8));
+	color: light-dark(var(--mantine-color-black), var(--mantine-color-dark-0));
 }
 
-/* Light mode 滚动条样式 */
+/* 滚动条样式 */
 ::-webkit-scrollbar {
 	width: 8px;
 	height: 8px;
 }
 
 ::-webkit-scrollbar-track {
-	background: var(--mantine-color-gray-0);
+	background: light-dark(var(--mantine-color-gray-0), var(--mantine-color-dark-8));
 }
 
 ::-webkit-scrollbar-thumb {
-	background: var(--mantine-color-gray-4);
+	background: light-dark(var(--mantine-color-gray-4), var(--mantine-color-dark-4));
 	border-radius: 4px;
-}
 
-::-webkit-scrollbar-thumb:hover {
-	background: var(--mantine-color-gray-5);
-}
-
-/* Dark mode 滚动条样式 */
-[data-mantine-color-scheme='dark'] ::-webkit-scrollbar-track {
-	background: var(--mantine-color-dark-8);
-}
-
-[data-mantine-color-scheme='dark'] ::-webkit-scrollbar-thumb {
-	background: var(--mantine-color-dark-4);
-}
-
-[data-mantine-color-scheme='dark'] ::-webkit-scrollbar-thumb:hover {
-	background: var(--mantine-color-dark-3);
-}
-
-/* Dark mode body 背景色 */
-[data-mantine-color-scheme='dark'] body {
-	background-color: var(--mantine-color-dark-8);
-	color: var(--mantine-color-dark-0);
-}
-
-/* Light mode body 背景色 */
-[data-mantine-color-scheme='light'] body {
-	background-color: var(--mantine-color-gray-0);
-	color: var(--mantine-color-black);
+	&:hover {
+		background: light-dark(var(--mantine-color-gray-5), var(--mantine-color-dark-3));
+	}
 }
 
 /* 平滑过渡 - 只应用于颜色相关属性 */
@@ -77,43 +54,38 @@ aside,
 	transition: none !important;
 }
 
-/* 确保卡片在 dark 模式下有正确的背景 */
-[data-mantine-color-scheme='dark'] .mantine-Card-root {
-	background-color: var(--mantine-color-dark-6);
-	border-color: var(--mantine-color-dark-4);
+/* 确保卡片有正确的背景 */
+.mantine-Card-root {
+	background-color: light-dark(var(--mantine-color-white), var(--mantine-color-dark-6));
+	border-color: light-dark(var(--mantine-color-gray-3), var(--mantine-color-dark-4));
 }
 
-/* 确保 Paper 组件在 dark 模式下有正确的背景 */
-[data-mantine-color-scheme='dark'] .mantine-Paper-root {
-	background-color: var(--mantine-color-dark-6);
-	border-color: var(--mantine-color-dark-4);
+/* 确保 Paper 组件有正确的背景 */
+.mantine-Paper-root {
+	background-color: light-dark(var(--mantine-color-white), var(--mantine-color-dark-6));
+	border-color: light-dark(var(--mantine-color-gray-3), var(--mantine-color-dark-4));
 }
 
-/* Table 在 dark 模式下的样式 */
-[data-mantine-color-scheme='dark'] .mantine-Table-root {
-	color: var(--mantine-color-dark-0);
+/* Table 样式 */
+.mantine-Table-root {
+	color: light-dark(var(--mantine-color-black), var(--mantine-color-dark-0));
 }
 
-[data-mantine-color-scheme='dark'] .mantine-Table-thead {
-	background-color: var(--mantine-color-dark-7);
+.mantine-Table-thead {
+	background-color: light-dark(var(--mantine-color-gray-0), var(--mantine-color-dark-7));
 }
 
-/* DataTable 在 dark 模式下的样式 */
-[data-mantine-color-scheme='dark'] .mantine-datatable {
-	background-color: var(--mantine-color-dark-6);
+/* DataTable 样式 */
+.mantine-datatable {
+	background-color: light-dark(var(--mantine-color-white), var(--mantine-color-dark-6));
 }
 
-[data-mantine-color-scheme='dark'] .mantine-datatable-header {
-	background-color: var(--mantine-color-dark-7);
+.mantine-datatable-header {
+	background-color: light-dark(var(--mantine-color-gray-0), var(--mantine-color-dark-7));
 }
 
 /* 选择焦点颜色 */
 ::selection {
-	background-color: var(--mantine-color-blue-2);
-	color: var(--mantine-color-black);
-}
-
-[data-mantine-color-scheme='dark'] ::selection {
-	background-color: var(--mantine-color-blue-8);
-	color: var(--mantine-color-white);
+	background-color: light-dark(var(--mantine-color-blue-2), var(--mantine-color-blue-8));
+	color: light-dark(var(--mantine-color-black), var(--mantine-color-white));
 }
