@@ -17,7 +17,7 @@ import {
 	Tabs,
 } from '@mantine/core';
 import { DataTable, type DataTableSortStatus } from 'mantine-datatable';
-import { IconSearch, IconAlertTriangle } from '@tabler/icons-react';
+import { IconSearch, IconAlertTriangle, IconList, IconCreditCard, IconTruck, IconCheck } from '@tabler/icons-react';
 import { useNavigate } from 'react-router';
 import { useTranslation } from 'react-i18next';
 import { getOrderListColumns } from './OrderListColumns';
@@ -134,14 +134,25 @@ export function OrderList() {
 					</Box>
 
 					<Tabs
+						variant="pills"
 						value={statusFilter}
 						onChange={value => setStatusFilter(value as 'all' | 'paid' | 'shipped' | 'completed')}
+						styles={{
+							root: {
+								padding: '0.5rem',
+								paddingTop: '0',
+							},
+							tab: {
+								padding: '0.5rem 1rem',
+								fontWeight: 500,
+							},
+						}}
 					>
 						<Tabs.List>
-							<Tabs.Tab value="all">{t('orders.all')}</Tabs.Tab>
-							<Tabs.Tab value="paid">{t('orders.paid')}</Tabs.Tab>
-							<Tabs.Tab value="shipped">{t('orders.shipped')}</Tabs.Tab>
-							<Tabs.Tab value="completed">{t('orders.completed')}</Tabs.Tab>
+							<Tabs.Tab value="all" leftSection={<IconList size={16} />}>{t('orders.all')}</Tabs.Tab>
+							<Tabs.Tab value="paid" leftSection={<IconCreditCard size={16} />}>{t('orders.paid')}</Tabs.Tab>
+							<Tabs.Tab value="shipped" leftSection={<IconTruck size={16} />}>{t('orders.shipped')}</Tabs.Tab>
+							<Tabs.Tab value="completed" leftSection={<IconCheck size={16} />}>{t('orders.completed')}</Tabs.Tab>
 						</Tabs.List>
 					</Tabs>
 
