@@ -127,6 +127,10 @@
 	},
 	"orders": {
 		"title": "订单管理",
+		"all": "全部",
+		"paid": "已支付",
+		"shipped": "已配送",
+		"completed": "已完成",
 		"order_id": "订单编号",
 		"customer": "客户",
 		"product_name": "产品名称",

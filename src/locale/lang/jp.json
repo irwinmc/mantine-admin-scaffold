@@ -127,6 +127,10 @@
 	},
 	"orders": {
 		"title": "注文管理",
+		"all": "全て",
+		"paid": "支払い済み",
+		"shipped": "配送済み",
+		"completed": "完了",
 		"order_id": "注文ID",
 		"customer": "顧客",
 		"product_name": "商品名",

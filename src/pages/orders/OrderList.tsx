@@ -3,7 +3,19 @@
  */
 
 import { useState, useMemo } from 'react';
-import { Stack, Title, Card, TextInput, Button, Box, Group, Text, Modal, useMantineColorScheme } from '@mantine/core';
+import {
+	Stack,
+	Title,
+	Card,
+	TextInput,
+	Button,
+	Box,
+	Group,
+	Text,
+	Modal,
+	useMantineColorScheme,
+	Tabs,
+} from '@mantine/core';
 import { DataTable, type DataTableSortStatus } from 'mantine-datatable';
 import { IconSearch, IconAlertTriangle } from '@tabler/icons-react';
 import { useNavigate } from 'react-router';
@@ -22,6 +34,7 @@ export function OrderList() {
 	const [page, setPage] = useState(1);
 	const [pageSize, setPageSize] = useState(10);
 	const [search, setSearch] = useState('');
+	const [statusFilter, setStatusFilter] = useState<'all' | 'paid' | 'shipped' | 'completed'>('all');
 	const [sortStatus, setSortStatus] = useState<DataTableSortStatus<Order>>({
 		columnAccessor: 'orderDate',
 		direction: 'desc',
@@ -34,9 +47,10 @@ export function OrderList() {
 		const to = from + pageSize;
 		const filteredData = orders.filter(
 			order =>
-				order.id.toLowerCase().includes(search.toLowerCase()) ||
-				order.customer.toLowerCase().includes(search.toLowerCase()) ||
-				order.productName.toLowerCase().includes(search.toLowerCase()),
+				(statusFilter === 'all' || order.status === statusFilter) &&
+				(order.id.toLowerCase().includes(search.toLowerCase()) ||
+					order.customer.toLowerCase().includes(search.toLowerCase()) ||
+					order.productName.toLowerCase().includes(search.toLowerCase())),
 		);
 		const sortedData = [...filteredData].sort((a, b) => {
 			const accessor = sortStatus.columnAccessor as keyof Order;
@@ -55,16 +69,17 @@ export function OrderList() {
 			}
 		});
 		return sortedData.slice(from, to);
-	}, [page, pageSize, sortStatus, search, orders]);
+	}, [page, pageSize, sortStatus, search, orders, statusFilter]);
 
 	const totalRecords = useMemo(() => {
 		return orders.filter(
 			order =>
-				order.id.toLowerCase().includes(search.toLowerCase()) ||
-				order.customer.toLowerCase().includes(search.toLowerCase()) ||
-				order.productName.toLowerCase().includes(search.toLowerCase()),
+				(statusFilter === 'all' || order.status === statusFilter) &&
+				(order.id.toLowerCase().includes(search.toLowerCase()) ||
+					order.customer.toLowerCase().includes(search.toLowerCase()) ||
+					order.productName.toLowerCase().includes(search.toLowerCase())),
 		).length;
-	}, [search, orders]);
+	}, [search, orders, statusFilter]);
 
 	const handleView = (id: string) => {
 		console.log('View order:', id);
@@ -117,6 +132,18 @@ export function OrderList() {
 							/>
 						</Group>
 					</Box>
+
+					<Tabs
+						value={statusFilter}
+						onChange={value => setStatusFilter(value as 'all' | 'paid' | 'shipped' | 'completed')}
+					>
+						<Tabs.List>
+							<Tabs.Tab value="all">{t('orders.all')}</Tabs.Tab>
+							<Tabs.Tab value="paid">{t('orders.paid')}</Tabs.Tab>
+							<Tabs.Tab value="shipped">{t('orders.shipped')}</Tabs.Tab>
+							<Tabs.Tab value="completed">{t('orders.completed')}</Tabs.Tab>
+						</Tabs.List>
+					</Tabs>
 
 					<DataTable
 						striped

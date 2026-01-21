@@ -127,6 +127,10 @@
 	},
 	"orders": {
 		"title": "Orders",
+		"all": "All",
+		"paid": "Paid",
+		"shipped": "Shipped",
+		"completed": "Completed",
 		"order_id": "Order ID",
 		"customer": "Customer",
 		"product_name": "Product Name",
@@ -139,7 +143,7 @@
 		"records_per_page": "Records per page",
 		"showing_results": "Showing {{from}} to {{to}} of {{total}} results",
 		"delete_order": "Delete Order",
-		"delete_confirmation_message": "Are you sure you want to delete the order for \"{{customer}}\"? This action cannot be undone."
+		"delete_confirmation_message": "Are you sure you want to delete order for \"{{customer}}\"? This action cannot be undone."
 	},
 	"users": {
 		"title": "Users",
