@@ -39,7 +39,7 @@ export function OrderProductsCard({
 			<Table withRowBorders={false} horizontalSpacing="md" verticalSpacing="sm">
 				<Table.Thead>
 					<Table.Tr>
-						<Table.Th>{t('orders.product_details')}</Table.Th>
+						<Table.Th>{t('orders.product_name')}</Table.Th>
 						<Table.Th>{t('orders.item_price')}</Table.Th>
 						<Table.Th>{t('orders.quantity')}</Table.Th>
 						<Table.Th>{t('orders.rating')}</Table.Th>
