@@ -36,7 +36,6 @@ export function OrderProductsCard({
 
 	return (
 		<SectionCard title={t('orders.product_details')}>
-			{/* Table区域 - 无padding，贴边，无行横线 */}
 			<Table withRowBorders={false} horizontalSpacing="md" verticalSpacing="sm">
 				<Table.Thead>
 					<Table.Tr>
@@ -87,33 +86,30 @@ export function OrderProductsCard({
 
 			<Divider variant="dashed" />
 
-			{/* 总计区域 - 使用SectionCard.Body获得标准padding */}
 			<SectionCard.Body>
 				<Stack gap="xs">
 					<Group justify="space-between">
-						<Text>{t('orders.sub_total')}:</Text>
-						<Text>${subtotal}</Text>
+						<Text size="sm">{t('orders.sub_total')}:</Text>
+						<Text size="sm">${subtotal}</Text>
 					</Group>
 					<Group justify="space-between">
-						<Text>{t('orders.discount')} (VELZON15):</Text>
-						<Text c="red">-${discount}</Text>
+						<Text size="sm">{t('orders.discount')}</Text>
+						<Text size="sm" c="red">
+							-${discount}
+						</Text>
 					</Group>
 					<Group justify="space-between">
-						<Text>{t('orders.shipping_charge')}:</Text>
-						<Text>${shippingCharge}</Text>
+						<Text size="sm">{t('orders.shipping_charge')}:</Text>
+						<Text size="sm">${shippingCharge}</Text>
 					</Group>
 					<Group justify="space-between">
-						<Text>{t('orders.estimated_tax')}:</Text>
-						<Text>${estimatedTax}</Text>
+						<Text size="sm">{t('orders.estimated_tax')}:</Text>
+						<Text size="sm">${estimatedTax}</Text>
 					</Group>
 					<Divider />
 					<Group justify="space-between">
-						<Text fw={600} size="lg">
-							{t('orders.total')} (USD):
-						</Text>
-						<Text fw={600} size="lg">
-							${total}
-						</Text>
+						<Text fw={600}>{t('orders.total')} (USD):</Text>
+						<Text fw={600}>${total}</Text>
 					</Group>
 				</Stack>
 			</SectionCard.Body>
