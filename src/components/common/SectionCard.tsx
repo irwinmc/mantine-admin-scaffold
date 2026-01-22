@@ -11,9 +11,10 @@ interface SectionCardProps {
 	title: string;
 	children: ReactNode;
 	rightSection?: ReactNode;
+	contentPadding?: string | number;
 }
 
-export function SectionCard({ title, children, rightSection }: SectionCardProps) {
+export function SectionCard({ title, children, rightSection, contentPadding = 'lg' }: SectionCardProps) {
 	return (
 		<Card radius="md" withBorder padding={0} className={classes.card}>
 			{/* Card Header */}
@@ -21,15 +22,11 @@ export function SectionCard({ title, children, rightSection }: SectionCardProps)
 				<Text size="md" fw={600} className={classes.title}>
 					{title}
 				</Text>
-				{rightSection && (
-					<Box className={classes.rightSection}>
-						{rightSection}
-					</Box>
-				)}
+				{rightSection && <Box className={classes.rightSection}>{rightSection}</Box>}
 			</Box>
 
 			{/* Card Content */}
-			<Box p="lg" className={classes.content}>
+			<Box p={contentPadding} className={classes.content}>
 				{children}
 			</Box>
 		</Card>

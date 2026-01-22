@@ -204,7 +204,7 @@ export const mockOrderDetail: OrderDetail = {
 			price: 119.99,
 			quantity: 2,
 			rating: 4.5,
-			totalAmount: 239.98
+			totalAmount: 239.98,
 		},
 		{
 			id: '2',
@@ -216,7 +216,7 @@ export const mockOrderDetail: OrderDetail = {
 			price: 94.99,
 			quantity: 1,
 			rating: 4.5,
-			totalAmount: 94.99
+			totalAmount: 94.99,
 		},
 		{
 			id: '3',
@@ -228,15 +228,15 @@ export const mockOrderDetail: OrderDetail = {
 			price: 24.99,
 			quantity: 1,
 			rating: 3.5,
-			totalAmount: 24.99
-		}
+			totalAmount: 24.99,
+		},
 	],
 	customer: {
 		id: 'C001',
 		name: 'Joseph Parker',
 		email: 'josephparker@gmail.com',
 		phone: '+(256) 245451 451',
-		avatar: '/images/avatars/joseph.jpg'
+		avatar: '/images/avatars/joseph.jpg',
 	},
 	billingAddress: {
 		name: 'Joseph Parker',
@@ -245,7 +245,7 @@ export const mockOrderDetail: OrderDetail = {
 		city: 'New York',
 		state: 'NY',
 		zipCode: '25645',
-		country: 'United States'
+		country: 'United States',
 	},
 	shippingAddress: {
 		name: 'Joseph Parker',
@@ -254,21 +254,21 @@ export const mockOrderDetail: OrderDetail = {
 		city: 'California',
 		state: 'CA',
 		zipCode: '24567',
-		country: 'United States'
+		country: 'United States',
 	},
 	paymentDetails: {
 		transactionId: '#VL2T2446R0278124',
 		method: 'credit_card',
 		cardHolderName: 'Joseph Parker',
 		cardNumber: '**** **** **** 2456',
-		totalAmount: 415.96
+		totalAmount: 415.96,
 	},
 	statusHistory: [
 		{
 			status: 'Order Placed',
 			date: new Date('2021-12-15T05:34:00'),
 			description: 'An order has been placed.',
-			details: 'Seller has processed your order.'
+			details: 'Seller has processed your order.',
 		},
 		{
 			status: 'Packed',
@@ -289,16 +289,16 @@ export const mockOrderDetail: OrderDetail = {
 			status: 'Delivered',
 			date: new Date(),
 			description: '',
-		}
+		},
 	],
 	subtotal: 359.96,
 	discount: 53.99,
-	shippingCharge: 65.00,
+	shippingCharge: 65.0,
 	estimatedTax: 44.99,
 	total: 415.96,
 	trackingNumber: 'MFDS1400457854',
 	logistics: {
 		company: 'RQK Logistics',
-		trackingId: 'MFDS1400457854'
-	}
+		trackingId: 'MFDS1400457854',
+	},
 };
