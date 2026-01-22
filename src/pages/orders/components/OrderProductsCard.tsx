@@ -53,15 +53,17 @@ export function OrderProductsCard({
 								<Group gap="md">
 									<Image src={item.productImage} alt={item.productName} w={60} h={60} radius="md" />
 									<Stack gap={4}>
-										<Text fw={500}>{item.productName}</Text>
+										<Text size="sm" fw={500}>
+											{item.productName}
+										</Text>
 										<Group gap="xs">
 											{item.color && (
-												<Text size="sm" c="dimmed">
+												<Text size="xs" c="dimmed">
 													{t('orders.color')}: {item.color}
 												</Text>
 											)}
 											{item.size && (
-												<Text size="sm" c="dimmed">
+												<Text size="xs" c="dimmed">
 													{t('orders.size')}: {item.size}
 												</Text>
 											)}
@@ -70,14 +72,18 @@ export function OrderProductsCard({
 								</Group>
 							</Table.Td>
 							<Table.Td>
-								<Text fw={500}>${item.price}</Text>
+								<Text size="sm" fw={500}>
+									${item.price}
+								</Text>
 							</Table.Td>
 							<Table.Td>
-								<Text>{item.quantity.toString().padStart(2, '0')}</Text>
+								<Text size="sm">{item.quantity.toString().padStart(2, '0')}</Text>
 							</Table.Td>
 							<Table.Td>{item.rating && <Group gap={2}>{renderStars(item.rating)}</Group>}</Table.Td>
 							<Table.Td>
-								<Text fw={600}>${item.totalAmount}</Text>
+								<Text size="sm" fw={600}>
+									${item.totalAmount}
+								</Text>
 							</Table.Td>
 						</Table.Tr>
 					))}
@@ -87,7 +93,7 @@ export function OrderProductsCard({
 			<Divider variant="dashed" />
 
 			<SectionCard.Body>
-				<Grid p={0}>
+				<Grid justify="flex-end">
 					<Grid.Col span={{ base: 12, lg: 6, xl: 4 }}>
 						<Stack gap="xs">
 							<Group justify="space-between">
