@@ -48,7 +48,7 @@ export function UserList() {
 
 		const config = statusConfig[status];
 		return (
-			<Badge variant="dot" color={config.color}>
+			<Badge variant="light" color={config.color}>
 				{config.label}
 			</Badge>
 		);
