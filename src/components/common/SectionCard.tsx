@@ -11,10 +11,22 @@ interface SectionCardProps {
 	title: string;
 	children: ReactNode;
 	rightSection?: ReactNode;
-	contentPadding?: string | number;
 }
 
-export function SectionCard({ title, children, rightSection, contentPadding = 'lg' }: SectionCardProps) {
+interface SectionCardBodyProps {
+	children: ReactNode;
+	p?: string | number;
+}
+
+function SectionCardBody({ children, p = 'lg' }: SectionCardBodyProps) {
+	return (
+		<Box p={p} className={classes.content}>
+			{children}
+		</Box>
+	);
+}
+
+export function SectionCard({ title, children, rightSection }: SectionCardProps) {
 	return (
 		<Card radius="md" withBorder padding={0} className={classes.card}>
 			{/* Card Header */}
@@ -26,9 +38,10 @@ export function SectionCard({ title, children, rightSection, contentPadding = 'l
 			</Box>
 
 			{/* Card Content */}
-			<Box p={contentPadding} className={classes.content}>
-				{children}
-			</Box>
+			{children}
 		</Card>
 	);
 }
+
+// 导出子组件
+SectionCard.Body = SectionCardBody;

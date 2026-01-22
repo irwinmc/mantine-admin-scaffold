@@ -14,15 +14,17 @@ interface AddressCardProps {
 export function AddressCard({ address, title }: AddressCardProps) {
 	return (
 		<SectionCard title={title}>
-			<Stack gap="xs">
-				<Text fw={500}>{address.name}</Text>
-				<Text size="sm">{address.phone}</Text>
-				<Text size="sm">{address.street}</Text>
-				<Text size="sm">
-					{address.city} - {address.zipCode}
-				</Text>
-				<Text size="sm">{address.country}</Text>
-			</Stack>
+			<SectionCard.Body>
+				<Stack gap="xs">
+					<Text fw={500}>{address.name}</Text>
+					<Text size="sm">{address.phone}</Text>
+					<Text size="sm">{address.street}</Text>
+					<Text size="sm">
+						{address.city} - {address.zipCode}
+					</Text>
+					<Text size="sm">{address.country}</Text>
+				</Stack>
+			</SectionCard.Body>
 		</SectionCard>
 	);
 }

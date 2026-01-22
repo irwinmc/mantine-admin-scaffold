@@ -29,28 +29,32 @@ export function OrderStatusCard({ statusHistory, currentStatusIndex = 2 }: Order
 
 	return (
 		<SectionCard title={t('orders.order_status')} rightSection={rightSection}>
-			<Timeline active={currentStatusIndex} bulletSize={24} lineWidth={2}>
-				{statusHistory.map((status, index) => (
-					<Timeline.Item
-						key={index}
-						bullet={index <= currentStatusIndex ? <IconCheck size={12} /> : <IconClockHour4 size={12} />}
-						title={status.status}
-						color={index <= currentStatusIndex ? 'green' : 'gray'}
-					>
-						<Text c="dimmed" size="sm">
-							{status.description}
-						</Text>
-						{status.details && (
-							<Text c="dimmed" size="xs" mt={4}>
-								{status.details}
+			<SectionCard.Body>
+				<Timeline active={currentStatusIndex} bulletSize={24} lineWidth={2}>
+					{statusHistory.map((status, index) => (
+						<Timeline.Item
+							key={index}
+							bullet={
+								index <= currentStatusIndex ? <IconCheck size={12} /> : <IconClockHour4 size={12} />
+							}
+							title={status.status}
+							color={index <= currentStatusIndex ? 'green' : 'gray'}
+						>
+							<Text c="dimmed" size="sm">
+								{status.description}
 							</Text>
-						)}
-						<Text size="xs" mt={4}>
-							{status.date.toLocaleString()}
-						</Text>
-					</Timeline.Item>
-				))}
-			</Timeline>
+							{status.details && (
+								<Text c="dimmed" size="xs" mt={4}>
+									{status.details}
+								</Text>
+							)}
+							<Text size="xs" mt={4}>
+								{status.date.toLocaleString()}
+							</Text>
+						</Timeline.Item>
+					))}
+				</Timeline>
+			</SectionCard.Body>
 		</SectionCard>
 	);
 }

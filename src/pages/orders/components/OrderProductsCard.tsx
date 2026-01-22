@@ -1,3 +1,7 @@
+/**
+ * OrderProductsCard - 订单产品信息卡片
+ */
+
 import { Stack, Text, Table, Group, Image, Divider } from '@mantine/core';
 import { useTranslation } from 'react-i18next';
 import { SectionCard } from '@/components/common/SectionCard';
@@ -31,7 +35,8 @@ export function OrderProductsCard({
 	};
 
 	return (
-		<SectionCard title={t('orders.product_details')} contentPadding={0}>
+		<SectionCard title={t('orders.product_details')}>
+			{/* Table区域 - 无padding，贴边 */}
 			<Table>
 				<Table.Thead>
 					<Table.Tr>
@@ -82,34 +87,36 @@ export function OrderProductsCard({
 
 			<Divider />
 
-			{/* 订单总计 - 添加padding */}
-			<Stack gap="xs" p="lg">
-				<Group justify="space-between">
-					<Text>{t('orders.sub_total')}:</Text>
-					<Text>${subtotal}</Text>
-				</Group>
-				<Group justify="space-between">
-					<Text>{t('orders.discount')} (VELZON15):</Text>
-					<Text c="red">-${discount}</Text>
-				</Group>
-				<Group justify="space-between">
-					<Text>{t('orders.shipping_charge')}:</Text>
-					<Text>${shippingCharge}</Text>
-				</Group>
-				<Group justify="space-between">
-					<Text>{t('orders.estimated_tax')}:</Text>
-					<Text>${estimatedTax}</Text>
-				</Group>
-				<Divider />
-				<Group justify="space-between">
-					<Text fw={600} size="lg">
-						{t('orders.total')} (USD):
-					</Text>
-					<Text fw={600} size="lg">
-						${total}
-					</Text>
-				</Group>
-			</Stack>
+			{/* 总计区域 - 使用SectionCard.Body获得标准padding */}
+			<SectionCard.Body>
+				<Stack gap="xs">
+					<Group justify="space-between">
+						<Text>{t('orders.sub_total')}:</Text>
+						<Text>${subtotal}</Text>
+					</Group>
+					<Group justify="space-between">
+						<Text>{t('orders.discount')} (VELZON15):</Text>
+						<Text c="red">-${discount}</Text>
+					</Group>
+					<Group justify="space-between">
+						<Text>{t('orders.shipping_charge')}:</Text>
+						<Text>${shippingCharge}</Text>
+					</Group>
+					<Group justify="space-between">
+						<Text>{t('orders.estimated_tax')}:</Text>
+						<Text>${estimatedTax}</Text>
+					</Group>
+					<Divider />
+					<Group justify="space-between">
+						<Text fw={600} size="lg">
+							{t('orders.total')} (USD):
+						</Text>
+						<Text fw={600} size="lg">
+							${total}
+						</Text>
+					</Group>
+				</Stack>
+			</SectionCard.Body>
 		</SectionCard>
 	);
 }

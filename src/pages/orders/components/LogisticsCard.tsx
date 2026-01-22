@@ -18,15 +18,17 @@ export function LogisticsCard({ company, trackingId, paymentMode = 'Debit Card' 
 
 	return (
 		<SectionCard title={company}>
-			<Stack gap="md" align="center">
-				<IconTruck size={48} color="var(--mantine-color-blue-6)" />
-				<Text size="sm" c="dimmed">
-					ID: {trackingId}
-				</Text>
-				<Text size="sm" c="dimmed">
-					{t('orders.payment_mode')}: {paymentMode}
-				</Text>
-			</Stack>
+			<SectionCard.Body>
+				<Stack gap="md" align="center">
+					<IconTruck size={48} color="var(--mantine-color-blue-6)" />
+					<Text size="sm" c="dimmed">
+						ID: {trackingId}
+					</Text>
+					<Text size="sm" c="dimmed">
+						{t('orders.payment_mode')}: {paymentMode}
+					</Text>
+				</Stack>
+			</SectionCard.Body>
 		</SectionCard>
 	);
 }
