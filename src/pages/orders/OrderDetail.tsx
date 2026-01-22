@@ -16,7 +16,6 @@ import {
 	PaymentCard,
 } from './components';
 import { useOrderDetail } from './hooks';
-import classes from './OrderDetail.module.css';
 
 export function OrderDetail() {
 	const navigate = useNavigate();
@@ -53,7 +52,7 @@ export function OrderDetail() {
 	}
 
 	return (
-		<Stack gap="lg" className={classes.orderDetailContainer}>
+		<Stack gap="lg">
 			{/* Header */}
 			<Group justify="space-between">
 				<Group>

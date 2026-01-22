@@ -1,6 +1,11 @@
-import { Card, Stack, Text } from '@mantine/core';
+/**
+ * LogisticsCard - 物流信息卡片
+ */
+
+import { Stack, Text } from '@mantine/core';
 import { IconTruck } from '@tabler/icons-react';
 import { useTranslation } from 'react-i18next';
+import { SectionCard } from '@/components/common/SectionCard';
 
 interface LogisticsCardProps {
 	company: string;
@@ -12,12 +17,9 @@ export function LogisticsCard({ company, trackingId, paymentMode = 'Debit Card' 
 	const { t } = useTranslation();
 
 	return (
-		<Card padding="lg" radius="md" withBorder>
+		<SectionCard title={company}>
 			<Stack gap="md" align="center">
 				<IconTruck size={48} color="var(--mantine-color-blue-6)" />
-				<Text size="lg" fw={600}>
-					{company}
-				</Text>
 				<Text size="sm" c="dimmed">
 					ID: {trackingId}
 				</Text>
@@ -25,6 +27,6 @@ export function LogisticsCard({ company, trackingId, paymentMode = 'Debit Card' 
 					{t('orders.payment_mode')}: {paymentMode}
 				</Text>
 			</Stack>
-		</Card>
+		</SectionCard>
 	);
 }

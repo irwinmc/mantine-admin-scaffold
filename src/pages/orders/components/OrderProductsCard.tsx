@@ -1,5 +1,6 @@
-import { Card, Stack, Text, Table, Group, Image, Divider } from '@mantine/core';
+import { Stack, Text, Table, Group, Image, Divider } from '@mantine/core';
 import { useTranslation } from 'react-i18next';
+import { SectionCard } from '@/components/common/SectionCard';
 import type { OrderItem } from '../types';
 
 interface OrderProductsCardProps {
@@ -30,12 +31,8 @@ export function OrderProductsCard({
 	};
 
 	return (
-		<Card padding="lg" radius="md" withBorder>
+		<SectionCard title={t('orders.product_details')}>
 			<Stack gap="md">
-				<Text size="lg" fw={600}>
-					{t('orders.product_details')}
-				</Text>
-
 				<Table>
 					<Table.Thead>
 						<Table.Tr>
@@ -121,6 +118,6 @@ export function OrderProductsCard({
 					</Group>
 				</Stack>
 			</Stack>
-		</Card>
+		</SectionCard>
 	);
 }

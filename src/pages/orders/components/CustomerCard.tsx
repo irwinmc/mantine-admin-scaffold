@@ -2,9 +2,10 @@
  * CustomerCard - 客户信息卡片
  */
 
-import { Card, Stack, Text, Group, Button, Avatar } from '@mantine/core';
+import { Stack, Text, Group, Button, Avatar } from '@mantine/core';
 import { IconMail, IconPhone } from '@tabler/icons-react';
 import { useTranslation } from 'react-i18next';
+import { SectionCard } from '@/components/common/SectionCard';
 import type { Customer } from '../types';
 
 interface CustomerCardProps {
@@ -15,18 +16,15 @@ interface CustomerCardProps {
 export function CustomerCard({ customer, onViewProfile }: CustomerCardProps) {
 	const { t } = useTranslation();
 
-	return (
-		<Card padding="lg" radius="md" withBorder>
-			<Stack gap="md">
-				<Group justify="space-between">
-					<Text size="lg" fw={600}>
-						{t('orders.customer_details')}
-					</Text>
-					<Button variant="light" size="xs" onClick={onViewProfile}>
-						{t('orders.view_profile')}
-					</Button>
-				</Group>
+	const rightSection = (
+		<Button variant="light" size="xs" onClick={onViewProfile}>
+			{t('orders.view_profile')}
+		</Button>
+	);
 
+	return (
+		<SectionCard title={t('orders.customer_details')} rightSection={rightSection}>
+			<Stack gap="md">
 				<Group>
 					<Avatar src={customer.avatar} size="lg" radius="xl">
 						{customer.name.charAt(0)}
@@ -50,6 +48,6 @@ export function CustomerCard({ customer, onViewProfile }: CustomerCardProps) {
 					</Group>
 				</Stack>
 			</Stack>
-		</Card>
+		</SectionCard>
 	);
 }
