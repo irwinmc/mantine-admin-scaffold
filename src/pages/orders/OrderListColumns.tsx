@@ -35,7 +35,7 @@ export const getOrderListColumns = ({ t, handleView, handleDelete }: ColumnsPara
 		accessor: 'orderDate',
 		title: t('orders.order_date'),
 		sortable: true,
-		width: 120,
+		width: 150,
 		render: order => order.orderDate.toLocaleDateString(),
 	},
 	{
@@ -83,7 +83,7 @@ export const getOrderListColumns = ({ t, handleView, handleDelete }: ColumnsPara
 	{
 		accessor: 'actions',
 		title: t('orders.actions'),
-		width: 100,
+		width: 120,
 		textAlign: 'center',
 		render: order => (
 			<Group gap={4} justify="center" wrap="nowrap">

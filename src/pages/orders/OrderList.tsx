@@ -3,6 +3,7 @@
  */
 
 import { useState, useMemo } from 'react';
+import type { CSSProperties } from 'react';
 import {
 	Stack,
 	Title,
@@ -15,7 +16,6 @@ import {
 	Modal,
 	useMantineColorScheme,
 	Tabs,
-	FloatingIndicator,
 } from '@mantine/core';
 import { DataTable, type DataTableSortStatus } from 'mantine-datatable';
 import { IconSearch, IconAlertTriangle, IconList, IconCreditCard, IconTruck, IconCheck } from '@tabler/icons-react';
@@ -46,10 +46,33 @@ export function OrderList() {
 
 	const [rootRef, setRootRef] = useState<HTMLDivElement | null>(null);
 	const [controlsRefs, setControlsRefs] = useState<Record<string, HTMLButtonElement | null>>({});
+
 	const setControlRef = (val: string) => (node: HTMLButtonElement) => {
 		controlsRefs[val] = node;
 		setControlsRefs(controlsRefs);
 	};
+
+	const indicatorStyle = useMemo((): CSSProperties => {
+		if (rootRef && controlsRefs[statusFilter]) {
+			const target = controlsRefs[statusFilter];
+			const parent = rootRef;
+
+			if (target && parent) {
+				const targetRect = target.getBoundingClientRect();
+				const parentRect = parent.getBoundingClientRect();
+
+				return {
+					position: 'absolute',
+					left: targetRect.left - parentRect.left,
+					top: targetRect.top - parentRect.top,
+					width: targetRect.width,
+					height: targetRect.height,
+					transition: 'all 200ms cubic-bezier(0.4, 0, 0.2, 1)',
+				};
+			}
+		}
+		return { display: 'none' };
+	}, [statusFilter, rootRef, controlsRefs]);
 
 	const records = useMemo(() => {
 		const from = (page - 1) * pageSize;
@@ -181,11 +204,7 @@ export function OrderList() {
 								{t('orders.completed')}
 							</Tabs.Tab>
 
-							<FloatingIndicator
-								target={statusFilter ? controlsRefs[statusFilter] : null}
-								parent={rootRef}
-								className={classes.orderTabsIndicator}
-							/>
+							<div className={classes.orderTabsIndicator} style={indicatorStyle} />
 						</Tabs.List>
 					</Tabs>
 
