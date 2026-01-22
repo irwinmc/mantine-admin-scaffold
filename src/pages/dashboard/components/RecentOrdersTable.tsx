@@ -29,7 +29,7 @@ export function RecentOrdersTable({ data }: RecentOrdersTableProps) {
 		<SectionCard title={t('dashboard.recent_orders')} contentPadding={0}>
 			<Table striped highlightOnHover>
 				<Table.Thead>
-					<Table.Tr>
+					<Table.Tr style={{ height: 50 }}>
 						<Table.Th>{t('dashboard.order_id')}</Table.Th>
 						<Table.Th>{t('dashboard.customer')}</Table.Th>
 						<Table.Th>{t('dashboard.product')}</Table.Th>
@@ -39,7 +39,7 @@ export function RecentOrdersTable({ data }: RecentOrdersTableProps) {
 				</Table.Thead>
 				<Table.Tbody>
 					{data.map(order => (
-						<Table.Tr key={order.id}>
+						<Table.Tr key={order.id} style={{ height: 50 }}>
 							<Table.Td>{order.id}</Table.Td>
 							<Table.Td>
 								<Group gap="xs">

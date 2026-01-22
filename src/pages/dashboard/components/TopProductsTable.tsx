@@ -15,7 +15,7 @@ export function TopProductsTable({ data }: TopProductsTableProps) {
 		<SectionCard title={t('dashboard.top_products')} contentPadding={0}>
 			<Table striped highlightOnHover>
 				<Table.Thead>
-					<Table.Tr>
+					<Table.Tr style={{ height: 50 }}>
 						<Table.Th>{t('dashboard.product')}</Table.Th>
 						<Table.Th>{t('dashboard.sales')}</Table.Th>
 						<Table.Th>{t('dashboard.revenue')}</Table.Th>
@@ -24,7 +24,7 @@ export function TopProductsTable({ data }: TopProductsTableProps) {
 				</Table.Thead>
 				<Table.Tbody>
 					{data.map(product => (
-						<Table.Tr key={product.name}>
+						<Table.Tr key={product.name} style={{ height: 50 }}>
 							<Table.Td>{product.name}</Table.Td>
 							<Table.Td>{product.sales}</Table.Td>
 							<Table.Td>{product.revenue}</Table.Td>
