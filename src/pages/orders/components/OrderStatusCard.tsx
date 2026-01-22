@@ -30,7 +30,17 @@ export function OrderStatusCard({ statusHistory, currentStatusIndex = 2 }: Order
 	return (
 		<SectionCard title={t('orders.order_status')} rightSection={rightSection}>
 			<SectionCard.Body>
-				<Timeline active={currentStatusIndex} bulletSize={24} lineWidth={2}>
+				<Timeline
+					active={currentStatusIndex}
+					bulletSize={24}
+					lineWidth={2}
+					styles={{
+						itemTitle: {
+							lineHeight: '24px',
+							marginTop: 0,
+						},
+					}}
+				>
 					{statusHistory.map((status, index) => (
 						<Timeline.Item
 							key={index}
@@ -40,17 +50,16 @@ export function OrderStatusCard({ statusHistory, currentStatusIndex = 2 }: Order
 							title={status.status}
 							color={index <= currentStatusIndex ? 'green' : 'gray'}
 						>
-							<Text c="dimmed" size="sm">
-								{status.description}
-							</Text>
-							{status.details && (
-								<Text c="dimmed" size="xs" mt={4}>
-									{status.details}
+							{status.description && (
+								<Text c="dimmed" size="sm">
+									{status.description}
 								</Text>
 							)}
-							<Text size="xs" mt={4}>
-								{status.date.toLocaleString()}
-							</Text>
+							{status.date && (
+								<Text size="xs" mt={4}>
+									{status.date.toLocaleString()}
+								</Text>
+							)}
 						</Timeline.Item>
 					))}
 				</Timeline>

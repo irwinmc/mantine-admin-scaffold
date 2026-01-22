@@ -36,8 +36,8 @@ export function OrderProductsCard({
 
 	return (
 		<SectionCard title={t('orders.product_details')}>
-			{/* Table区域 - 无padding，贴边 */}
-			<Table>
+			{/* Table区域 - 无padding，贴边，无行横线 */}
+			<Table withRowBorders={false} horizontalSpacing="md" verticalSpacing="sm">
 				<Table.Thead>
 					<Table.Tr>
 						<Table.Th>{t('orders.product_details')}</Table.Th>
@@ -85,7 +85,7 @@ export function OrderProductsCard({
 				</Table.Tbody>
 			</Table>
 
-			<Divider />
+			<Divider variant="dashed" />
 
 			{/* 总计区域 - 使用SectionCard.Body获得标准padding */}
 			<SectionCard.Body>

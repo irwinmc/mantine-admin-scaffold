@@ -46,9 +46,8 @@ export interface PaymentDetails {
 
 export interface OrderStatusHistory {
 	status: string;
-	date: Date;
-	description: string;
-	details?: string;
+	date?: Date;
+	description?: string;
 }
 
 export interface OrderDetail {
