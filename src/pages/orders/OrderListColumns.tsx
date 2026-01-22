@@ -43,7 +43,7 @@ export const getOrderListColumns = ({ t, handleView, handleDelete }: ColumnsPara
 		title: t('orders.amount'),
 		sortable: true,
 		width: 100,
-		render: order => <Text fw={600}>${order.amount.toFixed(2)}</Text>,
+		render: order => <Text size='sm' fw={600}>${order.amount.toFixed(2)}</Text>,
 	},
 	{
 		accessor: 'paymentMethod',

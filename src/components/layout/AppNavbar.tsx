@@ -172,7 +172,7 @@ export function AppNavbar({ collapsed = false }: AppNavbarProps) {
 				<a
 					href={item.path}
 					className={clsx(classes.link, {
-						[classes.linkActive]: isActive && !hasChildren,
+						[classes.linkActive]: isActive,
 					})}
 					onClick={e => handleNavClick(item, e)}
 				>
