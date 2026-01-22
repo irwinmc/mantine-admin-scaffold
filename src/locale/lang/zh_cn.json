@@ -76,6 +76,7 @@
 		"out_of_stock": "缺货",
 		"showing_results": "显示 {{from}} 到 {{to}}，共 {{total}} 条结果",
 		"records_per_page": "每页显示",
+		"delete_product": "删除产品",
 		"delete_confirmation_message": "确定要删除 \"{{name}}\" 吗？此操作无法撤销。"
 	},
 	"product_edit": {

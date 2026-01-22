@@ -3,7 +3,7 @@
  */
 
 import { useState, useMemo } from 'react';
-import { Stack, Title, Card, TextInput, Button, Box, Group, Text, Modal, useMantineColorScheme } from '@mantine/core';
+import { Stack, Title, Card, TextInput, Button, Box, Group, Text, Modal, Divider } from '@mantine/core';
 import { DataTable, type DataTableSortStatus } from 'mantine-datatable';
 import { IconSearch, IconPlus, IconAlertTriangle } from '@tabler/icons-react';
 import { useNavigate } from 'react-router';
@@ -15,7 +15,6 @@ import type { Product } from './types';
 
 export function ProductList() {
 	const { t } = useTranslation();
-	const { colorScheme } = useMantineColorScheme();
 	const navigate = useNavigate();
 	const products = useProductsStore(state => state.products);
 	const deleteProduct = useProductsStore(state => state.deleteProduct);
@@ -133,6 +132,8 @@ export function ProductList() {
 						</Group>
 					</Box>
 
+					<Divider />
+
 					<DataTable
 						striped
 						highlightOnHover
@@ -152,12 +153,6 @@ export function ProductList() {
 							t('products.showing_results', { from, to, total: totalRecords })
 						}
 						paginationSize="sm"
-						minHeight={400}
-						style={{
-							borderTop: `1px solid ${
-								colorScheme === 'dark' ? 'var(--mantine-color-dark-4)' : 'var(--mantine-color-gray-3)'
-							}`,
-						}}
 					/>
 				</Card>
 			</Stack>

@@ -4,19 +4,7 @@
 
 import { useState, useMemo } from 'react';
 import type { CSSProperties } from 'react';
-import {
-	Stack,
-	Title,
-	Card,
-	TextInput,
-	Button,
-	Box,
-	Group,
-	Text,
-	Modal,
-	useMantineColorScheme,
-	Tabs,
-} from '@mantine/core';
+import { Stack, Title, Card, TextInput, Button, Box, Group, Text, Modal, Tabs, Divider } from '@mantine/core';
 import { DataTable, type DataTableSortStatus } from 'mantine-datatable';
 import { IconSearch, IconAlertTriangle, IconList, IconCreditCard, IconTruck, IconCheck } from '@tabler/icons-react';
 import { useNavigate } from 'react-router';
@@ -28,7 +16,6 @@ import classes from './OrderList.module.css';
 
 export function OrderList() {
 	const { t } = useTranslation();
-	const { colorScheme } = useMantineColorScheme();
 	const navigate = useNavigate();
 	const orders = useOrdersStore(state => state.orders);
 	const deleteOrder = useOrdersStore(state => state.deleteOrder);
@@ -208,6 +195,8 @@ export function OrderList() {
 						</Tabs.List>
 					</Tabs>
 
+					<Divider />
+
 					<DataTable
 						striped
 						highlightOnHover
@@ -227,11 +216,6 @@ export function OrderList() {
 							t('orders.showing_results', { from, to, total: totalRecords })
 						}
 						paginationSize="sm"
-						style={{
-							borderTop: `1px solid ${
-								colorScheme === 'dark' ? 'var(--mantine-color-dark-4)' : 'var(--mantine-color-gray-3)'
-							}`,
-						}}
 					/>
 				</Card>
 			</Stack>

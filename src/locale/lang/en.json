@@ -76,6 +76,7 @@
 		"out_of_stock": "Out of Stock",
 		"showing_results": "Showing {{from}} to {{to}} of {{total}} results",
 		"records_per_page": "Records per page",
+		"delete_product": "Delete Product",
 		"delete_confirmation_message": "Are you sure you want to delete \"{{name}}\"? This action cannot be undone."
 	},
 	"product_edit": {

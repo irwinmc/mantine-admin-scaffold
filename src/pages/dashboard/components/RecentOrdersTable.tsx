@@ -1,7 +1,9 @@
 import { Text, Table, Group, Avatar, Badge } from '@mantine/core';
 import { useTranslation } from 'react-i18next';
-import { SectionCard } from '../../../components';
+import { SectionCard } from '@/components';
 import type { RecentOrder } from '../types';
+
+const ROW_HEIGHT = 50;
 
 interface RecentOrdersTableProps {
 	data: RecentOrder[];
@@ -29,7 +31,7 @@ export function RecentOrdersTable({ data }: RecentOrdersTableProps) {
 		<SectionCard title={t('dashboard.recent_orders')} contentPadding={0}>
 			<Table striped highlightOnHover>
 				<Table.Thead>
-					<Table.Tr style={{ height: 50 }}>
+					<Table.Tr style={{ height: ROW_HEIGHT }}>
 						<Table.Th>{t('dashboard.order_id')}</Table.Th>
 						<Table.Th>{t('dashboard.customer')}</Table.Th>
 						<Table.Th>{t('dashboard.product')}</Table.Th>
@@ -39,7 +41,7 @@ export function RecentOrdersTable({ data }: RecentOrdersTableProps) {
 				</Table.Thead>
 				<Table.Tbody>
 					{data.map(order => (
-						<Table.Tr key={order.id} style={{ height: 50 }}>
+						<Table.Tr key={order.id} style={{ height: ROW_HEIGHT }}>
 							<Table.Td>{order.id}</Table.Td>
 							<Table.Td>
 								<Group gap="xs">

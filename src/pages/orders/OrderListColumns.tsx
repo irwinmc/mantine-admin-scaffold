@@ -43,7 +43,11 @@ export const getOrderListColumns = ({ t, handleView, handleDelete }: ColumnsPara
 		title: t('orders.amount'),
 		sortable: true,
 		width: 100,
-		render: order => <Text size='sm' fw={600}>${order.amount.toFixed(2)}</Text>,
+		render: order => (
+			<Text size="sm" fw={600}>
+				${order.amount.toFixed(2)}
+			</Text>
+		),
 	},
 	{
 		accessor: 'paymentMethod',
@@ -76,7 +80,9 @@ export const getOrderListColumns = ({ t, handleView, handleDelete }: ColumnsPara
 				completed: 'Completed',
 			};
 			return (
-				<Badge variant="light" color={statusColors[order.status] || 'gray'}>{statusLabels[order.status] || order.status}</Badge>
+				<Badge variant="light" color={statusColors[order.status] || 'gray'}>
+					{statusLabels[order.status] || order.status}
+				</Badge>
 			);
 		},
 	},

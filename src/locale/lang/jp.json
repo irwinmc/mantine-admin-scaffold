@@ -76,6 +76,7 @@
 		"out_of_stock": "在庫切れ",
 		"showing_results": "{{from}}～{{to}}件を表示（全{{total}}件）",
 		"records_per_page": "1ページあたりの件数",
+		"delete_product": "製品を削除",
 		"delete_confirmation_message": "\"{{name}}\" を削除してもよろしいですか？この操作は元に戻せません。"
 	},
 	"product_edit": {

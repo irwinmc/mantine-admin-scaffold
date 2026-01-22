@@ -1,8 +1,10 @@
 import { Text, Table, Group, ThemeIcon } from '@mantine/core';
 import { IconArrowUpRight, IconArrowDownRight } from '@tabler/icons-react';
 import { useTranslation } from 'react-i18next';
-import { SectionCard } from '../../../components';
+import { SectionCard } from '@/components';
 import type { TopProduct } from '../types';
+
+const ROW_HEIGHT = 50;
 
 interface TopProductsTableProps {
 	data: TopProduct[];
@@ -15,7 +17,7 @@ export function TopProductsTable({ data }: TopProductsTableProps) {
 		<SectionCard title={t('dashboard.top_products')} contentPadding={0}>
 			<Table striped highlightOnHover>
 				<Table.Thead>
-					<Table.Tr style={{ height: 50 }}>
+					<Table.Tr style={{ height: ROW_HEIGHT }}>
 						<Table.Th>{t('dashboard.product')}</Table.Th>
 						<Table.Th>{t('dashboard.sales')}</Table.Th>
 						<Table.Th>{t('dashboard.revenue')}</Table.Th>
@@ -24,7 +26,7 @@ export function TopProductsTable({ data }: TopProductsTableProps) {
 				</Table.Thead>
 				<Table.Tbody>
 					{data.map(product => (
-						<Table.Tr key={product.name} style={{ height: 50 }}>
+						<Table.Tr key={product.name} style={{ height: ROW_HEIGHT }}>
 							<Table.Td>{product.name}</Table.Td>
 							<Table.Td>{product.sales}</Table.Td>
 							<Table.Td>{product.revenue}</Table.Td>
