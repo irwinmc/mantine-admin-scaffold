@@ -2,9 +2,10 @@
  * ProductVariantsCard - 产品变体管理卡片组件（仅展示和操作）
  */
 
-import { Box, Card, Table, ActionIcon, Group, Button, Text, useMantineColorScheme } from '@mantine/core';
+import { Table, ActionIcon, Group, Button, Text } from '@mantine/core';
 import { IconPencil, IconTrash } from '@tabler/icons-react';
 import { useTranslation } from 'react-i18next';
+import { SectionCard } from '@/components';
 import type { ProductVariant } from '../types';
 
 interface ProductVariantsCardProps {
@@ -16,39 +17,15 @@ interface ProductVariantsCardProps {
 
 export function ProductVariantsCard({ variants, onAdd, onEdit, onDelete }: ProductVariantsCardProps) {
 	const { t } = useTranslation();
-	const { colorScheme } = useMantineColorScheme();
+
+	const rightSection = (
+		<Button size="xs" onClick={onAdd}>
+			{t('product_edit.add_variant')}
+		</Button>
+	);
 
 	return (
-		<Card radius="md" withBorder padding={0} style={{ overflow: 'hidden' }}>
-			{/* Card Header */}
-			<Box
-				p="md"
-				bg={colorScheme === 'dark' ? 'dark.6' : 'gray.1'}
-				style={{
-					position: 'relative',
-					borderBottom: `1px solid ${
-						colorScheme === 'dark' ? 'var(--mantine-color-dark-4)' : 'var(--mantine-color-gray-3)'
-					}`,
-				}}
-			>
-				<Text size="md" fw={600} c={colorScheme === 'dark' ? 'gray.3' : 'gray.8'}>
-					{t('product_edit.variants')}
-				</Text>
-				<Button
-					size="xs"
-					onClick={onAdd}
-					style={{
-						position: 'absolute',
-						right: 'var(--mantine-spacing-md)',
-						top: '50%',
-						transform: 'translateY(-50%)',
-					}}
-				>
-					{t('product_edit.add_variant')}
-				</Button>
-			</Box>
-
-			{/* Card Content */}
+		<SectionCard title={t('product_edit.variants')} rightSection={rightSection} contentPadding={0}>
 			<Table striped highlightOnHover withColumnBorders>
 				<Table.Thead>
 					<Table.Tr>
@@ -90,6 +67,6 @@ export function ProductVariantsCard({ variants, onAdd, onEdit, onDelete }: Produ
 					)}
 				</Table.Tbody>
 			</Table>
-		</Card>
+		</SectionCard>
 	);
 }

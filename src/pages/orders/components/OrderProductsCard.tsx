@@ -2,8 +2,9 @@
  * OrderProductsCard - 订单产品信息卡片
  */
 
-import { Box, Card, Stack, Text, Table, Group, Image, Divider, Grid, useMantineColorScheme } from '@mantine/core';
+import { Stack, Text, Table, Group, Image, Divider, Grid } from '@mantine/core';
 import { useTranslation } from 'react-i18next';
+import { SectionCard } from '@/components';
 import type { OrderItem } from '../types';
 
 interface OrderProductsCardProps {
@@ -24,7 +25,6 @@ export function OrderProductsCard({
 	total,
 }: OrderProductsCardProps) {
 	const { t } = useTranslation();
-	const { colorScheme } = useMantineColorScheme();
 
 	const renderStars = (rating: number) => {
 		return Array.from({ length: 5 }, (_, i) => (
@@ -35,23 +35,8 @@ export function OrderProductsCard({
 	};
 
 	return (
-		<Card radius="md" withBorder padding={0} style={{ overflow: 'hidden' }}>
-			<Box
-				p="md"
-				bg={colorScheme === 'dark' ? 'dark.6' : 'gray.1'}
-				style={{
-					position: 'relative',
-					borderBottom: `1px solid ${
-						colorScheme === 'dark' ? 'var(--mantine-color-dark-4)' : 'var(--mantine-color-gray-3)'
-					}`,
-				}}
-			>
-				<Text size="md" fw={600} c={colorScheme === 'dark' ? 'gray.3' : 'gray.8'}>
-					{t('orders.product_details')}
-				</Text>
-			</Box>
-
-			<Table withRowBorders={false} horizontalSpacing="md" verticalSpacing="sm">
+		<SectionCard title={t('orders.product_details')} contentPadding={0}>
+			<Table horizontalSpacing="md" verticalSpacing="sm">
 				<Table.Thead>
 					<Table.Tr>
 						<Table.Th>{t('orders.product_name')}</Table.Th>
@@ -136,6 +121,6 @@ export function OrderProductsCard({
 					</Stack>
 				</Grid.Col>
 			</Grid>
-		</Card>
+		</SectionCard>
 	);
 }
