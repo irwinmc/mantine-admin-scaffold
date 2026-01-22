@@ -1,7 +1,6 @@
 import { useDisclosure, useMediaQuery } from '@mantine/hooks';
 import { AppHeader } from './AppHeader';
 import { AppNavbar } from './AppNavbar';
-// import { AppFooter } from './AppFooter';
 import { Outlet } from 'react-router';
 import classes from './DashboardLayout.module.css';
 import clsx from 'clsx';
@@ -19,7 +18,6 @@ export function DashboardLayout() {
 
 	return (
 		<div className={classes.layout}>
-			{/* 移动端遮罩层 */}
 			{isMobile && (
 				<div
 					className={clsx(classes.overlay, {
@@ -29,7 +27,6 @@ export function DashboardLayout() {
 				/>
 			)}
 
-			{/* 左侧导航栏 */}
 			<div
 				className={clsx(classes.navbar, {
 					[classes.navbarExpanded]: isMobile ? mobileOpened : !collapsed,
@@ -42,9 +39,7 @@ export function DashboardLayout() {
 				</div>
 			</div>
 
-			{/* 右侧主内容区 */}
 			<div className={classes.mainContainer}>
-				{/* Header */}
 				<div className={classes.header}>
 					<AppHeader
 						opened={mobileOpened}
@@ -55,15 +50,9 @@ export function DashboardLayout() {
 					/>
 				</div>
 
-				{/* Main Content */}
 				<main className={classes.main}>
 					<Outlet />
 				</main>
-
-				{/* Footer */}
-				{/* <div className={classes.footer}>
-				<AppFooter />
-			</div> */}
 			</div>
 		</div>
 	);

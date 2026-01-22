@@ -11,14 +11,9 @@ export function TwoFactorAuthCard() {
 
 	return (
 		<SectionCard title={t('settings.two_factor_auth')}>
-			<SectionCard.Body>
-				<Stack gap="md">
-					<Switch
-						label={t('settings.enable_2fa')}
-						description="Add an extra layer of security to your account"
-					/>
-				</Stack>
-			</SectionCard.Body>
+			<Stack gap="md">
+				<Switch label={t('settings.enable_2fa')} description="Add an extra layer of security to your account" />
+			</Stack>
 		</SectionCard>
 	);
 }

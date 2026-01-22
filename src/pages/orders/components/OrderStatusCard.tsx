@@ -18,10 +18,10 @@ export function OrderStatusCard({ statusHistory, currentStatusIndex = 2 }: Order
 
 	const rightSection = (
 		<Group gap="xs">
-			<Button variant="light" size="xs">
+			<Button variant="filled" size="xs">
 				{t('orders.change_address')}
 			</Button>
-			<Button variant="light" color="red" size="xs">
+			<Button variant="filled" color="red" size="xs">
 				{t('orders.cancel_order')}
 			</Button>
 		</Group>
@@ -29,41 +29,37 @@ export function OrderStatusCard({ statusHistory, currentStatusIndex = 2 }: Order
 
 	return (
 		<SectionCard title={t('orders.order_status')} rightSection={rightSection}>
-			<SectionCard.Body>
-				<Timeline
-					active={currentStatusIndex}
-					bulletSize={24}
-					lineWidth={2}
-					styles={{
-						itemTitle: {
-							lineHeight: '24px',
-							marginTop: 0,
-						},
-					}}
-				>
-					{statusHistory.map((status, index) => (
-						<Timeline.Item
-							key={index}
-							bullet={
-								index <= currentStatusIndex ? <IconCheck size={12} /> : <IconClockHour4 size={12} />
-							}
-							title={status.status}
-							color={index <= currentStatusIndex ? 'green' : 'gray'}
-						>
-							{status.description && (
-								<Text c="dimmed" size="sm">
-									{status.description}
-								</Text>
-							)}
-							{status.date && (
-								<Text size="xs" mt={4}>
-									{status.date.toLocaleString()}
-								</Text>
-							)}
-						</Timeline.Item>
-					))}
-				</Timeline>
-			</SectionCard.Body>
+			<Timeline
+				active={currentStatusIndex}
+				bulletSize={24}
+				lineWidth={2}
+				styles={{
+					itemTitle: {
+						lineHeight: '24px',
+						marginTop: 0,
+					},
+				}}
+			>
+				{statusHistory.map((status, index) => (
+					<Timeline.Item
+						key={index}
+						bullet={index <= currentStatusIndex ? <IconCheck size={12} /> : <IconClockHour4 size={12} />}
+						title={status.status}
+						color={index <= currentStatusIndex ? 'green' : 'gray'}
+					>
+						{status.description && (
+							<Text c="dimmed" size="sm">
+								{status.description}
+							</Text>
+						)}
+						{status.date && (
+							<Text size="xs" mt={4}>
+								{status.date.toLocaleString()}
+							</Text>
+						)}
+					</Timeline.Item>
+				))}
+			</Timeline>
 		</SectionCard>
 	);
 }

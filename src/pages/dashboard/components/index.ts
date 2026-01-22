@@ -7,4 +7,3 @@ export { RevenueChart } from './RevenueChart';
 export { SalesChart } from './SalesChart';
 export { TopProductsTable } from './TopProductsTable';
 export { RecentOrdersTable } from './RecentOrdersTable';
-

@@ -17,39 +17,37 @@ export function CustomerCard({ customer, onViewProfile }: CustomerCardProps) {
 	const { t } = useTranslation();
 
 	const rightSection = (
-		<Button variant="light" size="xs" onClick={onViewProfile}>
+		<Button variant="filled" size="xs" onClick={onViewProfile}>
 			{t('orders.view_profile')}
 		</Button>
 	);
 
 	return (
 		<SectionCard title={t('orders.customer_details')} rightSection={rightSection}>
-			<SectionCard.Body>
-				<Stack gap="md">
-					<Group>
-						<Avatar src={customer.avatar} size="lg" radius="xl">
-							{customer.name.charAt(0)}
-						</Avatar>
-						<Stack gap={4}>
-							<Text fw={500}>{customer.name}</Text>
-							<Text size="sm" c="dimmed">
-								{t('orders.customer')}
-							</Text>
-						</Stack>
-					</Group>
-
-					<Stack gap="xs">
-						<Group gap="xs">
-							<IconMail size={16} />
-							<Text size="sm">{customer.email}</Text>
-						</Group>
-						<Group gap="xs">
-							<IconPhone size={16} />
-							<Text size="sm">{customer.phone}</Text>
-						</Group>
+			<Stack gap="md">
+				<Group>
+					<Avatar src={customer.avatar} size="lg" radius="xl">
+						{customer.name.charAt(0)}
+					</Avatar>
+					<Stack gap={4}>
+						<Text fw={500}>{customer.name}</Text>
+						<Text size="sm" c="dimmed">
+							{t('orders.customer')}
+						</Text>
 					</Stack>
+				</Group>
+
+				<Stack gap="xs">
+					<Group gap="xs">
+						<IconMail size={16} />
+						<Text size="sm">{customer.email}</Text>
+					</Group>
+					<Group gap="xs">
+						<IconPhone size={16} />
+						<Text size="sm">{customer.phone}</Text>
+					</Group>
 				</Stack>
-			</SectionCard.Body>
+			</Stack>
 		</SectionCard>
 	);
 }

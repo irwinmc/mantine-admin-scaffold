@@ -13,23 +13,9 @@ interface SectionCardProps {
 	rightSection?: ReactNode;
 }
 
-interface SectionCardBodyProps {
-	children: ReactNode;
-	p?: string | number;
-}
-
-function SectionCardBody({ children, p = 'lg' }: SectionCardBodyProps) {
-	return (
-		<Box p={p} className={classes.content}>
-			{children}
-		</Box>
-	);
-}
-
 export function SectionCard({ title, children, rightSection }: SectionCardProps) {
 	return (
 		<Card radius="md" withBorder padding={0} className={classes.card}>
-			{/* Card Header */}
 			<Box p="md" className={classes.header}>
 				<Text size="md" fw={600} className={classes.title}>
 					{title}
@@ -37,11 +23,9 @@ export function SectionCard({ title, children, rightSection }: SectionCardProps)
 				{rightSection && <Box className={classes.rightSection}>{rightSection}</Box>}
 			</Box>
 
-			{/* Card Content */}
-			{children}
+			<Box p="lg" className={classes.content}>
+				{children}
+			</Box>
 		</Card>
 	);
 }
-
-// 导出子组件
-SectionCard.Body = SectionCardBody;

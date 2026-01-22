@@ -12,46 +12,41 @@ export function NotificationsCard() {
 
 	return (
 		<SectionCard title={t('settings.notifications')}>
-			<SectionCard.Body>
-				<Stack gap="md">
-					<Box>
-						<Text className={classes.sectionSubtitle}>Communication Preferences</Text>
-						<Stack gap="sm">
-							<Switch
-								label={t('settings.email_notifications')}
-								description="Receive notifications via email"
-								defaultChecked
-							/>
-							<Switch
-								label={t('settings.push_notifications')}
-								description="Receive push notifications on your device"
-								defaultChecked
-							/>
-							<Switch
-								label={t('settings.sms_notifications')}
-								description="Receive notifications via SMS"
-							/>
-						</Stack>
-					</Box>
+			<Stack gap="md">
+				<Box>
+					<Text className={classes.sectionSubtitle}>Communication Preferences</Text>
+					<Stack gap="sm">
+						<Switch
+							label={t('settings.email_notifications')}
+							description="Receive notifications via email"
+							defaultChecked
+						/>
+						<Switch
+							label={t('settings.push_notifications')}
+							description="Receive push notifications on your device"
+							defaultChecked
+						/>
+						<Switch label={t('settings.sms_notifications')} description="Receive notifications via SMS" />
+					</Stack>
+				</Box>
 
-					<Divider />
+				<Divider />
 
-					<Box>
-						<Text className={classes.sectionSubtitle}>Marketing & Updates</Text>
-						<Stack gap="sm">
-							<Switch
-								label={t('settings.marketing_emails')}
-								description="Receive promotional and marketing emails"
-							/>
-							<Switch
-								label={t('settings.product_updates')}
-								description="Get notified about new features and updates"
-								defaultChecked
-							/>
-						</Stack>
-					</Box>
-				</Stack>
-			</SectionCard.Body>
+				<Box>
+					<Text className={classes.sectionSubtitle}>Marketing & Updates</Text>
+					<Stack gap="sm">
+						<Switch
+							label={t('settings.marketing_emails')}
+							description="Receive promotional and marketing emails"
+						/>
+						<Switch
+							label={t('settings.product_updates')}
+							description="Get notified about new features and updates"
+							defaultChecked
+						/>
+					</Stack>
+				</Box>
+			</Stack>
 		</SectionCard>
 	);
 }

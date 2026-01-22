@@ -10,7 +10,7 @@ import { statsData, revenueData, categoryData, topProducts, recentOrders } from 
 
 export function Dashboard() {
 	const { t } = useTranslation();
-	
+
 	return (
 		<Stack gap="lg">
 			<Title order={2}>{t('nav.dashboard')}</Title>
@@ -47,4 +47,3 @@ export function Dashboard() {
 
 // 默认导出
 export default Dashboard;
-

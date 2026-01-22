@@ -11,36 +11,34 @@ export function PasswordChangeCard() {
 
 	return (
 		<SectionCard title={t('settings.change_password')}>
-			<SectionCard.Body>
-				<Stack gap="md">
-					<TextInput
-						label={t('settings.current_password')}
-						placeholder={t('settings.current_password_placeholder')}
-						type="password"
-					/>
+			<Stack gap="md">
+				<TextInput
+					label={t('settings.current_password')}
+					placeholder={t('settings.current_password_placeholder')}
+					type="password"
+				/>
 
-					<Grid>
-						<Grid.Col span={{ base: 12, sm: 6 }}>
-							<TextInput
-								label={t('settings.new_password')}
-								placeholder={t('settings.new_password_placeholder')}
-								type="password"
-							/>
-						</Grid.Col>
-						<Grid.Col span={{ base: 12, sm: 6 }}>
-							<TextInput
-								label={t('settings.confirm_password')}
-								placeholder={t('settings.confirm_password_placeholder')}
-								type="password"
-							/>
-						</Grid.Col>
-					</Grid>
+				<Grid>
+					<Grid.Col span={{ base: 12, sm: 6 }}>
+						<TextInput
+							label={t('settings.new_password')}
+							placeholder={t('settings.new_password_placeholder')}
+							type="password"
+						/>
+					</Grid.Col>
+					<Grid.Col span={{ base: 12, sm: 6 }}>
+						<TextInput
+							label={t('settings.confirm_password')}
+							placeholder={t('settings.confirm_password_placeholder')}
+							type="password"
+						/>
+					</Grid.Col>
+				</Grid>
 
-					<Group justify="flex-end">
-						<Button>{t('settings.update_password')}</Button>
-					</Group>
-				</Stack>
-			</SectionCard.Body>
+				<Group justify="flex-end">
+					<Button>{t('settings.update_password')}</Button>
+				</Group>
+			</Stack>
 		</SectionCard>
 	);
 }
