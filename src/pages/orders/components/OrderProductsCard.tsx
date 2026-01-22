@@ -2,7 +2,7 @@
  * OrderProductsCard - 订单产品信息卡片
  */
 
-import { Stack, Text, Table, Group, Image, Divider } from '@mantine/core';
+import { Stack, Text, Table, Group, Image, Divider, Grid } from '@mantine/core';
 import { useTranslation } from 'react-i18next';
 import { SectionCard } from '@/components/common/SectionCard';
 import type { OrderItem } from '../types';
@@ -87,31 +87,35 @@ export function OrderProductsCard({
 			<Divider variant="dashed" />
 
 			<SectionCard.Body>
-				<Stack gap="xs">
-					<Group justify="space-between">
-						<Text size="sm">{t('orders.sub_total')}:</Text>
-						<Text size="sm">${subtotal}</Text>
-					</Group>
-					<Group justify="space-between">
-						<Text size="sm">{t('orders.discount')}</Text>
-						<Text size="sm" c="red">
-							-${discount}
-						</Text>
-					</Group>
-					<Group justify="space-between">
-						<Text size="sm">{t('orders.shipping_charge')}:</Text>
-						<Text size="sm">${shippingCharge}</Text>
-					</Group>
-					<Group justify="space-between">
-						<Text size="sm">{t('orders.estimated_tax')}:</Text>
-						<Text size="sm">${estimatedTax}</Text>
-					</Group>
-					<Divider />
-					<Group justify="space-between">
-						<Text fw={600}>{t('orders.total')} (USD):</Text>
-						<Text fw={600}>${total}</Text>
-					</Group>
-				</Stack>
+				<Grid p={0}>
+					<Grid.Col span={{ base: 12, lg: 6, xl: 4 }}>
+						<Stack gap="xs">
+							<Group justify="space-between">
+								<Text size="sm">{t('orders.sub_total')}:</Text>
+								<Text size="sm">${subtotal}</Text>
+							</Group>
+							<Group justify="space-between">
+								<Text size="sm">{t('orders.discount')}</Text>
+								<Text size="sm" c="red">
+									-${discount}
+								</Text>
+							</Group>
+							<Group justify="space-between">
+								<Text size="sm">{t('orders.shipping_charge')}:</Text>
+								<Text size="sm">${shippingCharge}</Text>
+							</Group>
+							<Group justify="space-between">
+								<Text size="sm">{t('orders.estimated_tax')}:</Text>
+								<Text size="sm">${estimatedTax}</Text>
+							</Group>
+							<Divider />
+							<Group justify="space-between">
+								<Text fw={600}>{t('orders.total')} (USD):</Text>
+								<Text fw={600}>${total}</Text>
+							</Group>
+						</Stack>
+					</Grid.Col>
+				</Grid>
 			</SectionCard.Body>
 		</SectionCard>
 	);
