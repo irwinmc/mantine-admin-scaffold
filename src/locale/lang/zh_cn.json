@@ -3,6 +3,7 @@
 		"loading": "加载中...",
 		"back": "返回",
 		"cancel": "取消",
+		"close": "关闭",
 		"delete": "删除",
 		"edit": "编辑",
 		"view": "查看",
@@ -103,7 +104,14 @@
 		"sort_order_description": "数字越小越靠前",
 		"status_description": "启用或停用此分类",
 		"required_fields": "必填字段",
-		"optional_fields": "可选字段"
+		"optional_fields": "可选字段",
+		"view_category": "查看分类",
+		"basic_info": "基本信息",
+		"additional_info": "附加信息",
+		"child_categories": "子分类",
+		"no_image": "无图片",
+		"created_at": "创建时间",
+		"updated_at": "更新时间"
 	},
 	"products": {
 		"title": "产品管理",

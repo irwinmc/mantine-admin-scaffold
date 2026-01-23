@@ -6,7 +6,6 @@ import { useState, useMemo } from 'react';
 import { Stack, Title, TextInput, Button, Box, Group, Card, Divider } from '@mantine/core';
 import { DataTable, type DataTableSortStatus } from 'mantine-datatable';
 import { IconSearch, IconPlus } from '@tabler/icons-react';
-import { useNavigate } from 'react-router';
 import { useTranslation } from 'react-i18next';
 import { StatusBadge } from '../../components';
 import { getCategoryListColumns } from './CategoryListColumns';
@@ -15,11 +14,10 @@ import { DEFAULT_PAGE_SIZE, PAGE_SIZE_OPTIONS, CATEGORY_STATUS_MAP } from './con
 import type { Category, CategoryWithLevel, CategoryFormValues } from './types';
 import { flattenCategories } from './utils/flattenCategories';
 import { useCategoryFilter } from './hooks/useCategoryFilter';
-import { DeleteCategoryModal, CreateCategoryModal, EditCategoryModal } from './components';
+import { DeleteCategoryModal, CreateCategoryModal, EditCategoryModal, ViewCategoryModal } from './components';
 
 export function CategoryList() {
 	const { t } = useTranslation();
-	const navigate = useNavigate();
 
 	const categories = useCategoriesStore(state => state.categories);
 	const addCategory = useCategoriesStore(state => state.addCategory);
@@ -43,6 +41,10 @@ export function CategoryList() {
 	const [createModalOpened, setCreateModalOpened] = useState(false);
 	const [editModalOpened, setEditModalOpened] = useState(false);
 	const [editingCategory, setEditingCategory] = useState<Category | null>(null);
+	
+	// 查看Modal状态
+	const [viewModalOpened, setViewModalOpened] = useState(false);
+	const [viewingCategory, setViewingCategory] = useState<Category | null>(null);
 
 	const treeCategories = useMemo(() => buildCategoryTree(categories, sortStatus), [categories, sortStatus]);
 
@@ -79,8 +81,11 @@ export function CategoryList() {
 	};
 
 	const handleView = (id: number) => {
-		console.log('View category:', id);
-		navigate(`/categories/${id}`);
+		const category = categories.find(c => c.id === id);
+		if (category) {
+			setViewingCategory(category);
+			setViewModalOpened(true);
+		}
 	};
 
 	const handleEdit = (id: number) => {
@@ -115,6 +120,11 @@ export function CategoryList() {
 	const handleEditClose = () => {
 		setEditModalOpened(false);
 		setEditingCategory(null);
+	};
+
+	const handleViewClose = () => {
+		setViewModalOpened(false);
+		setViewingCategory(null);
 	};
 
 	const handleDelete = (id: number) => {
@@ -219,6 +229,13 @@ export function CategoryList() {
 				onClose={handleEditClose}
 				onSubmit={handleEditSubmit}
 				category={editingCategory}
+				categories={categories}
+			/>
+
+			<ViewCategoryModal
+				opened={viewModalOpened}
+				onClose={handleViewClose}
+				category={viewingCategory}
 				categories={categories}
 			/>
 		</>

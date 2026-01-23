@@ -3,6 +3,7 @@
 		"loading": "Loading...",
 		"back": "Back",
 		"cancel": "Cancel",
+		"close": "Close",
 		"delete": "Delete",
 		"edit": "Edit",
 		"view": "View",
@@ -103,7 +104,14 @@
 		"sort_order_description": "Lower numbers appear first",
 		"status_description": "Enable or disable this category",
 		"required_fields": "Required Fields",
-		"optional_fields": "Optional Fields"
+		"optional_fields": "Optional Fields",
+		"view_category": "View Category",
+		"basic_info": "Basic Info",
+		"additional_info": "Additional Info",
+		"child_categories": "Child Categories",
+		"no_image": "No image",
+		"created_at": "Created At",
+		"updated_at": "Updated At"
 	},
 	"products": {
 		"title": "Products",
