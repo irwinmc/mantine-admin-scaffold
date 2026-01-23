@@ -2,54 +2,45 @@
  * TabbedForm - 通用的左侧导航表单组件
  */
 
-import { type ReactNode, useState } from 'react';
+import { type ReactNode, useState, createContext, useContext } from 'react';
+import * as React from 'react';
 import { Stack, Group, Button } from '@mantine/core';
 import { useTranslation } from 'react-i18next';
 import classes from './TabbedForm.module.css';
 
-export interface TabItem {
-	key: string;
-	label: string;
-	icon: ReactNode;
-	content: ReactNode;
+// Context for sharing state between components
+interface TabbedFormContextType {
+	activeTab: string;
+	setActiveTab: (tab: string) => void;
 }
 
+const TabbedFormContext = createContext<TabbedFormContextType | null>(null);
+
+const useTabbedFormContext = () => {
+	const context = useContext(TabbedFormContext);
+	if (!context) {
+		throw new Error('TabbedForm components must be used within TabbedForm');
+	}
+	return context;
+};
+
+// Main TabbedForm component
 interface TabbedFormProps {
-	tabs: TabItem[];
 	onSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
 	onCancel: () => void;
 	isSubmitting?: boolean;
+	children: ReactNode;
 }
 
-export function TabbedForm({ tabs, onSubmit, onCancel, isSubmitting = false }: TabbedFormProps) {
+function TabbedFormRoot({ onSubmit, onCancel, isSubmitting = false, children }: TabbedFormProps) {
 	const { t } = useTranslation();
-	const [activeTab, setActiveTab] = useState(tabs[0]?.key || '');
-
-	const activeTabContent = tabs.find(tab => tab.key === activeTab)?.content;
+	const [activeTab, setActiveTab] = useState('');
 
 	return (
-		<form onSubmit={onSubmit}>
-			<div className={classes.modalContainer}>
-				{/* 左侧导航 */}
-				<div className={classes.sidebar}>
-					<Stack gap="xs">
-						{tabs.map(tab => (
-							<button
-								key={tab.key}
-								type="button"
-								className={`${classes.menuItem} ${activeTab === tab.key ? classes.menuItemActive : ''}`}
-								onClick={() => setActiveTab(tab.key)}
-							>
-								{tab.icon}
-								{tab.label}
-							</button>
-						))}
-					</Stack>
-				</div>
-
-				{/* 右侧内容区域 */}
-				<div className={classes.content}>
-					<div className={classes.scrollContainer}>{activeTabContent}</div>
+		<TabbedFormContext.Provider value={{ activeTab, setActiveTab }}>
+			<form onSubmit={onSubmit}>
+				<div className={classes.modalContainer}>
+					<div>{children}</div>
 
 					{/* 底部按钮区域 */}
 					<div className={classes.footer}>
@@ -63,7 +54,91 @@ export function TabbedForm({ tabs, onSubmit, onCancel, isSubmitting = false }: T
 						</Group>
 					</div>
 				</div>
-			</div>
-		</form>
+			</form>
+		</TabbedFormContext.Provider>
 	);
 }
+
+// Tabs component
+interface TabsProps {
+	children: ReactNode;
+}
+
+function Tabs({ children }: TabsProps) {
+	const { activeTab, setActiveTab } = useTabbedFormContext();
+
+	// Set first tab as active if none is set
+	React.useEffect(() => {
+		if (!activeTab && React.Children.count(children) > 0) {
+			const firstChild = React.Children.toArray(children)[0] as React.ReactElement<TabProps>;
+			if (firstChild?.props?.value) {
+				setActiveTab(firstChild.props.value);
+			}
+		}
+	}, [activeTab, setActiveTab, children]);
+
+	return (
+		<div className={classes.sidebar}>
+			<Stack gap="xs">{children}</Stack>
+		</div>
+	);
+}
+
+// Tab component
+interface TabProps {
+	value: string;
+	icon: ReactNode;
+	children: ReactNode;
+}
+
+function Tab({ value, icon, children }: TabProps) {
+	const { activeTab, setActiveTab } = useTabbedFormContext();
+
+	return (
+		<button
+			type="button"
+			className={`${classes.menuItem} ${activeTab === value ? classes.menuItemActive : ''}`}
+			onClick={() => setActiveTab(value)}
+		>
+			{icon}
+			{children}
+		</button>
+	);
+}
+
+// Content component
+interface ContentProps {
+	children: ReactNode;
+}
+
+function Content({ children }: ContentProps) {
+	return (
+		<div className={classes.content}>
+			<div className={classes.scrollContainer}>{children}</div>
+		</div>
+	);
+}
+
+// Panel component
+interface PanelProps {
+	value: string;
+	children: ReactNode;
+}
+
+function Panel({ value, children }: PanelProps) {
+	const { activeTab } = useTabbedFormContext();
+
+	if (activeTab !== value) {
+		return null;
+	}
+
+	return <>{children}</>;
+}
+
+// Compound component
+export const TabbedForm = Object.assign(TabbedFormRoot, {
+	Tabs,
+	Tab,
+	Content,
+	Panel,
+});
