@@ -19,7 +19,7 @@ export function CreateCategoryModal({ opened, onClose, onSubmit, categories }: C
 	};
 
 	return (
-		<Modal.Root opened={opened} onClose={onClose} size="xl" centered>
+		<Modal.Root opened={opened} onClose={onClose} size="lg" centered>
 			<Modal.Overlay />
 			<Modal.Content>
 				<Modal.Header>

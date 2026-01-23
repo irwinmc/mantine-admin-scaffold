@@ -78,8 +78,8 @@ export function CategoryForm({ onSubmit, onCancel, category, categories, initial
 						<Tabs.Tab value="optional">{t('categories.optional_fields')}</Tabs.Tab>
 					</Tabs.List>
 
-					<Tabs.Panel value="required" pl="md">
-						<Stack gap="md">
+					<Tabs.Panel value="required">
+						<Stack gap="md" p="md">
 							<TextInput
 								label={t('categories.name')}
 								placeholder={t('categories.name_placeholder')}
@@ -127,8 +127,8 @@ export function CategoryForm({ onSubmit, onCancel, category, categories, initial
 						</Stack>
 					</Tabs.Panel>
 
-					<Tabs.Panel value="optional" pl="md">
-						<Stack gap="md">
+					<Tabs.Panel value="optional">
+						<Stack gap="md" p="md">
 							<Textarea
 								label={t('categories.description')}
 								placeholder={t('categories.description_placeholder')}

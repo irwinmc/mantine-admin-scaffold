@@ -33,25 +33,27 @@ export function EditCategoryModal({ opened, onClose, onSubmit, category, categor
 	};
 
 	return (
-		<Modal
-			opened={opened}
-			onClose={onClose}
-			title={
-				<Text size="lg" fw={600}>
-					{t('categories.edit_category')}
-				</Text>
-			}
-			size="xl"
-			centered
-			padding={0}
-		>
-			<CategoryForm
-				onSubmit={handleSubmit}
-				onCancel={onClose}
-				category={category}
-				categories={categories}
-				initialValues={initialValues}
-			/>
-		</Modal>
+		<Modal.Root opened={opened} onClose={onClose} size="lg" centered>
+			<Modal.Overlay />
+			<Modal.Content>
+				<Modal.Header>
+					<Modal.Title>
+						<Text size="lg" fw={600}>
+							{t('categories.edit_category')}
+						</Text>
+					</Modal.Title>
+					<Modal.CloseButton />
+				</Modal.Header>
+				<Modal.Body p={0}>
+					<CategoryForm
+						onSubmit={handleSubmit}
+						onCancel={onClose}
+						category={category}
+						categories={categories}
+						initialValues={initialValues}
+					/>
+				</Modal.Body>
+			</Modal.Content>
+		</Modal.Root>
 	);
 }
