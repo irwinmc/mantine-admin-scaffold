@@ -2,10 +2,10 @@
  * CategoryList 页面 - 分类列表（嵌套显示）
  */
 
-import { useState, useMemo, useCallback } from 'react';
-import { Stack, Title, TextInput, Button, Box, Group, Text, Modal, Card, Divider } from '@mantine/core';
+import { useState, useMemo } from 'react';
+import { Stack, Title, TextInput, Button, Box, Group, Card, Divider } from '@mantine/core';
 import { DataTable, type DataTableSortStatus } from 'mantine-datatable';
-import { IconSearch, IconPlus, IconAlertTriangle } from '@tabler/icons-react';
+import { IconSearch, IconPlus } from '@tabler/icons-react';
 import { useNavigate } from 'react-router';
 import { useTranslation } from 'react-i18next';
 import { StatusBadge } from './components';
@@ -13,6 +13,9 @@ import { getCategoryListColumns } from './CategoryListColumns';
 import { useCategoriesStore, buildCategoryTree } from './store';
 import { DEFAULT_PAGE_SIZE, PAGE_SIZE_OPTIONS } from './constants';
 import type { Category, CategoryWithLevel } from './types';
+import { flattenCategories } from './utils/flattenCategories';
+import { useCategoryFilter } from './hooks/useCategoryFilter';
+import { DeleteCategoryModal } from './components/DeleteCategoryModal';
 
 export function CategoryList() {
 	const { t } = useTranslation();
@@ -31,65 +34,26 @@ export function CategoryList() {
 	const [categoryToDelete, setCategoryToDelete] = useState<{ id: number; name: string } | null>(null);
 	const [expandedCategoryIds, setExpandedCategoryIds] = useState<number[]>([]);
 
-	// 构建树形结构的分类数据
-	const treeCategories = useMemo(() => {
-		return buildCategoryTree(categories);
-	}, [categories]);
+	const treeCategories = useMemo(() => buildCategoryTree(categories), [categories]);
 
-	// 扁平化树形结构用于搜索和分页
-	const flattenCategories = useCallback(
-		(cats: Category[]): CategoryWithLevel[] => {
-			const result: CategoryWithLevel[] = [];
-
-			const flatten = (categories: Category[], level = 0) => {
-				categories.forEach(category => {
-					result.push({ ...category, level });
-					if (
-						category.children &&
-						category.children.length > 0 &&
-						expandedCategoryIds.includes(category.id)
-					) {
-						flatten(category.children, level + 1);
-					}
-				});
-			};
-
-			flatten(cats);
-			return result;
-		},
-		[expandedCategoryIds],
+	const flatCategories = useMemo(
+		() => flattenCategories(treeCategories, expandedCategoryIds),
+		[treeCategories, expandedCategoryIds]
 	);
 
+	const filteredCategories = useCategoryFilter(flatCategories, search);
+
 	const records = useMemo(() => {
-		const from = (page - 1) * pageSize;
-		const to = from + pageSize;
-
-		// 先扁平化，然后过滤搜索
-		const flatCategories = flattenCategories(treeCategories);
-		const filteredData = flatCategories.filter(
-			category =>
-				category.name.toLowerCase().includes(search.toLowerCase()) ||
-				category.slug.toLowerCase().includes(search.toLowerCase()) ||
-				(category.description && category.description.toLowerCase().includes(search.toLowerCase())),
-		);
-
-		// 如果有搜索条件，不进行分页，显示所有匹配结果
 		if (search) {
-			return filteredData;
+			return filteredCategories;
 		}
 
-		return filteredData.slice(from, to);
-	}, [page, pageSize, search, treeCategories, flattenCategories]);
+		const from = (page - 1) * pageSize;
+		const to = from + pageSize;
+		return filteredCategories.slice(from, to);
+	}, [page, pageSize, search, filteredCategories]);
 
-	const totalRecords = useMemo(() => {
-		const flatCategories = flattenCategories(treeCategories);
-		return flatCategories.filter(
-			category =>
-				category.name.toLowerCase().includes(search.toLowerCase()) ||
-				category.slug.toLowerCase().includes(search.toLowerCase()) ||
-				(category.description && category.description.toLowerCase().includes(search.toLowerCase())),
-		).length;
-	}, [search, treeCategories, flattenCategories]);
+	const totalRecords = filteredCategories.length;
 
 	const getStatusBadge = (status: number) => <StatusBadge status={status} />;
 
@@ -124,6 +88,12 @@ export function CategoryList() {
 		setCategoryToDelete(null);
 	};
 
+	const handleToggleExpand = (id: number) => {
+		setExpandedCategoryIds(prev =>
+			prev.includes(id) ? prev.filter(cId => cId !== id) : [...prev, id]
+		);
+	};
+
 	const columns = getCategoryListColumns({
 		t,
 		getStatusBadge,
@@ -131,6 +101,7 @@ export function CategoryList() {
 		handleEdit,
 		handleDelete,
 		expandedCategoryIds,
+		onToggleExpand: handleToggleExpand,
 	});
 
 	return (
@@ -177,73 +148,16 @@ export function CategoryList() {
 							t('categories.showing_results', { from, to, total: totalRecords })
 						}
 						paginationSize="sm"
-						rowExpansion={{
-							allowMultiple: true,
-							expanded: {
-								recordIds: expandedCategoryIds,
-								onRecordIdsChange: setExpandedCategoryIds,
-							},
-							content: ({ record: category }) => {
-								if (!category.children || category.children.length === 0) {
-									return null;
-								}
-
-								return (
-									<DataTable<Category>
-										noHeader
-										withColumnBorders
-										records={category.children}
-										columns={columns.map(col => ({
-											...col,
-											render: col.render
-												? (childCategory: Category, index: number) => {
-														if (col.accessor === 'name') {
-															// 为子分类添加缩进
-															const originalRender = col.render!(childCategory, index);
-															return <Box ml={20}>{originalRender}</Box>;
-														}
-														return col.render!(childCategory, index);
-													}
-												: undefined,
-										}))}
-									/>
-								);
-							},
-						}}
 					/>
 				</Card>
 			</Stack>
 
-			{/* 删除确认 Modal */}
-			<Modal
+			<DeleteCategoryModal
 				opened={deleteModalOpened}
-				onClose={handleCancelDelete}
-				title={
-					<Group gap="xs">
-						<IconAlertTriangle size={24} color="var(--mantine-color-red-6)" />
-						<Text size="lg" fw={600}>
-							{t('categories.delete_category')}
-						</Text>
-					</Group>
-				}
-				centered
-				size="md"
-			>
-				<Stack gap="lg" mt="md">
-					<Text size="sm">
-						{t('categories.delete_confirmation_message', { name: categoryToDelete?.name || '' })}
-					</Text>
-
-					<Group justify="flex-end" gap="sm">
-						<Button variant="default" onClick={handleCancelDelete}>
-							{t('common.cancel')}
-						</Button>
-						<Button color="red" onClick={handleConfirmDelete}>
-							{t('common.delete')}
-						</Button>
-					</Group>
-				</Stack>
-			</Modal>
+				categoryName={categoryToDelete?.name}
+				onConfirm={handleConfirmDelete}
+				onCancel={handleCancelDelete}
+			/>
 		</>
 	);
 }

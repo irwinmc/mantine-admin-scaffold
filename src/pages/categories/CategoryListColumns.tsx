@@ -15,6 +15,7 @@ interface ColumnsParams {
 	handleEdit: (id: number) => void;
 	handleDelete: (id: number) => void;
 	expandedCategoryIds: number[];
+	onToggleExpand: (id: number) => void;
 }
 
 export const getCategoryListColumns = ({
@@ -24,6 +25,7 @@ export const getCategoryListColumns = ({
 	handleEdit,
 	handleDelete,
 	expandedCategoryIds,
+	onToggleExpand,
 }: ColumnsParams): DataTableColumn<Category>[] => [
 	{
 		accessor: 'name',
@@ -42,7 +44,9 @@ export const getCategoryListColumns = ({
 							style={{
 								transform: isExpanded ? 'rotate(90deg)' : 'rotate(0deg)',
 								transition: 'transform 0.2s ease',
+								cursor: 'pointer',
 							}}
+							onClick={() => onToggleExpand(category.id)}
 						/>
 					)}
 					{!hasChildren && <Box w={16} />}
