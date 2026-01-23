@@ -25,6 +25,12 @@ export const ROUTES = {
 	PRODUCTS_INVENTORY: '/products/inventory',
 	PRODUCTS_CATEGORIES: '/products/categories',
 
+	// 分类管理
+	CATEGORIES: '/categories',
+	CATEGORIES_NEW: '/categories/create',
+	CATEGORIES_EDIT: (id: number | string) => `/categories/${id}/edit`,
+	CATEGORY_DETAIL: (id: number | string) => `/categories/${id}`,
+
 	// 订单管理
 	ORDERS: '/orders',
 	ORDER_DETAIL: (id: number | string) => `/orders/${id}`,

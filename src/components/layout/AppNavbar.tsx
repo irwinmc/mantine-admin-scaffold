@@ -62,6 +62,12 @@ export function AppNavbar({ collapsed = false }: AppNavbarProps) {
 			path: '/products',
 		},
 		{
+			label: t('nav.categories'),
+			icon: IconArchive,
+			iconFilled: IconArchiveFilled,
+			path: '/categories',
+		},
+		{
 			label: t('nav.orders'),
 			icon: IconShoppingCart,
 			iconFilled: IconShoppingCartFilled,
