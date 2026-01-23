@@ -38,7 +38,7 @@ export function CategoryList() {
 
 	const flatCategories = useMemo(
 		() => flattenCategories(treeCategories, expandedCategoryIds),
-		[treeCategories, expandedCategoryIds]
+		[treeCategories, expandedCategoryIds],
 	);
 
 	const filteredCategories = useCategoryFilter(flatCategories, search);
@@ -89,9 +89,7 @@ export function CategoryList() {
 	};
 
 	const handleToggleExpand = (id: number) => {
-		setExpandedCategoryIds(prev =>
-			prev.includes(id) ? prev.filter(cId => cId !== id) : [...prev, id]
-		);
+		setExpandedCategoryIds(prev => (prev.includes(id) ? prev.filter(cId => cId !== id) : [...prev, id]));
 	};
 
 	const columns = getCategoryListColumns({

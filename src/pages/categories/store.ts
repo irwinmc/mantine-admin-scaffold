@@ -75,7 +75,7 @@ const mockCategories: Category[] = [
 	},
 	{
 		id: 5,
-		name: 'Men\'s Clothing',
+		name: "Men's Clothing",
 		slug: 'mens-clothing',
 		description: 'Clothing for men',
 		image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400',
@@ -87,7 +87,7 @@ const mockCategories: Category[] = [
 	},
 	{
 		id: 6,
-		name: 'Women\'s Clothing',
+		name: "Women's Clothing",
 		slug: 'womens-clothing',
 		description: 'Clothing for women',
 		image: 'https://images.unsplash.com/photo-1515372039744-b8f02a3ae446?w=400',
@@ -135,9 +135,7 @@ export const useCategoriesStore = create<CategoriesStore>()(
 			updateCategory: (id, categoryData) => {
 				set(state => ({
 					categories: state.categories.map(category =>
-						category.id === id
-							? { ...category, ...categoryData, updatedAt: new Date() }
-							: category
+						category.id === id ? { ...category, ...categoryData, updatedAt: new Date() } : category,
 					),
 				}));
 			},
@@ -151,8 +149,8 @@ export const useCategoriesStore = create<CategoriesStore>()(
 			setLoading: loading => set({ loading }),
 			setError: error => set({ error }),
 		}),
-		{ name: 'categories-store' }
-	)
+		{ name: 'categories-store' },
+	),
 );
 
 /**
@@ -170,7 +168,7 @@ export const buildCategoryTree = (categories: Category[]): Category[] => {
 	// 构建树形结构
 	categories.forEach(category => {
 		const categoryWithChildren = categoryMap.get(category.id)!;
-		
+
 		if (category.parentId === 0) {
 			// 根分类
 			rootCategories.push(categoryWithChildren);
@@ -189,7 +187,7 @@ export const buildCategoryTree = (categories: Category[]): Category[] => {
 			.sort((a, b) => a.sortOrder - b.sortOrder)
 			.map(cat => ({
 				...cat,
-				children: cat.children ? sortCategories(cat.children) : []
+				children: cat.children ? sortCategories(cat.children) : [],
 			}));
 	};
 

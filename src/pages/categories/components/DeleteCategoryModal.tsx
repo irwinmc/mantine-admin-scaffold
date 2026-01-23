@@ -9,12 +9,7 @@ interface DeleteCategoryModalProps {
 	onCancel: () => void;
 }
 
-export function DeleteCategoryModal({
-	opened,
-	categoryName,
-	onConfirm,
-	onCancel,
-}: DeleteCategoryModalProps) {
+export function DeleteCategoryModal({ opened, categoryName, onConfirm, onCancel }: DeleteCategoryModalProps) {
 	const { t } = useTranslation();
 
 	return (
@@ -33,9 +28,7 @@ export function DeleteCategoryModal({
 			size="md"
 		>
 			<Stack gap="lg" mt="md">
-				<Text size="sm">
-					{t('categories.delete_confirmation_message', { name: categoryName || '' })}
-				</Text>
+				<Text size="sm">{t('categories.delete_confirmation_message', { name: categoryName || '' })}</Text>
 
 				<Group justify="flex-end" gap="sm">
 					<Button variant="default" onClick={onCancel}>

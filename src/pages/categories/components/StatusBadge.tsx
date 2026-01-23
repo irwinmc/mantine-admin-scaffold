@@ -13,7 +13,7 @@ interface StatusBadgeProps {
 
 export function StatusBadge({ status }: StatusBadgeProps) {
 	const { t } = useTranslation();
-	const statusConfig = CATEGORY_STATUS_MAP[status as typeof CategoryStatus[keyof typeof CategoryStatus]];
+	const statusConfig = CATEGORY_STATUS_MAP[status as (typeof CategoryStatus)[keyof typeof CategoryStatus]];
 
 	return (
 		<Badge variant="light" color={statusConfig.color} size="sm">

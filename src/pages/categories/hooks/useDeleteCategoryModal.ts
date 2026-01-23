@@ -14,12 +14,15 @@ export function useDeleteCategoryModal() {
 		setCategoryToDelete(null);
 	}, []);
 
-	const handleDelete = useCallback((onConfirm: (id: number) => void) => {
-		if (categoryToDelete) {
-			onConfirm(categoryToDelete.id);
-			closeModal();
-		}
-	}, [categoryToDelete, closeModal]);
+	const handleDelete = useCallback(
+		(onConfirm: (id: number) => void) => {
+			if (categoryToDelete) {
+				onConfirm(categoryToDelete.id);
+				closeModal();
+			}
+		},
+		[categoryToDelete, closeModal],
+	);
 
 	return {
 		opened,
