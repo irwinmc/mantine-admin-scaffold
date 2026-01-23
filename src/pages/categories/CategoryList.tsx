@@ -20,6 +20,7 @@ import { DeleteCategoryModal, CreateCategoryModal, EditCategoryModal } from './c
 export function CategoryList() {
 	const { t } = useTranslation();
 	const navigate = useNavigate();
+
 	const categories = useCategoriesStore(state => state.categories);
 	const addCategory = useCategoriesStore(state => state.addCategory);
 	const updateCategory = useCategoriesStore(state => state.updateCategory);
@@ -32,11 +33,12 @@ export function CategoryList() {
 		columnAccessor: 'sortOrder',
 		direction: 'asc',
 	});
+
 	// Modal状态
 	const [deleteModalOpened, setDeleteModalOpened] = useState(false);
 	const [categoryToDelete, setCategoryToDelete] = useState<{ id: number; name: string } | null>(null);
 	const [expandedCategoryIds, setExpandedCategoryIds] = useState<number[]>([]);
-	
+
 	// 添加/编辑Modal状态
 	const [createModalOpened, setCreateModalOpened] = useState(false);
 	const [editModalOpened, setEditModalOpened] = useState(false);
