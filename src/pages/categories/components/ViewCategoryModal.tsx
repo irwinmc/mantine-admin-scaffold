@@ -1,9 +1,8 @@
 import { Modal, Text, Stack, Group, Badge, Divider } from '@mantine/core';
 import { IconInfoCircle, IconPhoto, IconTag, IconHash, IconCalendar, IconUser } from '@tabler/icons-react';
 import { useTranslation } from 'react-i18next';
-import type { Category } from '../types';
-import { CategoryStatus } from '../types';
-import { StatusBadge } from '../../../components';
+import { type Category, CategoryStatus } from '../types';
+import { StatusBadge } from '@/components';
 
 interface ViewCategoryModalProps {
 	opened: boolean;
@@ -12,7 +11,6 @@ interface ViewCategoryModalProps {
 	categories: Category[];
 }
 
-// 将InfoItem组件移到外部
 const InfoItem = ({ icon, label, value }: { icon: React.ReactNode; label: string; value: React.ReactNode }) => (
 	<Group gap="md" align="center" wrap="nowrap">
 		{icon}
@@ -28,10 +26,8 @@ export function ViewCategoryModal({ opened, onClose, category, categories }: Vie
 
 	if (!category) return null;
 
-	// 获取父分类信息
 	const parentCategory = categories.find(cat => cat.id === category.parentId);
 
-	// 获取子分类列表
 	const childCategories = categories.filter(cat => cat.parentId === category.id);
 
 	const statusMap = {
@@ -41,7 +37,7 @@ export function ViewCategoryModal({ opened, onClose, category, categories }: Vie
 
 	return (
 		<Modal.Root opened={opened} onClose={onClose} size="lg" centered>
-			<Modal.Overlay />
+			<Modal.Overlay blur={2} />
 			<Modal.Content>
 				<Modal.Header>
 					<Modal.Title>
@@ -66,7 +62,7 @@ export function ViewCategoryModal({ opened, onClose, category, categories }: Vie
 							icon={<IconHash size={16} />}
 							label={t('categories.slug')}
 							value={
-								<Text ff="monospace" c="blue">
+								<Text size="sm" ff="monospace" c="blue">
 									{category.slug}
 								</Text>
 							}
@@ -93,7 +89,7 @@ export function ViewCategoryModal({ opened, onClose, category, categories }: Vie
 						<InfoItem
 							icon={<IconHash size={16} />}
 							label={t('categories.sort_order')}
-							value={<Text>{category.sortOrder}</Text>}
+							value={<Text size="sm">{category.sortOrder}</Text>}
 						/>
 						<Divider variant="dashed" />
 
@@ -128,9 +124,9 @@ export function ViewCategoryModal({ opened, onClose, category, categories }: Vie
 							label={t('categories.description')}
 							value={
 								category.description ? (
-									<Text>{category.description}</Text>
+									<Text size="sm">{category.description}</Text>
 								) : (
-									<Text c="dimmed" fs="italic">
+									<Text size="sm" c="dimmed" fs="italic">
 										{t('categories.no_description')}
 									</Text>
 								)
