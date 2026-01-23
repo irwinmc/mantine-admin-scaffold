@@ -2,7 +2,6 @@
  * TabbedForm - 通用的左侧导航表单组件
  */
 
-import { type ReactNode, useState, createContext, useContext } from 'react';
 import * as React from 'react';
 import { Stack, Group, Button } from '@mantine/core';
 import { useTranslation } from 'react-i18next';
@@ -14,10 +13,10 @@ interface TabbedFormContextType {
 	setActiveTab: (tab: string) => void;
 }
 
-const TabbedFormContext = createContext<TabbedFormContextType | null>(null);
+const TabbedFormContext = React.createContext<TabbedFormContextType | null>(null);
 
 const useTabbedFormContext = () => {
-	const context = useContext(TabbedFormContext);
+	const context = React.useContext(TabbedFormContext);
 	if (!context) {
 		throw new Error('TabbedForm components must be used within TabbedForm');
 	}
@@ -29,12 +28,12 @@ interface TabbedFormProps {
 	onSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
 	onCancel: () => void;
 	isSubmitting?: boolean;
-	children: ReactNode;
+	children: React.ReactNode;
 }
 
 function TabbedFormRoot({ onSubmit, onCancel, isSubmitting = false, children }: TabbedFormProps) {
 	const { t } = useTranslation();
-	const [activeTab, setActiveTab] = useState('');
+	const [activeTab, setActiveTab] = React.useState('');
 
 	return (
 		<TabbedFormContext.Provider value={{ activeTab, setActiveTab }}>
@@ -42,7 +41,6 @@ function TabbedFormRoot({ onSubmit, onCancel, isSubmitting = false, children }: 
 				<div className={classes.modalContainer}>
 					<div>{children}</div>
 
-					{/* 底部按钮区域 */}
 					<div className={classes.footer}>
 						<Group justify="flex-end" gap="sm">
 							<Button variant="default" onClick={onCancel} disabled={isSubmitting}>
@@ -61,7 +59,7 @@ function TabbedFormRoot({ onSubmit, onCancel, isSubmitting = false, children }: 
 
 // Tabs component
 interface TabsProps {
-	children: ReactNode;
+	children: React.ReactNode;
 }
 
 function Tabs({ children }: TabsProps) {
@@ -87,8 +85,8 @@ function Tabs({ children }: TabsProps) {
 // Tab component
 interface TabProps {
 	value: string;
-	icon: ReactNode;
-	children: ReactNode;
+	icon: React.ReactNode;
+	children: React.ReactNode;
 }
 
 function Tab({ value, icon, children }: TabProps) {
@@ -108,7 +106,7 @@ function Tab({ value, icon, children }: TabProps) {
 
 // Content component
 interface ContentProps {
-	children: ReactNode;
+	children: React.ReactNode;
 }
 
 function Content({ children }: ContentProps) {
@@ -122,7 +120,7 @@ function Content({ children }: ContentProps) {
 // Panel component
 interface PanelProps {
 	value: string;
-	children: ReactNode;
+	children: React.ReactNode;
 }
 
 function Panel({ value, children }: PanelProps) {
@@ -132,7 +130,7 @@ function Panel({ value, children }: PanelProps) {
 		return null;
 	}
 
-	return <>{children}</>;
+	return children;
 }
 
 // Compound component
