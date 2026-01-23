@@ -19,7 +19,17 @@ export function CreateCategoryModal({ opened, onClose, onSubmit, categories }: C
 	};
 
 	return (
-		<Modal opened={opened} onClose={onClose} title={<Text size="lg" fw={600}>{t('categories.create_category')}</Text>} size="md" centered>
+		<Modal
+			opened={opened}
+			onClose={onClose}
+			title={
+				<Text size="lg" fw={600}>
+					{t('categories.create_category')}
+				</Text>
+			}
+			size="md"
+			centered
+		>
 			<CategoryForm onSubmit={handleSubmit} onCancel={onClose} categories={categories} />
 		</Modal>
 	);

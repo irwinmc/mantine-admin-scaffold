@@ -12,13 +12,7 @@ interface CategoryFormProps {
 	initialValues?: Partial<CategoryFormValues>;
 }
 
-export function CategoryForm({
-	onSubmit,
-	onCancel,
-	category,
-	categories,
-	initialValues,
-}: CategoryFormProps) {
+export function CategoryForm({ onSubmit, onCancel, category, categories, initialValues }: CategoryFormProps) {
 	const { t } = useTranslation();
 
 	const form = useForm<CategoryFormValues>({
@@ -147,5 +141,3 @@ export function CategoryForm({
 		</form>
 	);
 }
-
-
