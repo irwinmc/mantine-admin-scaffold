@@ -3,12 +3,11 @@
  */
 
 import { useState, useMemo, useCallback } from 'react';
-import { Stack, Title, TextInput, Button, Box, Group, Text, Modal } from '@mantine/core';
+import { Stack, Title, TextInput, Button, Box, Group, Text, Modal, Card, Divider } from '@mantine/core';
 import { DataTable, type DataTableSortStatus } from 'mantine-datatable';
 import { IconSearch, IconPlus, IconAlertTriangle } from '@tabler/icons-react';
 import { useNavigate } from 'react-router';
 import { useTranslation } from 'react-i18next';
-import { SectionCard } from '../../components';
 import { StatusBadge } from './components';
 import { getCategoryListColumns } from './CategoryListColumns';
 import { useCategoriesStore, buildCategoryTree } from './store';
@@ -38,21 +37,28 @@ export function CategoryList() {
 	}, [categories]);
 
 	// 扁平化树形结构用于搜索和分页
-	const flattenCategories = useCallback((cats: Category[]): CategoryWithLevel[] => {
-		const result: CategoryWithLevel[] = [];
+	const flattenCategories = useCallback(
+		(cats: Category[]): CategoryWithLevel[] => {
+			const result: CategoryWithLevel[] = [];
 
-		const flatten = (categories: Category[], level = 0) => {
-			categories.forEach(category => {
-				result.push({ ...category, level });
-				if (category.children && category.children.length > 0 && expandedCategoryIds.includes(category.id)) {
-					flatten(category.children, level + 1);
-				}
-			});
-		};
+			const flatten = (categories: Category[], level = 0) => {
+				categories.forEach(category => {
+					result.push({ ...category, level });
+					if (
+						category.children &&
+						category.children.length > 0 &&
+						expandedCategoryIds.includes(category.id)
+					) {
+						flatten(category.children, level + 1);
+					}
+				});
+			};
 
-		flatten(cats);
-		return result;
-	}, [expandedCategoryIds]);
+			flatten(cats);
+			return result;
+		},
+		[expandedCategoryIds],
+	);
 
 	const records = useMemo(() => {
 		const from = (page - 1) * pageSize;
@@ -132,12 +138,9 @@ export function CategoryList() {
 			<Stack gap="lg">
 				<Group justify="space-between" align="center">
 					<Title order={2}>{t('categories.title')}</Title>
-					<Button leftSection={<IconPlus size={16} />} onClick={() => navigate('/categories/create')}>
-						{t('categories.add_category')}
-					</Button>
 				</Group>
 
-				<SectionCard title={t('categories.category_list')} contentPadding={0}>
+				<Card p={0} radius="md" withBorder>
 					<Box p="lg">
 						<Group justify="space-between">
 							<TextInput
@@ -147,8 +150,13 @@ export function CategoryList() {
 								onChange={e => setSearch(e.currentTarget.value)}
 								style={{ flex: 1, maxWidth: 400 }}
 							/>
+							<Button leftSection={<IconPlus size={16} />} onClick={() => navigate('/categories/create')}>
+								{t('categories.add_category')}
+							</Button>
 						</Group>
 					</Box>
+
+					<Divider />
 
 					<DataTable<CategoryWithLevel>
 						striped
@@ -203,7 +211,7 @@ export function CategoryList() {
 							},
 						}}
 					/>
-				</SectionCard>
+				</Card>
 			</Stack>
 
 			{/* 删除确认 Modal */}
