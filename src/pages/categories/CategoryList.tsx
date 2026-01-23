@@ -15,7 +15,7 @@ import { DEFAULT_PAGE_SIZE, PAGE_SIZE_OPTIONS, CATEGORY_STATUS_MAP } from './con
 import type { Category, CategoryWithLevel, CategoryFormValues } from './types';
 import { flattenCategories } from './utils/flattenCategories';
 import { useCategoryFilter } from './hooks/useCategoryFilter';
-import { DeleteCategoryModal, CategoryFormModal } from './components';
+import { DeleteCategoryModal, CreateCategoryModal, EditCategoryModal } from './components';
 
 export function CategoryList() {
 	const { t } = useTranslation();
@@ -199,13 +199,19 @@ export function CategoryList() {
 				onCancel={handleCancelDelete}
 			/>
 
-			<CategoryFormModal
-				opened={formModalOpened}
+			<CreateCategoryModal
+				opened={formModalOpened && !editingCategory}
+				onClose={handleFormClose}
+				onSubmit={handleFormSubmit}
+				categories={categories}
+			/>
+
+			<EditCategoryModal
+				opened={formModalOpened && !!editingCategory}
 				onClose={handleFormClose}
 				onSubmit={handleFormSubmit}
 				category={editingCategory}
 				categories={categories}
-				title={editingCategory ? t('categories.edit_category') : t('categories.add_category')}
 			/>
 		</>
 	);

@@ -65,6 +65,7 @@
 	"categories": {
 		"title": "カテゴリ管理",
 		"add_category": "カテゴリを追加",
+		"create_category": "カテゴリを作成",
 		"edit_category": "カテゴリを編集",
 		"category_list": "カテゴリ一覧",
 		"search_categories": "カテゴリを検索...",

@@ -65,6 +65,7 @@
 	"categories": {
 		"title": "Categories",
 		"add_category": "Add Category",
+		"create_category": "Create Category",
 		"edit_category": "Edit Category",
 		"category_list": "Category List",
 		"search_categories": "Search categories...",

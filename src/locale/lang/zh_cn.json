@@ -65,6 +65,7 @@
 	"categories": {
 		"title": "分类管理",
 		"add_category": "添加分类",
+		"create_category": "创建分类",
 		"edit_category": "编辑分类",
 		"category_list": "分类列表",
 		"search_categories": "搜索分类...",
