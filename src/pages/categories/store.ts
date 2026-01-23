@@ -156,7 +156,10 @@ export const useCategoriesStore = create<CategoriesStore>()(
 /**
  * 构建分类树形结构
  */
-export const buildCategoryTree = (categories: Category[]): Category[] => {
+export const buildCategoryTree = (
+	categories: Category[],
+	sortBy?: { columnAccessor: string; direction: 'asc' | 'desc' },
+): Category[] => {
 	const categoryMap = new Map<number, Category>();
 	const rootCategories: Category[] = [];
 
@@ -170,10 +173,8 @@ export const buildCategoryTree = (categories: Category[]): Category[] => {
 		const categoryWithChildren = categoryMap.get(category.id)!;
 
 		if (category.parentId === 0) {
-			// 根分类
 			rootCategories.push(categoryWithChildren);
 		} else {
-			// 子分类
 			const parent = categoryMap.get(category.parentId);
 			if (parent) {
 				parent.children!.push(categoryWithChildren);
@@ -181,14 +182,36 @@ export const buildCategoryTree = (categories: Category[]): Category[] => {
 		}
 	});
 
-	// 按sortOrder排序
+	// 层级排序函数
 	const sortCategories = (cats: Category[]): Category[] => {
-		return cats
-			.sort((a, b) => a.sortOrder - b.sortOrder)
-			.map(cat => ({
-				...cat,
-				children: cat.children ? sortCategories(cat.children) : [],
-			}));
+		const sorted = [...cats].sort((a, b) => {
+			if (!sortBy) {
+				return a.sortOrder - b.sortOrder;
+			}
+
+			const aValue = a[sortBy.columnAccessor as keyof Category];
+			const bValue = b[sortBy.columnAccessor as keyof Category];
+
+			// 处理不同数据类型的排序
+			let comparison = 0;
+			if (typeof aValue === 'string' && typeof bValue === 'string') {
+				comparison = aValue.localeCompare(bValue);
+			} else if (typeof aValue === 'number' && typeof bValue === 'number') {
+				comparison = aValue - bValue;
+			} else if (aValue instanceof Date && bValue instanceof Date) {
+				comparison = aValue.getTime() - bValue.getTime();
+			} else {
+				comparison = String(aValue || '').localeCompare(String(bValue || ''));
+			}
+
+			return sortBy.direction === 'desc' ? -comparison : comparison;
+		});
+
+		// 递归排序子分类
+		return sorted.map(cat => ({
+			...cat,
+			children: cat.children ? sortCategories(cat.children) : [],
+		}));
 	};
 
 	return sortCategories(rootCategories);

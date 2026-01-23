@@ -8,19 +8,21 @@ import { DataTable, type DataTableSortStatus } from 'mantine-datatable';
 import { IconSearch, IconPlus } from '@tabler/icons-react';
 import { useNavigate } from 'react-router';
 import { useTranslation } from 'react-i18next';
-import { StatusBadge } from './components';
+import { StatusBadge } from '../../components';
 import { getCategoryListColumns } from './CategoryListColumns';
 import { useCategoriesStore, buildCategoryTree } from './store';
-import { DEFAULT_PAGE_SIZE, PAGE_SIZE_OPTIONS } from './constants';
-import type { Category, CategoryWithLevel } from './types';
+import { DEFAULT_PAGE_SIZE, PAGE_SIZE_OPTIONS, CATEGORY_STATUS_MAP } from './constants';
+import type { Category, CategoryWithLevel, CategoryFormValues } from './types';
 import { flattenCategories } from './utils/flattenCategories';
 import { useCategoryFilter } from './hooks/useCategoryFilter';
-import { DeleteCategoryModal } from './components/DeleteCategoryModal';
+import { DeleteCategoryModal, CategoryFormModal } from './components';
 
 export function CategoryList() {
 	const { t } = useTranslation();
 	const navigate = useNavigate();
 	const categories = useCategoriesStore(state => state.categories);
+	const addCategory = useCategoriesStore(state => state.addCategory);
+	const updateCategory = useCategoriesStore(state => state.updateCategory);
 	const deleteCategory = useCategoriesStore(state => state.deleteCategory);
 
 	const [page, setPage] = useState(1);
@@ -33,8 +35,12 @@ export function CategoryList() {
 	const [deleteModalOpened, setDeleteModalOpened] = useState(false);
 	const [categoryToDelete, setCategoryToDelete] = useState<{ id: number; name: string } | null>(null);
 	const [expandedCategoryIds, setExpandedCategoryIds] = useState<number[]>([]);
+	
+	// 添加/编辑Modal状态
+	const [formModalOpened, setFormModalOpened] = useState(false);
+	const [editingCategory, setEditingCategory] = useState<Category | null>(null);
 
-	const treeCategories = useMemo(() => buildCategoryTree(categories), [categories]);
+	const treeCategories = useMemo(() => buildCategoryTree(categories, sortStatus), [categories, sortStatus]);
 
 	const flatCategories = useMemo(
 		() => flattenCategories(treeCategories, expandedCategoryIds),
@@ -55,7 +61,18 @@ export function CategoryList() {
 
 	const totalRecords = filteredCategories.length;
 
-	const getStatusBadge = (status: number) => <StatusBadge status={status} />;
+	const getStatusBadge = (status: number) => {
+		const statusMap = Object.fromEntries(
+			Object.entries(CATEGORY_STATUS_MAP).map(([key, config]) => [
+				key,
+				{
+					color: config.color,
+					label: t(`categories.status_${key === '1' ? 'active' : 'inactive'}`),
+				},
+			]),
+		);
+		return <StatusBadge status={status} statusMap={statusMap} />;
+	};
 
 	const handleView = (id: number) => {
 		console.log('View category:', id);
@@ -63,8 +80,33 @@ export function CategoryList() {
 	};
 
 	const handleEdit = (id: number) => {
-		console.log('Edit category:', id);
-		navigate(`/categories/${id}/edit`);
+		const category = categories.find(c => c.id === id);
+		if (category) {
+			setEditingCategory(category);
+			setFormModalOpened(true);
+		}
+	};
+
+	const handleAdd = () => {
+		setEditingCategory(null);
+		setFormModalOpened(true);
+	};
+
+	const handleFormSubmit = (values: CategoryFormValues) => {
+		if (editingCategory) {
+			// 编辑模式
+			updateCategory(editingCategory.id, values);
+		} else {
+			// 添加模式
+			addCategory(values);
+		}
+		setFormModalOpened(false);
+		setEditingCategory(null);
+	};
+
+	const handleFormClose = () => {
+		setFormModalOpened(false);
+		setEditingCategory(null);
 	};
 
 	const handleDelete = (id: number) => {
@@ -119,7 +161,7 @@ export function CategoryList() {
 								onChange={e => setSearch(e.currentTarget.value)}
 								style={{ flex: 1, maxWidth: 400 }}
 							/>
-							<Button leftSection={<IconPlus size={16} />} onClick={() => navigate('/categories/create')}>
+							<Button leftSection={<IconPlus size={16} />} onClick={handleAdd}>
 								{t('categories.add_category')}
 							</Button>
 						</Group>
@@ -155,6 +197,15 @@ export function CategoryList() {
 				categoryName={categoryToDelete?.name}
 				onConfirm={handleConfirmDelete}
 				onCancel={handleCancelDelete}
+			/>
+
+			<CategoryFormModal
+				opened={formModalOpened}
+				onClose={handleFormClose}
+				onSubmit={handleFormSubmit}
+				category={editingCategory}
+				categories={categories}
+				title={editingCategory ? t('categories.edit_category') : t('categories.add_category')}
 			/>
 		</>
 	);

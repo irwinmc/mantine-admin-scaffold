@@ -10,3 +10,4 @@ export { AppFooter } from './layout/AppFooter';
 
 // Common Components
 export { SectionCard } from './common/SectionCard';
+export { StatusBadge } from './common/StatusBadge';
