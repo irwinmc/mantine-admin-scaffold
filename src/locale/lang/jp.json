@@ -101,7 +101,9 @@
 		"parent_category_placeholder": "親カテゴリを選択",
 		"sort_order_placeholder": "0",
 		"sort_order_description": "小さい数字ほど前に表示",
-		"status_description": "このカテゴリを有効または無効にする"
+		"status_description": "このカテゴリを有効または無効にする",
+		"required_fields": "必須フィールド",
+		"optional_fields": "オプションフィールド"
 	},
 	"products": {
 		"title": "製品管理",

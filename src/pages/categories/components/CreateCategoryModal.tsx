@@ -19,18 +19,21 @@ export function CreateCategoryModal({ opened, onClose, onSubmit, categories }: C
 	};
 
 	return (
-		<Modal
-			opened={opened}
-			onClose={onClose}
-			title={
-				<Text size="lg" fw={600}>
-					{t('categories.create_category')}
-				</Text>
-			}
-			size="md"
-			centered
-		>
-			<CategoryForm onSubmit={handleSubmit} onCancel={onClose} categories={categories} />
-		</Modal>
+		<Modal.Root opened={opened} onClose={onClose} size="xl" centered>
+			<Modal.Overlay />
+			<Modal.Content>
+				<Modal.Header>
+					<Modal.Title>
+						<Text size="lg" fw={600}>
+							{t('categories.create_category')}
+						</Text>
+					</Modal.Title>
+					<Modal.CloseButton />
+				</Modal.Header>
+				<Modal.Body p={0}>
+					<CategoryForm onSubmit={handleSubmit} onCancel={onClose} categories={categories} />
+				</Modal.Body>
+			</Modal.Content>
+		</Modal.Root>
 	);
 }

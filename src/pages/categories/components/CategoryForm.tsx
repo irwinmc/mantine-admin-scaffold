@@ -1,4 +1,4 @@
-import { TextInput, Textarea, Select, NumberInput, Switch, Button, Group, Stack } from '@mantine/core';
+import { TextInput, Textarea, Select, NumberInput, Switch, Button, Group, Stack, Tabs, Divider } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { useTranslation } from 'react-i18next';
 import type { Category, CategoryFormValues } from '../types';
@@ -71,67 +71,84 @@ export function CategoryForm({ onSubmit, onCancel, category, categories, initial
 
 	return (
 		<form onSubmit={form.onSubmit(handleSubmit)}>
-			<Stack gap="md">
-				<TextInput
-					label={t('categories.name')}
-					placeholder={t('categories.name_placeholder')}
-					required
-					{...form.getInputProps('name')}
-					onChange={e => handleNameChange(e.currentTarget.value)}
-				/>
+			<Stack gap={0}>
+				<Tabs defaultValue="required" variant="outline" orientation="vertical">
+					<Tabs.List>
+						<Tabs.Tab value="required">{t('categories.required_fields')}</Tabs.Tab>
+						<Tabs.Tab value="optional">{t('categories.optional_fields')}</Tabs.Tab>
+					</Tabs.List>
 
-				<TextInput
-					label={t('categories.slug')}
-					placeholder={t('categories.slug_placeholder')}
-					description={t('categories.slug_description')}
-					required
-					{...form.getInputProps('slug')}
-				/>
+					<Tabs.Panel value="required" pl="md">
+						<Stack gap="md">
+							<TextInput
+								label={t('categories.name')}
+								placeholder={t('categories.name_placeholder')}
+								required
+								{...form.getInputProps('name')}
+								onChange={e => handleNameChange(e.currentTarget.value)}
+							/>
 
-				<Textarea
-					label={t('categories.description')}
-					placeholder={t('categories.description_placeholder')}
-					rows={3}
-					{...form.getInputProps('description')}
-				/>
+							<TextInput
+								label={t('categories.slug')}
+								placeholder={t('categories.slug_placeholder')}
+								description={t('categories.slug_description')}
+								required
+								{...form.getInputProps('slug')}
+							/>
 
-				<TextInput
-					label={t('categories.image')}
-					placeholder={t('categories.image_placeholder')}
-					description={t('categories.image_description')}
-					{...form.getInputProps('image')}
-				/>
+							<Select
+								label={t('categories.parent_category')}
+								placeholder={t('categories.parent_category_placeholder')}
+								data={getParentCategoryOptions()}
+								{...form.getInputProps('parentId')}
+								onChange={value => form.setFieldValue('parentId', parseInt(value || '0'))}
+								value={form.values.parentId.toString()}
+							/>
 
-				<Select
-					label={t('categories.parent_category')}
-					placeholder={t('categories.parent_category_placeholder')}
-					data={getParentCategoryOptions()}
-					{...form.getInputProps('parentId')}
-					onChange={value => form.setFieldValue('parentId', parseInt(value || '0'))}
-					value={form.values.parentId.toString()}
-				/>
+							<NumberInput
+								label={t('categories.sort_order')}
+								placeholder={t('categories.sort_order_placeholder')}
+								description={t('categories.sort_order_description')}
+								min={0}
+								{...form.getInputProps('sortOrder')}
+							/>
 
-				<NumberInput
-					label={t('categories.sort_order')}
-					placeholder={t('categories.sort_order_placeholder')}
-					description={t('categories.sort_order_description')}
-					min={0}
-					{...form.getInputProps('sortOrder')}
-				/>
+							<Switch
+								label={t('categories.status_active')}
+								description={t('categories.status_description')}
+								checked={form.values.status === CategoryStatus.ACTIVE}
+								onChange={event =>
+									form.setFieldValue(
+										'status',
+										event.currentTarget.checked ? CategoryStatus.ACTIVE : CategoryStatus.INACTIVE,
+									)
+								}
+							/>
+						</Stack>
+					</Tabs.Panel>
 
-				<Switch
-					label={t('categories.status_active')}
-					description={t('categories.status_description')}
-					checked={form.values.status === CategoryStatus.ACTIVE}
-					onChange={event =>
-						form.setFieldValue(
-							'status',
-							event.currentTarget.checked ? CategoryStatus.ACTIVE : CategoryStatus.INACTIVE,
-						)
-					}
-				/>
+					<Tabs.Panel value="optional" pl="md">
+						<Stack gap="md">
+							<Textarea
+								label={t('categories.description')}
+								placeholder={t('categories.description_placeholder')}
+								rows={4}
+								{...form.getInputProps('description')}
+							/>
 
-				<Group justify="flex-end" gap="sm" mt="lg">
+							<TextInput
+								label={t('categories.image')}
+								placeholder={t('categories.image_placeholder')}
+								description={t('categories.image_description')}
+								{...form.getInputProps('image')}
+							/>
+						</Stack>
+					</Tabs.Panel>
+				</Tabs>
+
+				<Divider />
+
+				<Group justify="flex-end" gap="sm" p="md">
 					<Button variant="default" onClick={onCancel}>
 						{t('common.cancel')}
 					</Button>

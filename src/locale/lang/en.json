@@ -101,7 +101,9 @@
 		"parent_category_placeholder": "Select parent category",
 		"sort_order_placeholder": "0",
 		"sort_order_description": "Lower numbers appear first",
-		"status_description": "Enable or disable this category"
+		"status_description": "Enable or disable this category",
+		"required_fields": "Required Fields",
+		"optional_fields": "Optional Fields"
 	},
 	"products": {
 		"title": "Products",

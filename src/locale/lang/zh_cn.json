@@ -101,7 +101,9 @@
 		"parent_category_placeholder": "选择父分类",
 		"sort_order_placeholder": "0",
 		"sort_order_description": "数字越小越靠前",
-		"status_description": "启用或停用此分类"
+		"status_description": "启用或停用此分类",
+		"required_fields": "必填字段",
+		"optional_fields": "可选字段"
 	},
 	"products": {
 		"title": "产品管理",

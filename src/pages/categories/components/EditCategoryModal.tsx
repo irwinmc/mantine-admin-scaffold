@@ -41,8 +41,9 @@ export function EditCategoryModal({ opened, onClose, onSubmit, category, categor
 					{t('categories.edit_category')}
 				</Text>
 			}
-			size="md"
+			size="xl"
 			centered
+			padding={0}
 		>
 			<CategoryForm
 				onSubmit={handleSubmit}
