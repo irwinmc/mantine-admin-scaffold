@@ -154,3 +154,44 @@ export const useCategoriesStore = create<CategoriesStore>()(
 		{ name: 'categories-store' }
 	)
 );
+
+/**
+ * 构建分类树形结构
+ */
+export const buildCategoryTree = (categories: Category[]): Category[] => {
+	const categoryMap = new Map<number, Category>();
+	const rootCategories: Category[] = [];
+
+	// 创建分类映射并初始化children数组
+	categories.forEach(category => {
+		categoryMap.set(category.id, { ...category, children: [] });
+	});
+
+	// 构建树形结构
+	categories.forEach(category => {
+		const categoryWithChildren = categoryMap.get(category.id)!;
+		
+		if (category.parentId === 0) {
+			// 根分类
+			rootCategories.push(categoryWithChildren);
+		} else {
+			// 子分类
+			const parent = categoryMap.get(category.parentId);
+			if (parent) {
+				parent.children!.push(categoryWithChildren);
+			}
+		}
+	});
+
+	// 按sortOrder排序
+	const sortCategories = (cats: Category[]): Category[] => {
+		return cats
+			.sort((a, b) => a.sortOrder - b.sortOrder)
+			.map(cat => ({
+				...cat,
+				children: cat.children ? sortCategories(cat.children) : []
+			}));
+	};
+
+	return sortCategories(rootCategories);
+};

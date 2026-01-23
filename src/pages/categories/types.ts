@@ -34,14 +34,19 @@ export interface CategoryFormValues {
 }
 
 /**
+ * 分类（扩展了level属性用于显示层级）
+ */
+export interface CategoryWithLevel extends Category {
+	level?: number;
+}
+/**
  * 分类状态常量
  */
 export const CategoryStatus = {
 	INACTIVE: 0,
 	ACTIVE: 1,
-} as const;
 
-export type CategoryStatus = typeof CategoryStatus[keyof typeof CategoryStatus];
+} as const;
 
 /**
  * 分类状态选项

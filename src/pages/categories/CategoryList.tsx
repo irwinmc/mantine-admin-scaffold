@@ -1,18 +1,19 @@
 /**
- * CategoryList 页面 - 分类列表
+ * CategoryList 页面 - 分类列表（嵌套显示）
  */
 
-import { useState, useMemo } from 'react';
-import { Card, Stack, Title, TextInput, Button, Box, Group, Text, Modal, Divider } from '@mantine/core';
+import { useState, useMemo, useCallback } from 'react';
+import { Stack, Title, TextInput, Button, Box, Group, Text, Modal } from '@mantine/core';
 import { DataTable, type DataTableSortStatus } from 'mantine-datatable';
 import { IconSearch, IconPlus, IconAlertTriangle } from '@tabler/icons-react';
 import { useNavigate } from 'react-router';
 import { useTranslation } from 'react-i18next';
+import { SectionCard } from '../../components';
 import { StatusBadge } from './components';
 import { getCategoryListColumns } from './CategoryListColumns';
-import { useCategoriesStore } from './store';
+import { useCategoriesStore, buildCategoryTree } from './store';
 import { DEFAULT_PAGE_SIZE, PAGE_SIZE_OPTIONS } from './constants';
-import type { Category } from './types';
+import type { Category, CategoryWithLevel } from './types';
 
 export function CategoryList() {
 	const { t } = useTranslation();
@@ -29,50 +30,62 @@ export function CategoryList() {
 	});
 	const [deleteModalOpened, setDeleteModalOpened] = useState(false);
 	const [categoryToDelete, setCategoryToDelete] = useState<{ id: number; name: string } | null>(null);
+	const [expandedCategoryIds, setExpandedCategoryIds] = useState<number[]>([]);
+
+	// 构建树形结构的分类数据
+	const treeCategories = useMemo(() => {
+		return buildCategoryTree(categories);
+	}, [categories]);
+
+	// 扁平化树形结构用于搜索和分页
+	const flattenCategories = useCallback((cats: Category[]): CategoryWithLevel[] => {
+		const result: CategoryWithLevel[] = [];
+
+		const flatten = (categories: Category[], level = 0) => {
+			categories.forEach(category => {
+				result.push({ ...category, level });
+				if (category.children && category.children.length > 0 && expandedCategoryIds.includes(category.id)) {
+					flatten(category.children, level + 1);
+				}
+			});
+		};
+
+		flatten(cats);
+		return result;
+	}, [expandedCategoryIds]);
 
 	const records = useMemo(() => {
 		const from = (page - 1) * pageSize;
 		const to = from + pageSize;
-		const filteredData = categories.filter(
+
+		// 先扁平化，然后过滤搜索
+		const flatCategories = flattenCategories(treeCategories);
+		const filteredData = flatCategories.filter(
 			category =>
 				category.name.toLowerCase().includes(search.toLowerCase()) ||
 				category.slug.toLowerCase().includes(search.toLowerCase()) ||
-				(category.description && category.description.toLowerCase().includes(search.toLowerCase()))
+				(category.description && category.description.toLowerCase().includes(search.toLowerCase())),
 		);
-		const sortedData = [...filteredData].sort((a, b) => {
-			const accessor = sortStatus.columnAccessor as keyof Category;
-			const aValue = a[accessor];
-			const bValue = b[accessor];
 
-			if (aValue === undefined && bValue === undefined) return 0;
-			if (aValue === undefined) return 1;
-			if (bValue === undefined) return -1;
+		// 如果有搜索条件，不进行分页，显示所有匹配结果
+		if (search) {
+			return filteredData;
+		}
 
-			if (aValue === bValue) return 0;
-			if (sortStatus.direction === 'asc') {
-				return aValue > bValue ? 1 : -1;
-			} else {
-				return aValue < bValue ? 1 : -1;
-			}
-		});
-		return sortedData.slice(from, to);
-	}, [page, pageSize, sortStatus, search, categories]);
+		return filteredData.slice(from, to);
+	}, [page, pageSize, search, treeCategories, flattenCategories]);
 
 	const totalRecords = useMemo(() => {
-		return categories.filter(
+		const flatCategories = flattenCategories(treeCategories);
+		return flatCategories.filter(
 			category =>
 				category.name.toLowerCase().includes(search.toLowerCase()) ||
 				category.slug.toLowerCase().includes(search.toLowerCase()) ||
-				(category.description && category.description.toLowerCase().includes(search.toLowerCase()))
+				(category.description && category.description.toLowerCase().includes(search.toLowerCase())),
 		).length;
-	}, [search, categories]);
+	}, [search, treeCategories, flattenCategories]);
 
 	const getStatusBadge = (status: number) => <StatusBadge status={status} />;
-
-	const getParentName = (parentId: number) => {
-		const parent = categories.find(cat => cat.id === parentId);
-		return parent ? parent.name : t('categories.unknown_parent');
-	};
 
 	const handleView = (id: number) => {
 		console.log('View category:', id);
@@ -108,10 +121,10 @@ export function CategoryList() {
 	const columns = getCategoryListColumns({
 		t,
 		getStatusBadge,
-		getParentName,
 		handleView,
 		handleEdit,
 		handleDelete,
+		expandedCategoryIds,
 	});
 
 	return (
@@ -119,9 +132,12 @@ export function CategoryList() {
 			<Stack gap="lg">
 				<Group justify="space-between" align="center">
 					<Title order={2}>{t('categories.title')}</Title>
+					<Button leftSection={<IconPlus size={16} />} onClick={() => navigate('/categories/create')}>
+						{t('categories.add_category')}
+					</Button>
 				</Group>
 
-				<Card p={0} radius="md" withBorder>
+				<SectionCard title={t('categories.category_list')} contentPadding={0}>
 					<Box p="lg">
 						<Group justify="space-between">
 							<TextInput
@@ -131,18 +147,10 @@ export function CategoryList() {
 								onChange={e => setSearch(e.currentTarget.value)}
 								style={{ flex: 1, maxWidth: 400 }}
 							/>
-                            <Button
-						leftSection={<IconPlus size={16} />}
-						onClick={() => navigate('/categories/create')}
-					>
-						{t('categories.add_category')}
-					</Button>
 						</Group>
 					</Box>
 
-                    <Divider/>
-
-					<DataTable
+					<DataTable<CategoryWithLevel>
 						striped
 						highlightOnHover
 						withColumnBorders
@@ -161,8 +169,41 @@ export function CategoryList() {
 							t('categories.showing_results', { from, to, total: totalRecords })
 						}
 						paginationSize="sm"
+						rowExpansion={{
+							allowMultiple: true,
+							expanded: {
+								recordIds: expandedCategoryIds,
+								onRecordIdsChange: setExpandedCategoryIds,
+							},
+							content: ({ record: category }) => {
+								if (!category.children || category.children.length === 0) {
+									return null;
+								}
+
+								return (
+									<DataTable<Category>
+										noHeader
+										withColumnBorders
+										records={category.children}
+										columns={columns.map(col => ({
+											...col,
+											render: col.render
+												? (childCategory: Category, index: number) => {
+														if (col.accessor === 'name') {
+															// 为子分类添加缩进
+															const originalRender = col.render!(childCategory, index);
+															return <Box ml={20}>{originalRender}</Box>;
+														}
+														return col.render!(childCategory, index);
+													}
+												: undefined,
+										}))}
+									/>
+								);
+							},
+						}}
 					/>
-				</Card>
+				</SectionCard>
 			</Stack>
 
 			{/* 删除确认 Modal */}
