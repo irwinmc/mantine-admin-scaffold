@@ -1,11 +1,10 @@
-import { TextInput, Textarea, Select, NumberInput, Switch, Button, Group, Stack } from '@mantine/core';
-import { useState } from 'react';
+import { TextInput, Textarea, Select, NumberInput, Switch, Stack } from '@mantine/core';
 import { IconInfoCircle, IconPhoto } from '@tabler/icons-react';
 import { useForm } from '@mantine/form';
 import { useTranslation } from 'react-i18next';
 import type { Category, CategoryFormValues } from '../types';
 import { CategoryStatus } from '../types';
-import classes from './CategoryForm.module.css';
+import { TabbedForm, type TabItem } from '../../../components';
 
 interface CategoryFormProps {
 	onSubmit: (values: CategoryFormValues) => void;
@@ -17,7 +16,6 @@ interface CategoryFormProps {
 
 export function CategoryForm({ onSubmit, onCancel, category, categories, initialValues }: CategoryFormProps) {
 	const { t } = useTranslation();
-	const [activeTab, setActiveTab] = useState<'required' | 'optional'>('required');
 
 	const form = useForm<CategoryFormValues>({
 		initialValues: {
@@ -73,117 +71,88 @@ export function CategoryForm({ onSubmit, onCancel, category, categories, initial
 		}
 	};
 
-	return (
-		<form onSubmit={form.onSubmit(handleSubmit)}>
-			<div className={classes.modalContainer}>
-				{/* 左侧导航 */}
-				<div className={classes.sidebar}>
-					<Stack gap="xs">
-						<button
-							type="button"
-							className={`${classes.menuItem} ${activeTab === 'required' ? classes.menuItemActive : ''}`}
-							onClick={() => setActiveTab('required')}
-						>
-							<IconInfoCircle size={16} />
-							{t('categories.required_fields')}
-						</button>
-						<button
-							type="button"
-							className={`${classes.menuItem} ${activeTab === 'optional' ? classes.menuItemActive : ''}`}
-							onClick={() => setActiveTab('optional')}
-						>
-							<IconPhoto size={16} />
-							{t('categories.optional_fields')}
-						</button>
-					</Stack>
-				</div>
+	const tabs: TabItem[] = [
+		{
+			key: 'required',
+			label: t('categories.required_fields'),
+			icon: <IconInfoCircle size={16} />,
+			content: (
+				<Stack gap="md">
+					<TextInput
+						label={t('categories.name')}
+						placeholder={t('categories.name_placeholder')}
+						required
+						{...form.getInputProps('name')}
+						onChange={e => handleNameChange(e.currentTarget.value)}
+					/>
 
-				{/* 右侧内容区域 */}
-				<div className={classes.content}>
-					<div className={classes.scrollContainer}>
-						{activeTab === 'required' && (
-							<Stack gap="md">
-								<TextInput
-									label={t('categories.name')}
-									placeholder={t('categories.name_placeholder')}
-									required
-									{...form.getInputProps('name')}
-									onChange={e => handleNameChange(e.currentTarget.value)}
-								/>
+					<TextInput
+						label={t('categories.slug')}
+						placeholder={t('categories.slug_placeholder')}
+						description={t('categories.slug_description')}
+						required
+						{...form.getInputProps('slug')}
+					/>
 
-								<TextInput
-									label={t('categories.slug')}
-									placeholder={t('categories.slug_placeholder')}
-									description={t('categories.slug_description')}
-									required
-									{...form.getInputProps('slug')}
-								/>
+					<Select
+						label={t('categories.parent_category')}
+						placeholder={t('categories.parent_category_placeholder')}
+						data={getParentCategoryOptions()}
+						{...form.getInputProps('parentId')}
+						onChange={value => form.setFieldValue('parentId', parseInt(value || '0'))}
+						value={form.values.parentId.toString()}
+					/>
 
-								<Select
-									label={t('categories.parent_category')}
-									placeholder={t('categories.parent_category_placeholder')}
-									data={getParentCategoryOptions()}
-									{...form.getInputProps('parentId')}
-									onChange={value => form.setFieldValue('parentId', parseInt(value || '0'))}
-									value={form.values.parentId.toString()}
-								/>
+					<NumberInput
+						label={t('categories.sort_order')}
+						placeholder={t('categories.sort_order_placeholder')}
+						description={t('categories.sort_order_description')}
+						min={0}
+						{...form.getInputProps('sortOrder')}
+					/>
 
-								<NumberInput
-									label={t('categories.sort_order')}
-									placeholder={t('categories.sort_order_placeholder')}
-									description={t('categories.sort_order_description')}
-									min={0}
-									{...form.getInputProps('sortOrder')}
-								/>
+					<Switch
+						label={t('categories.status_active')}
+						description={t('categories.status_description')}
+						checked={form.values.status === CategoryStatus.ACTIVE}
+						onChange={event =>
+							form.setFieldValue(
+								'status',
+								event.currentTarget.checked ? CategoryStatus.ACTIVE : CategoryStatus.INACTIVE,
+							)
+						}
+					/>
+				</Stack>
+			),
+		},
+		{
+			key: 'optional',
+			label: t('categories.optional_fields'),
+			icon: <IconPhoto size={16} />,
+			content: (
+				<Stack gap="md">
+					<Textarea
+						label={t('categories.description')}
+						placeholder={t('categories.description_placeholder')}
+						rows={6}
+						{...form.getInputProps('description')}
+					/>
 
-								<Switch
-									label={t('categories.status_active')}
-									description={t('categories.status_description')}
-									checked={form.values.status === CategoryStatus.ACTIVE}
-									onChange={event =>
-										form.setFieldValue(
-											'status',
-											event.currentTarget.checked
-												? CategoryStatus.ACTIVE
-												: CategoryStatus.INACTIVE,
-										)
-									}
-								/>
-							</Stack>
-						)}
+					<TextInput
+						label={t('categories.image')}
+						placeholder={t('categories.image_placeholder')}
+						description={t('categories.image_description')}
+						{...form.getInputProps('image')}
+					/>
+				</Stack>
+			),
+		},
+	];
 
-						{activeTab === 'optional' && (
-							<Stack gap="md">
-								<Textarea
-									label={t('categories.description')}
-									placeholder={t('categories.description_placeholder')}
-									rows={6}
-									{...form.getInputProps('description')}
-								/>
+	const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+		e.preventDefault();
+		form.onSubmit(handleSubmit)(e);
+	};
 
-								<TextInput
-									label={t('categories.image')}
-									placeholder={t('categories.image_placeholder')}
-									description={t('categories.image_description')}
-									{...form.getInputProps('image')}
-								/>
-							</Stack>
-						)}
-					</div>
-
-					{/* 底部按钮区域 */}
-					<div className={classes.footer}>
-						<Group justify="flex-end" gap="sm">
-							<Button variant="default" onClick={onCancel}>
-								{t('common.cancel')}
-							</Button>
-							<Button type="submit">
-								{category || initialValues ? t('common.save') : t('common.create')}
-							</Button>
-						</Group>
-					</div>
-				</div>
-			</div>
-		</form>
-	);
+	return <TabbedForm tabs={tabs} onSubmit={handleFormSubmit} onCancel={onCancel} />;
 }
