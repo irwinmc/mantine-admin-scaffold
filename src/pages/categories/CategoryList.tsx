@@ -32,12 +32,14 @@ export function CategoryList() {
 		columnAccessor: 'sortOrder',
 		direction: 'asc',
 	});
+	// Modal状态
 	const [deleteModalOpened, setDeleteModalOpened] = useState(false);
 	const [categoryToDelete, setCategoryToDelete] = useState<{ id: number; name: string } | null>(null);
 	const [expandedCategoryIds, setExpandedCategoryIds] = useState<number[]>([]);
 	
 	// 添加/编辑Modal状态
-	const [formModalOpened, setFormModalOpened] = useState(false);
+	const [createModalOpened, setCreateModalOpened] = useState(false);
+	const [editModalOpened, setEditModalOpened] = useState(false);
 	const [editingCategory, setEditingCategory] = useState<Category | null>(null);
 
 	const treeCategories = useMemo(() => buildCategoryTree(categories, sortStatus), [categories, sortStatus]);
@@ -83,29 +85,33 @@ export function CategoryList() {
 		const category = categories.find(c => c.id === id);
 		if (category) {
 			setEditingCategory(category);
-			setFormModalOpened(true);
+			setEditModalOpened(true);
 		}
 	};
 
 	const handleAdd = () => {
-		setEditingCategory(null);
-		setFormModalOpened(true);
+		setCreateModalOpened(true);
 	};
 
-	const handleFormSubmit = (values: CategoryFormValues) => {
+	const handleCreateSubmit = (values: CategoryFormValues) => {
+		addCategory(values);
+		setCreateModalOpened(false);
+	};
+
+	const handleEditSubmit = (values: CategoryFormValues) => {
 		if (editingCategory) {
-			// 编辑模式
 			updateCategory(editingCategory.id, values);
-		} else {
-			// 添加模式
-			addCategory(values);
 		}
-		setFormModalOpened(false);
+		setEditModalOpened(false);
 		setEditingCategory(null);
 	};
 
-	const handleFormClose = () => {
-		setFormModalOpened(false);
+	const handleCreateClose = () => {
+		setCreateModalOpened(false);
+	};
+
+	const handleEditClose = () => {
+		setEditModalOpened(false);
 		setEditingCategory(null);
 	};
 
@@ -200,16 +206,16 @@ export function CategoryList() {
 			/>
 
 			<CreateCategoryModal
-				opened={formModalOpened && !editingCategory}
-				onClose={handleFormClose}
-				onSubmit={handleFormSubmit}
+				opened={createModalOpened}
+				onClose={handleCreateClose}
+				onSubmit={handleCreateSubmit}
 				categories={categories}
 			/>
 
 			<EditCategoryModal
-				opened={formModalOpened && !!editingCategory}
-				onClose={handleFormClose}
-				onSubmit={handleFormSubmit}
+				opened={editModalOpened}
+				onClose={handleEditClose}
+				onSubmit={handleEditSubmit}
 				category={editingCategory}
 				categories={categories}
 			/>
