@@ -143,7 +143,9 @@ export function CategoryForm({ onSubmit, onCancel, category, categories, initial
 									onChange={event =>
 										form.setFieldValue(
 											'status',
-											event.currentTarget.checked ? CategoryStatus.ACTIVE : CategoryStatus.INACTIVE,
+											event.currentTarget.checked
+												? CategoryStatus.ACTIVE
+												: CategoryStatus.INACTIVE,
 										)
 									}
 								/>
@@ -175,7 +177,9 @@ export function CategoryForm({ onSubmit, onCancel, category, categories, initial
 							<Button variant="default" onClick={onCancel}>
 								{t('common.cancel')}
 							</Button>
-							<Button type="submit">{category || initialValues ? t('common.save') : t('common.create')}</Button>
+							<Button type="submit">
+								{category || initialValues ? t('common.save') : t('common.create')}
+							</Button>
 						</Group>
 					</div>
 				</div>
