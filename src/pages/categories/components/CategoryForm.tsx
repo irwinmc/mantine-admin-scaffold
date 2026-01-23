@@ -4,6 +4,8 @@ import { useTranslation } from 'react-i18next';
 import type { Category, CategoryFormValues } from '../types';
 import { CategoryStatus } from '../types';
 
+const PANEL_HEIGHT = 430;
+
 interface CategoryFormProps {
 	onSubmit: (values: CategoryFormValues) => void;
 	onCancel: () => void;
@@ -78,8 +80,8 @@ export function CategoryForm({ onSubmit, onCancel, category, categories, initial
 						<Tabs.Tab value="optional">{t('categories.optional_fields')}</Tabs.Tab>
 					</Tabs.List>
 
-					<Tabs.Panel value="required">
-						<Stack gap="md" p="md">
+					<Tabs.Panel value="required" h={PANEL_HEIGHT}>
+						<Stack gap="md" p="md" h="100%">
 							<TextInput
 								label={t('categories.name')}
 								placeholder={t('categories.name_placeholder')}
@@ -127,8 +129,8 @@ export function CategoryForm({ onSubmit, onCancel, category, categories, initial
 						</Stack>
 					</Tabs.Panel>
 
-					<Tabs.Panel value="optional">
-						<Stack gap="md" p="md">
+					<Tabs.Panel value="optional" h={PANEL_HEIGHT}>
+						<Stack gap="md" p="md" h="100%">
 							<Textarea
 								label={t('categories.description')}
 								placeholder={t('categories.description_placeholder')}
