@@ -1,15 +1,14 @@
 import { useState } from 'react';
+import superjson from 'superjson';
 
-/**
- * 响应式的 localStorage hook
- * 提供类似 useState 的 API，但数据会持久化到 localStorage
- */
 export function useLocalStorage<T>(key: string, initialValue: T) {
 	// 从 localStorage 读取初始值
 	const [storedValue, setStoredValue] = useState<T>(() => {
 		try {
 			const item = window.localStorage.getItem(key);
-			return item ? JSON.parse(item) : initialValue;
+			if (item === null) return initialValue;
+
+			return superjson.parse(item);
 		} catch (error) {
 			console.warn(`Error reading localStorage key "${key}":`, error);
 			window.localStorage.removeItem(key);
@@ -26,7 +25,7 @@ export function useLocalStorage<T>(key: string, initialValue: T) {
 			if (valueToStore === null || valueToStore === undefined) {
 				window.localStorage.removeItem(key);
 			} else {
-				window.localStorage.setItem(key, JSON.stringify(valueToStore));
+				window.localStorage.setItem(key, superjson.stringify(valueToStore));
 			}
 		} catch (error) {
 			console.warn(`Error setting localStorage key "${key}":`, error);
