@@ -4,17 +4,14 @@ import { supabase } from '../libs/supabase';
 import { ROUTES } from '../constants';
 import { useAuthStore } from '../store/authStore';
 import { useLocalStorage } from './useLocalStorage';
-import type { User, LoginCredentials, RegisterCredentials, RememberedEmailData } from '../types';
+import type { User, LoginCredentials, RegisterCredentials } from '../types';
 
 export function useAuth() {
 	const navigate = useNavigate();
 	const { user, isAuthenticated, setUser } = useAuthStore();
 	const [isLoading, setIsLoading] = useState(true);
 	const [error, setError] = useState<string | null>(null);
-	const [rememberedEmailData, setRememberedEmailData] = useLocalStorage<RememberedEmailData | null>(
-		'rememberedEmail',
-		null,
-	);
+	const [rememberedEmail, setRememberedEmail] = useLocalStorage<string>('rememberedEmail', '');
 
 	useEffect(() => {
 		const checkInitialAuth = async () => {
@@ -77,22 +74,9 @@ export function useAuth() {
 				if (authError) throw authError;
 
 				if (credentials.rememberMe) {
-					const currentData = rememberedEmailData || {
-						email: credentials.email,
-						lastLoginAt: new Date().toISOString(),
-						loginCount: 0,
-						isRemembered: true,
-					};
-
-					setRememberedEmailData({
-						...currentData,
-						email: credentials.email,
-						lastLoginAt: new Date().toISOString(),
-						loginCount: currentData.loginCount + 1,
-						isRemembered: true,
-					});
+					setRememberedEmail(credentials.email);
 				} else {
-					setRememberedEmailData(null);
+					setRememberedEmail('');
 				}
 
 				if (data.user) {
@@ -107,7 +91,7 @@ export function useAuth() {
 				setIsLoading(false);
 			}
 		},
-		[navigate, setRememberedEmailData, rememberedEmailData],
+		[navigate, setRememberedEmail],
 	);
 
 	const register = useCallback(async (credentials: RegisterCredentials) => {
@@ -164,15 +148,15 @@ export function useAuth() {
 	);
 
 	const clearRememberedEmail = useCallback(() => {
-		setRememberedEmailData(null);
-	}, [setRememberedEmailData]);
+		setRememberedEmail('');
+	}, [setRememberedEmail]);
 
 	return {
 		user,
 		isAuthenticated,
 		isLoading,
 		error,
-		rememberedEmailData,
+		rememberedEmail,
 		login,
 		register,
 		logout,

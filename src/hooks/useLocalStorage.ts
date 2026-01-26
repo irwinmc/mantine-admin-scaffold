@@ -12,7 +12,6 @@ export function useLocalStorage<T>(key: string, initialValue: T) {
 			return item ? JSON.parse(item) : initialValue;
 		} catch (error) {
 			console.warn(`Error reading localStorage key "${key}":`, error);
-			// 如果解析失败，清除无效数据并返回初始值
 			window.localStorage.removeItem(key);
 			return initialValue;
 		}
@@ -21,11 +20,9 @@ export function useLocalStorage<T>(key: string, initialValue: T) {
 	// 设置值的函数
 	const setValue = (value: T | ((val: T) => T)) => {
 		try {
-			// 支持函数式更新
 			const valueToStore = value instanceof Function ? value(storedValue) : value;
 			setStoredValue(valueToStore);
 
-			// 保存到 localStorage
 			if (valueToStore === null || valueToStore === undefined) {
 				window.localStorage.removeItem(key);
 			} else {

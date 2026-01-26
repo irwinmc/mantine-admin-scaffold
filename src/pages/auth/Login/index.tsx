@@ -28,14 +28,14 @@ export function Login() {
 	const [password, setPassword] = useState('');
 	const [rememberMe, setRememberMe] = useState(false);
 	const navigate = useNavigate();
-	const { login, isLoading, rememberedEmailData } = useAuth();
+	const { login, isLoading, rememberedEmail } = useAuth();
 
 	useEffect(() => {
-		if (rememberedEmailData?.isRemembered && rememberedEmailData.email) {
-			setEmail(rememberedEmailData.email);
+		if (rememberedEmail) {
+			setEmail(rememberedEmail);
 			setRememberMe(true);
 		}
-	}, [rememberedEmailData]);
+	}, [rememberedEmail]);
 
 	const handleSubmit = async (e: React.FormEvent) => {
 		e.preventDefault();
@@ -85,11 +85,6 @@ export function Login() {
 											onChange={e => setEmail(e.currentTarget.value)}
 											required
 											size="md"
-											description={
-												rememberedEmailData?.loginCount && rememberedEmailData.loginCount > 1
-													? `上次登录: ${new Date(rememberedEmailData.lastLoginAt).toLocaleString()}`
-													: undefined
-											}
 										/>
 
 										<PasswordInput

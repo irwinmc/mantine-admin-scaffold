@@ -30,13 +30,6 @@ export interface LoginCredentials {
 	rememberMe?: boolean;
 }
 
-export interface RememberedEmailData {
-	email: string;
-	lastLoginAt: string; // ISO 日期字符串
-	loginCount: number;
-	isRemembered: boolean;
-}
-
 export interface RegisterData {
 	name: string;
 	email: string;
