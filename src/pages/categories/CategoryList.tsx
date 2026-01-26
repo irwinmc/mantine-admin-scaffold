@@ -147,7 +147,7 @@ export function CategoryList() {
 	return (
 		<>
 			<Stack gap="lg">
-				<Group justify="space-between" align="center">
+				<Group justify="space-between" align="center" ml="md">
 					<Title order={2}>{t('categories.title')}</Title>
 				</Group>
 

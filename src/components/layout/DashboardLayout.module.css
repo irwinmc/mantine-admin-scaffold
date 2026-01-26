@@ -62,7 +62,7 @@
 
 .header {
 	padding: 10px;
-	margin: var(--mantine-spacing-xl);
+	margin: var(--mantine-spacing-lg);
 	margin-bottom: 0;
 	border-radius: var(--mantine-radius-md);
 	background-color: light-dark(var(--mantine-color-white), var(--mantine-color-dark-6));
@@ -74,8 +74,7 @@
 .main {
 	flex: 1;
 	overflow: visible;
-	padding: var(--mantine-spacing-xl);
-	padding-top: var(--mantine-spacing-md);
+	padding: var(--mantine-spacing-lg);
 	background-color: light-dark(var(--mantine-color-gray-0), var(--mantine-color-dark-8));
 }
 

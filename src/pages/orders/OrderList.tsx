@@ -135,7 +135,7 @@ export function OrderList() {
 	return (
 		<>
 			<Stack gap="lg">
-				<Group justify="space-between" align="center">
+				<Group justify="space-between" align="center" ml="md">
 					<Title order={2}>{t('orders.title')}</Title>
 				</Group>
 

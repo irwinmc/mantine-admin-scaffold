@@ -1,4 +1,4 @@
-import { Stack, Title, Tabs } from '@mantine/core';
+import { Stack, Title, Tabs, Group } from '@mantine/core';
 import { IconUser, IconLock, IconSettings } from '@tabler/icons-react';
 import { useTranslation } from 'react-i18next';
 import {
@@ -16,7 +16,9 @@ export function Settings() {
 
 	return (
 		<Stack gap="lg">
-			<Title order={2}>{t('nav.settings')}</Title>
+			<Group justify="space-between" align="center" ml="md">
+				<Title order={2}>{t('nav.settings')}</Title>
+			</Group>
 
 			<Tabs defaultValue="profile" className={classes.settingsTabs}>
 				<Tabs.List>

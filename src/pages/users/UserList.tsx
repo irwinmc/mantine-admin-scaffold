@@ -77,7 +77,7 @@ export function UserList() {
 			user =>
 				user.name.toLowerCase().includes(search.toLowerCase()) ||
 				user.email.toLowerCase().includes(search.toLowerCase()) ||
-				user.department?.toLowerCase().includes(search.toLowerCase())
+				user.department?.toLowerCase().includes(search.toLowerCase()),
 		);
 
 		// Sorting
@@ -108,7 +108,7 @@ export function UserList() {
 			user =>
 				user.name.toLowerCase().includes(search.toLowerCase()) ||
 				user.email.toLowerCase().includes(search.toLowerCase()) ||
-				user.department?.toLowerCase().includes(search.toLowerCase())
+				user.department?.toLowerCase().includes(search.toLowerCase()),
 		).length;
 	}, [search]);
 
@@ -116,7 +116,9 @@ export function UserList() {
 
 	return (
 		<Stack gap="lg">
-			<Title order={2}>{t('nav.users')}</Title>
+			<Group justify="space-between" align="center" ml="md">
+				<Title order={2}>{t('nav.users')}</Title>
+			</Group>
 
 			<Card radius="md" withBorder p={0}>
 				<Box p="lg">

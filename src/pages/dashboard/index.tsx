@@ -3,7 +3,7 @@
  * Feature-Based 架构示例
  */
 
-import { SimpleGrid, Stack, Grid, Title } from '@mantine/core';
+import { SimpleGrid, Stack, Grid, Title, Group } from '@mantine/core';
 import { useTranslation } from 'react-i18next';
 import { StatsCard, RevenueChart, SalesChart, TopProductsTable, RecentOrdersTable } from './components';
 import { statsData, revenueData, categoryData, topProducts, recentOrders } from './data/mockData';
@@ -13,7 +13,9 @@ export function Dashboard() {
 
 	return (
 		<Stack gap="lg">
-			<Title order={2}>{t('nav.dashboard')}</Title>
+			<Group justify="space-between" align="center" ml="md">
+				<Title order={2}>{t('nav.dashboard')}</Title>
+			</Group>
 
 			{/* 统计卡片 */}
 			<SimpleGrid cols={{ base: 1, sm: 2, lg: 4 }} spacing="lg">
