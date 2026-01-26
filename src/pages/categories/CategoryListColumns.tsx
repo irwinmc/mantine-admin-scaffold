@@ -4,14 +4,13 @@
 
 import type { ReactElement } from 'react';
 import { Text, ActionIcon, Group, Avatar, Stack, Badge, Box } from '@mantine/core';
-import { IconEdit, IconTrash, IconEye, IconFolder, IconFolderOpen, IconChevronRight } from '@tabler/icons-react';
+import { IconEdit, IconTrash, IconFolder, IconFolderOpen, IconChevronRight } from '@tabler/icons-react';
 import type { DataTableColumn } from 'mantine-datatable';
 import type { Category } from './types';
 
 interface ColumnsParams {
 	t: (key: string) => string;
 	getStatusBadge: (status: number) => ReactElement;
-	handleView: (id: number) => void;
 	handleEdit: (id: number) => void;
 	handleDelete: (id: number) => void;
 	expandedCategoryIds: number[];
@@ -21,7 +20,6 @@ interface ColumnsParams {
 export const getCategoryListColumns = ({
 	t,
 	getStatusBadge,
-	handleView,
 	handleEdit,
 	handleDelete,
 	expandedCategoryIds,
@@ -112,29 +110,11 @@ export const getCategoryListColumns = ({
 		width: 120,
 		textAlign: 'center',
 		render: category => (
-			<Group gap="xs" justify="center">
-				<ActionIcon
-					variant="subtle"
-					color="blue"
-					onClick={() => handleView(category.id)}
-					title={t('common.view')}
-				>
-					<IconEye size={16} />
-				</ActionIcon>
-				<ActionIcon
-					variant="subtle"
-					color="orange"
-					onClick={() => handleEdit(category.id)}
-					title={t('common.edit')}
-				>
+			<Group gap={4} justify="center" wrap="nowrap">
+				<ActionIcon size="sm" variant="subtle" color="green" onClick={() => handleEdit(category.id)}>
 					<IconEdit size={16} />
 				</ActionIcon>
-				<ActionIcon
-					variant="subtle"
-					color="red"
-					onClick={() => handleDelete(category.id)}
-					title={t('common.delete')}
-				>
+				<ActionIcon size="sm" variant="subtle" color="red" onClick={() => handleDelete(category.id)}>
 					<IconTrash size={16} />
 				</ActionIcon>
 			</Group>

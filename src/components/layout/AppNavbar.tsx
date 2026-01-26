@@ -18,6 +18,8 @@ import {
 	IconBellFilled,
 	IconArchive,
 	IconArchiveFilled,
+	IconCategory,
+	IconCategoryFilled
 } from '@tabler/icons-react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useLocation } from 'react-router';
@@ -56,16 +58,16 @@ export function AppNavbar({ collapsed = false }: AppNavbarProps) {
 			path: '/users',
 		},
 		{
+			label: t('nav.categories'),
+			icon: IconCategory,
+			iconFilled: IconCategoryFilled,
+			path: '/categories',
+		},
+		{
 			label: t('nav.products'),
 			icon: IconArchive,
 			iconFilled: IconArchiveFilled,
 			path: '/products',
-		},
-		{
-			label: t('nav.categories'),
-			icon: IconArchive,
-			iconFilled: IconArchiveFilled,
-			path: '/categories',
 		},
 		{
 			label: t('nav.orders'),

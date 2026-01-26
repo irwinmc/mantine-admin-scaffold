@@ -14,7 +14,7 @@ import { DEFAULT_PAGE_SIZE, PAGE_SIZE_OPTIONS, CATEGORY_STATUS_MAP } from './con
 import type { Category, CategoryWithLevel, CategoryFormValues } from './types';
 import { flattenCategories } from './utils/flattenCategories';
 import { useCategoryFilter } from './hooks/useCategoryFilter';
-import { DeleteCategoryModal, CreateCategoryModal, EditCategoryModal, ViewCategoryModal } from './components';
+import { DeleteCategoryModal, CreateCategoryModal, EditCategoryModal } from './components';
 
 export function CategoryList() {
 	const { t } = useTranslation();
@@ -41,10 +41,6 @@ export function CategoryList() {
 	const [createModalOpened, setCreateModalOpened] = useState(false);
 	const [editModalOpened, setEditModalOpened] = useState(false);
 	const [editingCategory, setEditingCategory] = useState<Category | null>(null);
-	
-	// 查看Modal状态
-	const [viewModalOpened, setViewModalOpened] = useState(false);
-	const [viewingCategory, setViewingCategory] = useState<Category | null>(null);
 
 	const treeCategories = useMemo(() => buildCategoryTree(categories, sortStatus), [categories, sortStatus]);
 
@@ -78,14 +74,6 @@ export function CategoryList() {
 			]),
 		);
 		return <StatusBadge status={status} statusMap={statusMap} />;
-	};
-
-	const handleView = (id: number) => {
-		const category = categories.find(c => c.id === id);
-		if (category) {
-			setViewingCategory(category);
-			setViewModalOpened(true);
-		}
 	};
 
 	const handleEdit = (id: number) => {
@@ -122,11 +110,6 @@ export function CategoryList() {
 		setEditingCategory(null);
 	};
 
-	const handleViewClose = () => {
-		setViewModalOpened(false);
-		setViewingCategory(null);
-	};
-
 	const handleDelete = (id: number) => {
 		const category = categories.find(c => c.id === id);
 		if (category) {
@@ -155,7 +138,6 @@ export function CategoryList() {
 	const columns = getCategoryListColumns({
 		t,
 		getStatusBadge,
-		handleView,
 		handleEdit,
 		handleDelete,
 		expandedCategoryIds,
@@ -229,13 +211,6 @@ export function CategoryList() {
 				onClose={handleEditClose}
 				onSubmit={handleEditSubmit}
 				category={editingCategory}
-				categories={categories}
-			/>
-
-			<ViewCategoryModal
-				opened={viewModalOpened}
-				onClose={handleViewClose}
-				category={viewingCategory}
 				categories={categories}
 			/>
 		</>

@@ -4,7 +4,7 @@
 
 import type { ReactElement } from 'react';
 import { Text, ActionIcon, Group, Rating, Avatar, Stack } from '@mantine/core';
-import { IconEdit, IconTrash, IconEye } from '@tabler/icons-react';
+import { IconEdit, IconTrash } from '@tabler/icons-react';
 import type { DataTableColumn } from 'mantine-datatable';
 import type { Product } from './types';
 
@@ -19,7 +19,6 @@ interface ColumnsParams {
 export const getProductListColumns = ({
 	t,
 	getStockBadge,
-	handleView,
 	handleEdit,
 	handleDelete,
 }: ColumnsParams): DataTableColumn<Product>[] => [
@@ -96,9 +95,6 @@ export const getProductListColumns = ({
 		textAlign: 'center',
 		render: product => (
 			<Group gap={4} justify="center" wrap="nowrap">
-				<ActionIcon size="sm" variant="subtle" color="blue" onClick={() => handleView(product.id)}>
-					<IconEye size={16} />
-				</ActionIcon>
 				<ActionIcon size="sm" variant="subtle" color="green" onClick={() => handleEdit(product.id)}>
 					<IconEdit size={16} />
 				</ActionIcon>
