@@ -14,7 +14,7 @@
 }
 
 .navbarExpanded {
-	width: 280px;
+	width: 240px;
 }
 
 .navbarCollapsed {
@@ -27,14 +27,14 @@
 
 .navbarHidden {
 	width: 0;
-	margin-left: -280px;
+	margin-left: -240px;
 	transition:
 		width 0.25s cubic-bezier(0.4, 0, 0.2, 1),
 		margin-left 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .navbarContent {
-	width: 280px;
+	width: 240px;
 	height: 100%;
 	overflow: hidden;
 	transition: width 0.25s cubic-bezier(0.4, 0, 0.2, 1);
