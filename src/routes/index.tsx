@@ -37,10 +37,7 @@ export function AppRoutes() {
 					<Route path="categories" element={<CategoryList />} />
 					<Route path="orders" element={<OrderList />} />
 					<Route path="orders/:id" element={<OrderDetail />} />
-					<Route path="calendar" element={<Dashboard />} />
-					<Route path="messages" element={<Dashboard />} />
 					<Route path="settings" element={<Settings />} />
-					<Route path="notifications" element={<Settings />} />
 				</Route>
 			</Routes>
 		</BrowserRouter>

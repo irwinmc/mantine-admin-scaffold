@@ -9,13 +9,7 @@ import {
 	IconSettingsFilled,
 	IconShoppingCart,
 	IconShoppingCartFilled,
-	IconCalendar,
-	IconCalendarFilled,
-	IconMail,
-	IconMailFilled,
 	IconChevronRight,
-	IconBell,
-	IconBellFilled,
 	IconArchive,
 	IconArchiveFilled,
 	IconCategory,
@@ -75,18 +69,6 @@ export function AppNavbar({ collapsed = false }: AppNavbarProps) {
 			iconFilled: IconShoppingCartFilled,
 			path: '/orders',
 		},
-		{
-			label: t('nav.calendar'),
-			icon: IconCalendar,
-			iconFilled: IconCalendarFilled,
-			path: '/calendar',
-		},
-		{
-			label: t('nav.messages'),
-			icon: IconMail,
-			iconFilled: IconMailFilled,
-			path: '/messages',
-		},
 	];
 
 	const settingsItems: NavItem[] = [
@@ -95,12 +77,6 @@ export function AppNavbar({ collapsed = false }: AppNavbarProps) {
 			icon: IconSettings,
 			iconFilled: IconSettingsFilled,
 			path: '/settings',
-		},
-		{
-			label: t('nav.notifications'),
-			icon: IconBell,
-			iconFilled: IconBellFilled,
-			path: '/notifications',
 		},
 	];
 

@@ -1,7 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router';
 import { supabase } from '../libs/supabase';
-import { ROUTES } from '../constants';
 import { useAuthStore } from '../store/authStore';
 import { useLocalStorage } from './useLocalStorage';
 import type { User, LoginCredentials, RegisterCredentials } from '../types';
@@ -80,7 +79,7 @@ export function useAuth() {
 				}
 
 				if (data.user) {
-					navigate(ROUTES.DASHBOARD);
+					navigate('/');
 				}
 				return data;
 			} catch (err) {
@@ -128,7 +127,7 @@ export function useAuth() {
 			await supabase.auth.signOut();
 			setUser(null);
 			// 登出时不清除记住的邮箱，用户可能还想用同一个邮箱登录
-			navigate(ROUTES.LOGIN);
+			navigate('/login');
 		} catch (err) {
 			const errorMessage = err instanceof Error ? err.message : 'Logout failed';
 			setError(errorMessage);
