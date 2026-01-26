@@ -19,7 +19,7 @@ import {
 	IconArchive,
 	IconArchiveFilled,
 	IconCategory,
-	IconCategoryFilled
+	IconCategoryFilled,
 } from '@tabler/icons-react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useLocation } from 'react-router';

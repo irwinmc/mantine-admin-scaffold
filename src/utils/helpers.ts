@@ -62,7 +62,7 @@ export function groupBy<T>(arr: T[], key: keyof T): Record<string, T[]> {
 			groups[group].push(item);
 			return groups;
 		},
-		{} as Record<string, T[]>
+		{} as Record<string, T[]>,
 	);
 }
 
@@ -97,4 +97,3 @@ export async function copyToClipboard(text: string): Promise<boolean> {
 		return false;
 	}
 }
-

@@ -71,4 +71,3 @@ export function isValidFileType(file: File, acceptedTypes: string[]): boolean {
 export function isValidFileSize(file: File, maxSize: number): boolean {
 	return file.size <= maxSize;
 }
-
