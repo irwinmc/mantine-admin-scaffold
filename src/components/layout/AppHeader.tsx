@@ -22,6 +22,7 @@ import {
 	IconMenuDeep,
 } from '@tabler/icons-react';
 import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router';
 import { useAuth } from '../../hooks/useAuth';
 
 interface AppHeaderProps {
@@ -36,6 +37,7 @@ export function AppHeader({ opened, toggle, collapsed = false, onToggleCollapse,
 	const { colorScheme, toggleColorScheme } = useMantineColorScheme();
 	const { t, i18n } = useTranslation();
 	const { user, logout } = useAuth();
+	const navigate = useNavigate();
 
 	const handleLanguageChange = (lang: string) => {
 		i18n.changeLanguage(lang);
@@ -43,6 +45,10 @@ export function AppHeader({ opened, toggle, collapsed = false, onToggleCollapse,
 
 	const handleLogout = async () => {
 		await logout();
+	};
+
+	const handleSettingsClick = () => {
+		navigate('/settings');
 	};
 
 	return (
@@ -68,7 +74,6 @@ export function AppHeader({ opened, toggle, collapsed = false, onToggleCollapse,
 				)}
 			</Group>
 
-			{/* 右侧：功能按钮 */}
 			<Group gap="xs">
 				<ActionIcon
 					variant="subtle"
@@ -134,7 +139,10 @@ export function AppHeader({ opened, toggle, collapsed = false, onToggleCollapse,
 						<Menu.Item leftSection={<IconUser style={{ width: rem(16), height: rem(16) }} />}>
 							{t('header.profile')}
 						</Menu.Item>
-						<Menu.Item leftSection={<IconSettings style={{ width: rem(16), height: rem(16) }} />}>
+						<Menu.Item
+							leftSection={<IconSettings style={{ width: rem(16), height: rem(16) }} />}
+							onClick={handleSettingsClick}
+						>
 							{t('nav.settings')}
 						</Menu.Item>
 						<Menu.Divider />
