@@ -12,7 +12,7 @@ import { MantineProvider } from '@mantine/core';
 import { Notifications } from '@mantine/notifications';
 import theme from './theme';
 
-import './locale';
+import './locales';
 import { AppRoutes } from './routes';
 
 const queryClient = new QueryClient();

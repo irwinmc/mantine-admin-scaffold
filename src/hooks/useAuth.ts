@@ -1,56 +1,56 @@
-import { useState, useCallback } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router';
-import { useLocalStorage } from './useLocalStorage';
-import { STORAGE_KEYS, ROUTES } from '../constants';
-import type { User, LoginCredentials, AuthResponse } from '../types';
+import { supabase } from '../libs/supabase';
+import { ROUTES } from '../constants';
+import type { User, LoginCredentials, RegisterCredentials } from '../types';
 
-/**
- * 认证 Hook
- * 管理用户认证状态和相关操作
- */
 export function useAuth() {
 	const navigate = useNavigate();
-	const [user, setUser] = useLocalStorage<User | null>(STORAGE_KEYS.USER_DATA, null);
-	const [token, setToken] = useLocalStorage<string | null>(STORAGE_KEYS.AUTH_TOKEN, null);
+	const [user, setUser] = useState<User | null>(null);
 	const [isLoading, setIsLoading] = useState(false);
 	const [error, setError] = useState<string | null>(null);
 
-	// 是否已认证
-	const isAuthenticated = !!token && !!user;
+	const isAuthenticated = !!user;
 
-	// 登录
+	useEffect(() => {
+		const {
+			data: { subscription },
+		} = supabase.auth.onAuthStateChange(async (_event, session) => {
+			if (session?.user) {
+				const userData: User = {
+					id: parseInt(session.user.id, 10),
+					name: session.user.user_metadata?.name || session.user.email || 'User',
+					email: session.user.email || '',
+					avatar: session.user.user_metadata?.avatar_url,
+					role: session.user.user_metadata?.role || 'user',
+					status: 'active',
+					createdAt: new Date(session.user.created_at),
+					updatedAt: new Date(),
+				};
+				setUser(userData);
+			} else {
+				setUser(null);
+			}
+		});
+
+		return () => subscription.unsubscribe();
+	}, []);
+
 	const login = useCallback(
 		async (credentials: LoginCredentials) => {
 			setIsLoading(true);
 			setError(null);
 
 			try {
-				// TODO: 实现真实的 API 调用
-				// const response = await authService.login(credentials);
+				const { data, error: authError } = await supabase.auth.signInWithPassword({
+					email: credentials.email,
+					password: credentials.password,
+				});
 
-				// 模拟 API 调用
-				await new Promise(resolve => setTimeout(resolve, 1000));
+				if (authError) throw authError;
 
-				const mockResponse: AuthResponse = {
-					user: {
-						id: 1,
-						name: 'Admin User',
-						email: credentials.email,
-						avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Admin',
-						role: 'admin',
-						status: 'active',
-						createdAt: new Date(),
-						updatedAt: new Date(),
-					},
-					token: 'mock-jwt-token',
-					refreshToken: 'mock-refresh-token',
-				};
-
-				setUser(mockResponse.user);
-				setToken(mockResponse.token);
 				navigate(ROUTES.DASHBOARD);
-
-				return mockResponse;
+				return data;
 			} catch (err) {
 				const errorMessage = err instanceof Error ? err.message : 'Login failed';
 				setError(errorMessage);
@@ -59,33 +59,57 @@ export function useAuth() {
 				setIsLoading(false);
 			}
 		},
-		[navigate, setUser, setToken]
+		[navigate],
 	);
 
-	// 登出
-	const logout = useCallback(() => {
-		setUser(null);
-		setToken(null);
-		navigate(ROUTES.LOGIN);
-	}, [navigate, setUser, setToken]);
+	const register = useCallback(async (credentials: RegisterCredentials) => {
+		setIsLoading(true);
+		setError(null);
 
-	// 更新用户信息
+		try {
+			const { data, error: authError } = await supabase.auth.signUp({
+				email: credentials.email,
+				password: credentials.password,
+				options: {
+					data: {
+						name: credentials.name,
+					},
+				},
+			});
+
+			if (authError) throw authError;
+
+			return data;
+		} catch (err) {
+			const errorMessage = err instanceof Error ? err.message : 'Registration failed';
+			setError(errorMessage);
+			throw err;
+		} finally {
+			setIsLoading(false);
+		}
+	}, []);
+
+	const logout = useCallback(async () => {
+		await supabase.auth.signOut();
+		navigate(ROUTES.LOGIN);
+	}, [navigate]);
+
 	const updateUser = useCallback(
 		(updatedUser: Partial<User>) => {
 			if (user) {
 				setUser({ ...user, ...updatedUser });
 			}
 		},
-		[user, setUser]
+		[user],
 	);
 
 	return {
 		user,
-		token,
 		isAuthenticated,
 		isLoading,
 		error,
 		login,
+		register,
 		logout,
 		updateUser,
 	};

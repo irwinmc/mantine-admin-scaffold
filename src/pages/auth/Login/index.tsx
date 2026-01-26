@@ -13,9 +13,12 @@ import {
 	Stack,
 	Box,
 	Avatar,
+	LoadingOverlay,
 } from '@mantine/core';
 import { IconBrandGithub, IconBrandGoogle, IconBrandTwitter } from '@tabler/icons-react';
 import { useNavigate } from 'react-router';
+import { useAuth } from '../../../hooks/useAuth';
+import { notifications } from '@mantine/notifications';
 import classes from './Login.module.css';
 
 export function Login() {
@@ -23,21 +26,33 @@ export function Login() {
 	const [password, setPassword] = useState('');
 	const [rememberMe, setRememberMe] = useState(false);
 	const navigate = useNavigate();
+	const { login, isLoading } = useAuth();
 
-	const handleSubmit = (e: React.FormEvent) => {
+	const handleSubmit = async (e: React.FormEvent) => {
 		e.preventDefault();
-		// TODO: 实现登录逻辑
-		console.log('Login:', { email, password, rememberMe });
-		// 登录成功后跳转到首页
-		navigate('/');
+
+		try {
+			await login({ email, password });
+			notifications.show({
+				title: '登录成功',
+				message: '欢迎回来！',
+				color: 'green',
+			});
+		} catch (error) {
+			notifications.show({
+				title: '登录失败',
+				message: error instanceof Error ? error.message : '请检查您的凭据',
+				color: 'red',
+			});
+		}
 	};
 
 	return (
 		<div className={classes.wrapper}>
 			<Container size={1000}>
 				<Paper shadow="xl" radius="lg" className={classes.card}>
+					<LoadingOverlay visible={isLoading} zIndex={1000} overlayProps={{ radius: 'sm', blur: 2 }} />
 					<div className={classes.content}>
-						{/* 左侧 - 登录表单 */}
 						<div className={classes.form}>
 							<Stack gap="lg">
 								<div>
@@ -83,7 +98,7 @@ export function Login() {
 											</Anchor>
 										</Group>
 
-										<Button type="submit" fullWidth size="md" radius="md">
+										<Button type="submit" fullWidth size="md" radius="md" loading={isLoading}>
 											Sign in
 										</Button>
 									</Stack>
@@ -120,7 +135,6 @@ export function Login() {
 							</Stack>
 						</div>
 
-						{/* 右侧 - 欢迎信息 */}
 						<div className={classes.hero}>
 							<Stack gap="xl" align="center" justify="center" h="100%">
 								<Title order={1} fw={700} c="white" ta="center" className={classes.heroTitle}>
