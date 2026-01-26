@@ -13,7 +13,7 @@ import {
 	LoadingOverlay,
 } from '@mantine/core';
 import { useNavigate } from 'react-router';
-import { useAuth } from '../../../hooks/useAuth';
+import { useAuth } from '@/hooks/useAuth';
 import { notifications } from '@mantine/notifications';
 import classes from '../Login/Login.module.css';
 

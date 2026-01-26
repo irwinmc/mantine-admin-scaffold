@@ -3,13 +3,18 @@ import { useNavigate } from 'react-router';
 import { supabase } from '../libs/supabase';
 import { ROUTES } from '../constants';
 import { useAuthStore } from '../store/authStore';
-import type { User, LoginCredentials, RegisterCredentials } from '../types';
+import { useLocalStorage } from './useLocalStorage';
+import type { User, LoginCredentials, RegisterCredentials, RememberedEmailData } from '../types';
 
 export function useAuth() {
 	const navigate = useNavigate();
 	const { user, isAuthenticated, setUser } = useAuthStore();
 	const [isLoading, setIsLoading] = useState(true);
 	const [error, setError] = useState<string | null>(null);
+	const [rememberedEmailData, setRememberedEmailData] = useLocalStorage<RememberedEmailData | null>(
+		'rememberedEmail',
+		null,
+	);
 
 	useEffect(() => {
 		const checkInitialAuth = async () => {
@@ -71,6 +76,25 @@ export function useAuth() {
 
 				if (authError) throw authError;
 
+				if (credentials.rememberMe) {
+					const currentData = rememberedEmailData || {
+						email: credentials.email,
+						lastLoginAt: new Date().toISOString(),
+						loginCount: 0,
+						isRemembered: true,
+					};
+
+					setRememberedEmailData({
+						...currentData,
+						email: credentials.email,
+						lastLoginAt: new Date().toISOString(),
+						loginCount: currentData.loginCount + 1,
+						isRemembered: true,
+					});
+				} else {
+					setRememberedEmailData(null);
+				}
+
 				if (data.user) {
 					navigate(ROUTES.DASHBOARD);
 				}
@@ -83,7 +107,7 @@ export function useAuth() {
 				setIsLoading(false);
 			}
 		},
-		[navigate],
+		[navigate, setRememberedEmailData, rememberedEmailData],
 	);
 
 	const register = useCallback(async (credentials: RegisterCredentials) => {
@@ -119,6 +143,7 @@ export function useAuth() {
 		try {
 			await supabase.auth.signOut();
 			setUser(null);
+			// 登出时不清除记住的邮箱，用户可能还想用同一个邮箱登录
 			navigate(ROUTES.LOGIN);
 		} catch (err) {
 			const errorMessage = err instanceof Error ? err.message : 'Logout failed';
@@ -138,14 +163,20 @@ export function useAuth() {
 		[user, setUser],
 	);
 
+	const clearRememberedEmail = useCallback(() => {
+		setRememberedEmailData(null);
+	}, [setRememberedEmailData]);
+
 	return {
 		user,
 		isAuthenticated,
 		isLoading,
 		error,
+		rememberedEmailData,
 		login,
 		register,
 		logout,
 		updateUser,
+		clearRememberedEmail,
 	};
 }

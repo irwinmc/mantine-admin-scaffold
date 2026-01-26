@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import {
 	Paper,
 	TextInput,
@@ -17,31 +17,40 @@ import {
 } from '@mantine/core';
 import { IconBrandGithub, IconBrandGoogle, IconBrandTwitter } from '@tabler/icons-react';
 import { useNavigate } from 'react-router';
+import { useTranslation } from 'react-i18next';
 import { useAuth } from '../../../hooks/useAuth';
 import { notifications } from '@mantine/notifications';
 import classes from './Login.module.css';
 
 export function Login() {
+	const { t } = useTranslation();
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
 	const [rememberMe, setRememberMe] = useState(false);
 	const navigate = useNavigate();
-	const { login, isLoading } = useAuth();
+	const { login, isLoading, rememberedEmailData } = useAuth();
+
+	useEffect(() => {
+		if (rememberedEmailData?.isRemembered && rememberedEmailData.email) {
+			setEmail(rememberedEmailData.email);
+			setRememberMe(true);
+		}
+	}, [rememberedEmailData]);
 
 	const handleSubmit = async (e: React.FormEvent) => {
 		e.preventDefault();
 
 		try {
-			await login({ email, password });
+			await login({ email, password, rememberMe });
 			notifications.show({
-				title: '登录成功',
-				message: '欢迎回来！',
+				title: t('auth.login_success'),
+				message: t('auth.login_success_message'),
 				color: 'green',
 			});
 		} catch (error) {
 			notifications.show({
-				title: '登录失败',
-				message: error instanceof Error ? error.message : '请检查您的凭据',
+				title: t('auth.login_failed'),
+				message: error instanceof Error ? error.message : t('auth.login_failed_message'),
 				color: 'red',
 			});
 		}
@@ -57,12 +66,12 @@ export function Login() {
 							<Stack gap="lg">
 								<div>
 									<Title order={2} fw={700} mb="xs">
-										Sign in
+										{t('auth.sign_in')}
 									</Title>
 									<Text size="sm" c="dimmed">
-										Don't have an account?{' '}
+										{t('auth.dont_have_account')}{' '}
 										<Anchor size="sm" fw={500} onClick={() => navigate('/register')}>
-											Sign up
+											{t('auth.sign_up')}
 										</Anchor>
 									</Text>
 								</div>
@@ -70,17 +79,22 @@ export function Login() {
 								<form onSubmit={handleSubmit}>
 									<Stack gap="md">
 										<TextInput
-											label="Email address"
-											placeholder="your@email.com"
+											label={t('auth.email')}
+											placeholder={t('auth.email_placeholder')}
 											value={email}
 											onChange={e => setEmail(e.currentTarget.value)}
 											required
 											size="md"
+											description={
+												rememberedEmailData?.loginCount && rememberedEmailData.loginCount > 1
+													? `上次登录: ${new Date(rememberedEmailData.lastLoginAt).toLocaleString()}`
+													: undefined
+											}
 										/>
 
 										<PasswordInput
-											label="Password"
-											placeholder="Your password"
+											label={t('auth.password')}
+											placeholder={t('auth.password_placeholder')}
 											value={password}
 											onChange={e => setPassword(e.currentTarget.value)}
 											required
@@ -89,17 +103,17 @@ export function Login() {
 
 										<Group justify="space-between">
 											<Checkbox
-												label="Remember me"
+												label={t('auth.remember_me')}
 												checked={rememberMe}
 												onChange={e => setRememberMe(e.currentTarget.checked)}
 											/>
 											<Anchor size="sm" onClick={() => console.log('Forgot password')}>
-												Forgot password?
+												{t('auth.forgot_password')}
 											</Anchor>
 										</Group>
 
 										<Button type="submit" fullWidth size="md" radius="md" loading={isLoading}>
-											Sign in
+											{t('auth.sign_in')}
 										</Button>
 									</Stack>
 								</form>

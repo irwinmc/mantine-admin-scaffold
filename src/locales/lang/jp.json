@@ -307,5 +307,27 @@
 		"error_create": "作成に失敗しました",
 		"error_load": "データの読み込みに失敗しました",
 		"error_update": "更新に失敗しました"
+	},
+	"auth": {
+		"sign_in": "サインイン",
+		"sign_up": "サインアップ",
+		"sign_out": "サインアウト",
+		"email": "メールアドレス",
+		"password": "パスワード",
+		"remember_me": "ログイン状態を保持",
+		"forgot_password": "パスワードを忘れましたか？",
+		"dont_have_account": "アカウントをお持ちでない方は",
+		"already_have_account": "既にアカウントをお持ちの方は",
+		"email_placeholder": "your@email.com",
+		"password_placeholder": "パスワードを入力",
+		"login_success": "ログイン成功",
+		"login_success_message": "おかえりなさい！",
+		"login_failed": "ログイン失敗",
+		"login_failed_message": "認証情報を確認してください",
+		"register_success": "登録成功",
+		"register_success_message": "アカウントが作成されました！",
+		"register_failed": "登録失敗",
+		"logout_success": "ログアウト成功",
+		"logout_failed": "ログアウト失敗"
 	}
 }

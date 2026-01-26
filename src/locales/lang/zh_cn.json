@@ -307,5 +307,27 @@
 		"error_create": "创建失败",
 		"error_load": "加载数据失败",
 		"error_update": "更新失败"
+	},
+	"auth": {
+		"sign_in": "登录",
+		"sign_up": "注册",
+		"sign_out": "退出登录",
+		"email": "邮箱地址",
+		"password": "密码",
+		"remember_me": "记住我",
+		"forgot_password": "忘记密码？",
+		"dont_have_account": "还没有账户？",
+		"already_have_account": "已有账户？",
+		"email_placeholder": "your@email.com",
+		"password_placeholder": "请输入密码",
+		"login_success": "登录成功",
+		"login_success_message": "欢迎回来！",
+		"login_failed": "登录失败",
+		"login_failed_message": "请检查您的凭据",
+		"register_success": "注册成功",
+		"register_success_message": "账户创建成功！",
+		"register_failed": "注册失败",
+		"logout_success": "退出成功",
+		"logout_failed": "退出失败"
 	}
 }
