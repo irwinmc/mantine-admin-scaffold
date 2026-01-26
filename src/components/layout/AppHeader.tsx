@@ -22,6 +22,7 @@ import {
 	IconMenuDeep,
 } from '@tabler/icons-react';
 import { useTranslation } from 'react-i18next';
+import { useAuth } from '../../hooks/useAuth';
 
 interface AppHeaderProps {
 	opened: boolean;
@@ -34,9 +35,14 @@ interface AppHeaderProps {
 export function AppHeader({ opened, toggle, collapsed = false, onToggleCollapse, isMobile = false }: AppHeaderProps) {
 	const { colorScheme, toggleColorScheme } = useMantineColorScheme();
 	const { t, i18n } = useTranslation();
+	const { user, logout } = useAuth();
 
 	const handleLanguageChange = (lang: string) => {
 		i18n.changeLanguage(lang);
+	};
+
+	const handleLogout = async () => {
+		await logout();
 	};
 
 	return (
@@ -109,17 +115,13 @@ export function AppHeader({ opened, toggle, collapsed = false, onToggleCollapse,
 					<Menu.Target>
 						<UnstyledButton>
 							<Group gap="xs">
-								<Avatar
-									src="https://api.dicebear.com/7.x/avataaars/svg?seed=Admin"
-									radius="xl"
-									size="sm"
-								/>
+								<Avatar src={user?.avatar} radius="xl" size="sm" />
 								<Box visibleFrom="sm">
 									<Text size="sm" fw={500}>
-										Admin User
+										{user?.name || 'User'}
 									</Text>
 									<Text size="xs" c="dimmed">
-										admin@example.com
+										{user?.email}
 									</Text>
 								</Box>
 								<IconChevronDown style={{ width: rem(16), height: rem(16) }} stroke={1.5} />
@@ -136,7 +138,11 @@ export function AppHeader({ opened, toggle, collapsed = false, onToggleCollapse,
 							{t('nav.settings')}
 						</Menu.Item>
 						<Menu.Divider />
-						<Menu.Item color="red" leftSection={<IconLogout style={{ width: rem(16), height: rem(16) }} />}>
+						<Menu.Item
+							color="red"
+							leftSection={<IconLogout style={{ width: rem(16), height: rem(16) }} />}
+							onClick={handleLogout}
+						>
 							{t('header.logout')}
 						</Menu.Item>
 					</Menu.Dropdown>

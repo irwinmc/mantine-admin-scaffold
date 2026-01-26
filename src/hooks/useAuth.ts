@@ -2,23 +2,44 @@ import { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router';
 import { supabase } from '../libs/supabase';
 import { ROUTES } from '../constants';
+import { useAuthStore } from '../store/authStore';
 import type { User, LoginCredentials, RegisterCredentials } from '../types';
 
 export function useAuth() {
 	const navigate = useNavigate();
-	const [user, setUser] = useState<User | null>(null);
-	const [isLoading, setIsLoading] = useState(false);
+	const { user, isAuthenticated, setUser } = useAuthStore();
+	const [isLoading, setIsLoading] = useState(true);
 	const [error, setError] = useState<string | null>(null);
 
-	const isAuthenticated = !!user;
-
 	useEffect(() => {
+		const checkInitialAuth = async () => {
+			const {
+				data: { session },
+			} = await supabase.auth.getSession();
+			if (session?.user) {
+				const userData: User = {
+					id: session.user.id,
+					name: session.user.user_metadata?.name || session.user.email || 'User',
+					email: session.user.email || '',
+					avatar: session.user.user_metadata?.avatar_url,
+					role: session.user.user_metadata?.role || 'user',
+					status: 'active',
+					createdAt: new Date(session.user.created_at),
+					updatedAt: new Date(),
+				};
+				setUser(userData);
+			}
+			setIsLoading(false);
+		};
+
+		checkInitialAuth();
+
 		const {
 			data: { subscription },
 		} = supabase.auth.onAuthStateChange(async (_event, session) => {
 			if (session?.user) {
 				const userData: User = {
-					id: parseInt(session.user.id, 10),
+					id: session.user.id,
 					name: session.user.user_metadata?.name || session.user.email || 'User',
 					email: session.user.email || '',
 					avatar: session.user.user_metadata?.avatar_url,
@@ -31,10 +52,11 @@ export function useAuth() {
 			} else {
 				setUser(null);
 			}
+			setIsLoading(false);
 		});
 
 		return () => subscription.unsubscribe();
-	}, []);
+	}, [setUser]);
 
 	const login = useCallback(
 		async (credentials: LoginCredentials) => {
@@ -49,7 +71,9 @@ export function useAuth() {
 
 				if (authError) throw authError;
 
-				navigate(ROUTES.DASHBOARD);
+				if (data.user) {
+					navigate(ROUTES.DASHBOARD);
+				}
 				return data;
 			} catch (err) {
 				const errorMessage = err instanceof Error ? err.message : 'Login failed';
@@ -90,17 +114,28 @@ export function useAuth() {
 	}, []);
 
 	const logout = useCallback(async () => {
-		await supabase.auth.signOut();
-		navigate(ROUTES.LOGIN);
-	}, [navigate]);
+		setIsLoading(true);
+		setError(null);
+		try {
+			await supabase.auth.signOut();
+			setUser(null);
+			navigate(ROUTES.LOGIN);
+		} catch (err) {
+			const errorMessage = err instanceof Error ? err.message : 'Logout failed';
+			setError(errorMessage);
+		} finally {
+			setIsLoading(false);
+		}
+	}, [navigate, setUser]);
 
 	const updateUser = useCallback(
 		(updatedUser: Partial<User>) => {
 			if (user) {
-				setUser({ ...user, ...updatedUser });
+				const newUser = { ...user, ...updatedUser };
+				setUser(newUser);
 			}
 		},
-		[user],
+		[user, setUser],
 	);
 
 	return {
