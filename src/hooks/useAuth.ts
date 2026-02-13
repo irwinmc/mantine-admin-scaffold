@@ -43,7 +43,7 @@ const syncUserToBackend = async (supabaseUser: SupabaseUser, accessToken: string
 export function useAuth() {
 	const navigate = useNavigate();
 
-	const { user, isAuthenticated, setUser } = useAuthStore();
+	const { user, isAuthenticated, setUser, setToken, setRefreshToken } = useAuthStore();
 	const [isLoading, setIsLoading] = useState(true);
 	const [error, setError] = useState<string | null>(null);
 	const [rememberedEmail, setRememberedEmail] = useLocalStorage<string>('rememberedEmail', '');
@@ -54,6 +54,8 @@ export function useAuth() {
 				data: { session },
 			} = await supabase.auth.getSession();
 			if (session?.user) {
+				setToken(session.access_token);
+				setRefreshToken(session.refresh_token);
 				const userData: User = {
 					id: session.user.id,
 					name: session.user.user_metadata?.name || session.user.email || 'User',
@@ -75,6 +77,8 @@ export function useAuth() {
 			data: { subscription },
 		} = supabase.auth.onAuthStateChange(async (_event, session) => {
 			if (session?.user) {
+				setToken(session.access_token);
+				setRefreshToken(session.refresh_token);
 				const userData: User = {
 					id: session.user.id,
 					name: session.user.user_metadata?.name || session.user.email || 'User',
@@ -88,12 +92,14 @@ export function useAuth() {
 				setUser(userData);
 			} else {
 				setUser(null);
+				setToken(null);
+				setRefreshToken(null);
 			}
 			setIsLoading(false);
 		});
 
 		return () => subscription.unsubscribe();
-	}, [setUser]);
+	}, [setUser, setToken, setRefreshToken]);
 
 	const login = useCallback(
 		async (credentials: LoginCredentials) => {
@@ -116,7 +122,10 @@ export function useAuth() {
 
 				if (data.user) {
 					const accessToken = data.session?.access_token;
+					const refreshToken = data.session?.refresh_token;
 					if (accessToken) {
+						setToken(accessToken);
+						setRefreshToken(refreshToken || null);
 						await syncUserToBackend(data.user, accessToken);
 					}
 					navigate('/');
@@ -130,7 +139,7 @@ export function useAuth() {
 				setIsLoading(false);
 			}
 		},
-		[navigate, setRememberedEmail],
+		[navigate, setRememberedEmail, setToken, setRefreshToken],
 	);
 
 	const logout = useCallback(async () => {
@@ -139,6 +148,8 @@ export function useAuth() {
 		try {
 			await supabase.auth.signOut();
 			setUser(null);
+			setToken(null);
+			setRefreshToken(null);
 			navigate('/login');
 		} catch (err) {
 			const errorMessage = err instanceof Error ? err.message : 'Logout failed';
@@ -146,7 +157,7 @@ export function useAuth() {
 		} finally {
 			setIsLoading(false);
 		}
-	}, [navigate, setUser]);
+	}, [navigate, setUser, setToken, setRefreshToken]);
 
 	const updateUser = useCallback(
 		(updatedUser: Partial<User>) => {
