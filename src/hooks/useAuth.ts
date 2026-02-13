@@ -1,101 +1,27 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router';
-import { supabase } from '@/libs/supabase';
 import { useAuthStore } from '@/stores';
 import { useLocalStorage } from './useLocalStorage';
-import { syncUser } from '@/services/api/users';
-import type { User, LoginCredentials, SupabaseUser, UserRole } from '@/types';
+import * as authApi from '@/services/api/auth';
+import type { User, LoginCredentials } from '@/types';
 
 export function useAuth() {
 	const navigate = useNavigate();
 
-	const { user, isAuthenticated, setUser, setToken, setRefreshToken } = useAuthStore();
-	const [isLoading, setIsLoading] = useState(true);
+	const { user, isAuthenticated, setAuth, clearAuth } = useAuthStore();
+	const [isLoading, setIsLoading] = useState(false);
 	const [error, setError] = useState<string | null>(null);
 	const [rememberedEmail, setRememberedEmail] = useLocalStorage<string>('rememberedEmail', '');
 
-	// 使用 Supabase 的 Session 更新本地认证状态（User + token）
-	const updateAuthFromSession = useCallback(
-		(session: { user: SupabaseUser; access_token: string; refresh_token?: string } | null) => {
-			if (session?.user) {
-				const userData: User = {
-					id: session.user.id,
-					name: session.user.user_metadata?.name || session.user.email || 'User',
-					email: session.user.email || '',
-					avatar: session.user.user_metadata?.avatar_url,
-					role: (session.user.user_metadata?.role as UserRole) || 'user',
-					status: 'active',
-					createdAt: new Date(session.user.created_at),
-					updatedAt: new Date(),
-				};
-
-				setToken(session.access_token);
-				setRefreshToken(session.refresh_token ?? null);
-				setUser(userData);
-			} else {
-				setUser(null);
-				setToken(null);
-				setRefreshToken(null);
-			}
-		},
-		[setUser, setToken, setRefreshToken],
-	);
-
+	// 监听未授权事件，自动跳转登录页
 	useEffect(() => {
-		const checkInitialAuth = async () => {
-			const {
-				data: { session },
-			} = await supabase.auth.getSession();
-
-			if (session) {
-				updateAuthFromSession({
-					user: session.user as unknown as SupabaseUser,
-					access_token: session.access_token,
-					refresh_token: session.refresh_token,
-				});
-
-				// 刷新时也同步用户数据，确保后端数据最新
-				try {
-					await syncUser(session.user as SupabaseUser, session.access_token);
-				} catch (error) {
-					console.error('Failed to sync user on refresh:', error);
-				}
-			} else {
-				updateAuthFromSession(null);
-			}
-
-			setIsLoading(false);
+		const handleUnauthorized = () => {
+			navigate('/login', { replace: true });
 		};
 
-		checkInitialAuth();
-
-		const {
-			data: { subscription },
-		} = supabase.auth.onAuthStateChange(async (event, session) => {
-			if (session) {
-				updateAuthFromSession({
-					user: session.user as unknown as SupabaseUser,
-					access_token: session.access_token,
-					refresh_token: session.refresh_token,
-				});
-
-				// TOKEN_REFRESHED 事件时也同步，确保 token 刷新后数据一致
-				if (event === 'TOKEN_REFRESHED' || event === 'SIGNED_IN') {
-					try {
-						await syncUser(session.user as SupabaseUser, session.access_token);
-					} catch (error) {
-						console.error('Failed to sync user on auth state change:', error);
-					}
-				}
-			} else {
-				updateAuthFromSession(null);
-			}
-
-			setIsLoading(false);
-		});
-
-		return () => subscription.unsubscribe();
-	}, [updateAuthFromSession]);
+		window.addEventListener('auth:unauthorized', handleUnauthorized);
+		return () => window.removeEventListener('auth:unauthorized', handleUnauthorized);
+	}, [navigate]);
 
 	const login = useCallback(
 		async (credentials: LoginCredentials) => {
@@ -103,33 +29,19 @@ export function useAuth() {
 			setError(null);
 
 			try {
-				const { data, error: authError } = await supabase.auth.signInWithPassword({
-					email: credentials.email,
-					password: credentials.password,
-				});
+				const { user, token, refreshToken } = await authApi.login(credentials);
 
-				if (authError) throw authError;
+				// 保存认证信息到 store（会自动持久化到 localStorage）
+				setAuth(user, token, refreshToken);
 
+				// 记住邮箱
 				if (credentials.rememberMe) {
 					setRememberedEmail(credentials.email);
 				} else {
 					setRememberedEmail('');
 				}
 
-				if (data.user && data.session?.access_token) {
-					const accessToken = data.session.access_token;
-					const refreshToken = data.session.refresh_token;
-
-					updateAuthFromSession({
-						user: data.user as SupabaseUser,
-						access_token: accessToken,
-						refresh_token: refreshToken ?? undefined,
-					});
-
-					await syncUser(data.user as SupabaseUser, accessToken);
-					navigate('/');
-				}
-				return data;
+				navigate('/');
 			} catch (err) {
 				const errorMessage = err instanceof Error ? err.message : 'Login failed';
 				setError(errorMessage);
@@ -138,34 +50,32 @@ export function useAuth() {
 				setIsLoading(false);
 			}
 		},
-		[navigate, setRememberedEmail, updateAuthFromSession],
+		[navigate, setAuth, setRememberedEmail],
 	);
 
 	const logout = useCallback(async () => {
 		setIsLoading(true);
-		setError(null);
 		try {
-			await supabase.auth.signOut();
-			setUser(null);
-			setToken(null);
-			setRefreshToken(null);
-			navigate('/login');
+			// 调用后端登出 API（可选，用于使 token 失效）
+			await authApi.logout();
 		} catch (err) {
-			const errorMessage = err instanceof Error ? err.message : 'Logout failed';
-			setError(errorMessage);
+			console.error('Logout API error:', err);
 		} finally {
+			// 无论 API 是否成功，都清空本地状态
+			clearAuth();
 			setIsLoading(false);
+			navigate('/login', { replace: true });
 		}
-	}, [navigate, setUser, setToken, setRefreshToken]);
+	}, [clearAuth, navigate]);
 
 	const updateUser = useCallback(
 		(updatedUser: Partial<User>) => {
 			if (user) {
 				const newUser = { ...user, ...updatedUser };
-				setUser(newUser);
+				useAuthStore.getState().setUser(newUser);
 			}
 		},
-		[user, setUser],
+		[user],
 	);
 
 	const clearRememberedEmail = useCallback(() => {

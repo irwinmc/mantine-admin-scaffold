@@ -3,17 +3,71 @@ import { useAuthStore } from '@/stores/authStore';
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || '/api';
 
+// 标记是否正在刷新 token，避免并发刷新
+let isRefreshing = false;
+// 存储等待 token 刷新的请求队列
+let refreshSubscribers: Array<(token: string) => void> = [];
+
+/**
+ * 添加请求到刷新队列
+ */
+function subscribeTokenRefresh(callback: (token: string) => void) {
+	refreshSubscribers.push(callback);
+}
+
+/**
+ * 通知所有等待的请求使用新 token
+ */
+function onTokenRefreshed(token: string) {
+	refreshSubscribers.forEach(callback => callback(token));
+	refreshSubscribers = [];
+}
+
+/**
+ * 刷新 token
+ */
+async function handleTokenRefresh(): Promise<string | null> {
+	const refreshToken = useAuthStore.getState().getRefreshToken();
+
+	if (!refreshToken) {
+		useAuthStore.getState().clearAuth();
+		window.dispatchEvent(new CustomEvent('auth:unauthorized'));
+		return null;
+	}
+
+	try {
+		// 调用刷新 token API
+		const response = await ky
+			.post(`${API_BASE_URL}/auth/refresh`, {
+				json: { refreshToken },
+				timeout: 10000,
+			})
+			.json<{ token: string; refreshToken: string }>();
+
+		// 更新 store 中的 token
+		useAuthStore.getState().setToken(response.token);
+		useAuthStore.getState().setRefreshToken(response.refreshToken);
+
+		return response.token;
+	} catch (error) {
+		// 刷新失败，清空认证状态
+		useAuthStore.getState().clearAuth();
+		window.dispatchEvent(new CustomEvent('auth:unauthorized'));
+		return null;
+	}
+}
+
 /**
  * HTTP 客户端
  *
  * 职责：
- * - 自动为每个请求添加 Authorization header（从 store 获取最新 token）
- * - 401 响应时自动清空本地认证状态
- * - Token 刷新由 Supabase 通过 onAuthStateChange 自动处理
+ * - 自动为每个请求添加 Authorization header
+ * - 401 响应时自动刷新 token 并重试
+ * - Token 刷新失败时清空认证状态
  *
  * 使用：
- * - 普通请求：http.get/post/put/delete 会自动从 store 读取 token
- * - 特殊场景：可通过 headers 参数覆盖 Authorization（如 syncUser）
+ * - 普通请求：http.get/post/put/delete 会自动处理 token
+ * - 特殊场景：可通过 headers 参数覆盖 Authorization
  */
 class HttpClient {
 	private client: KyInstance;
@@ -40,22 +94,61 @@ class HttpClient {
 					},
 				],
 				afterResponse: [
-					async (_request, _options, response) => {
-						// 401 表示 token 无效或过期，清空本地状态
+					async (request, _options, response) => {
+						// 401 表示 token 无效或过期
 						if (response.status === 401) {
-							useAuthStore.getState().clearAuth();
-							// 可选：触发全局事件通知 UI 跳转登录页
-							window.dispatchEvent(new CustomEvent('auth:unauthorized'));
+							// 如果是刷新 token 的请求失败，直接返回
+							if (request.url.includes('/auth/refresh')) {
+								useAuthStore.getState().clearAuth();
+								window.dispatchEvent(new CustomEvent('auth:unauthorized'));
+								return response;
+							}
+
+							// 如果正在刷新，等待刷新完成
+							if (isRefreshing) {
+								return new Promise(resolve => {
+									subscribeTokenRefresh(async (newToken: string) => {
+										// 使用新 token 重试请求
+										request.headers.set('Authorization', `Bearer ${newToken}`);
+										const retryResponse = await ky(request);
+										resolve(retryResponse);
+									});
+								});
+							}
+
+							// 开始刷新 token
+							isRefreshing = true;
+
+							try {
+								const newToken = await handleTokenRefresh();
+
+								if (newToken) {
+									// 通知所有等待的请求
+									onTokenRefreshed(newToken);
+
+									// 使用新 token 重试当前请求
+									request.headers.set('Authorization', `Bearer ${newToken}`);
+									return ky(request);
+								}
+							} finally {
+								isRefreshing = false;
+							}
 						}
+
 						return response;
 					},
 				],
 				beforeError: [
-					error => {
+					async error => {
 						const { response } = error;
 						if (response) {
-							// 可以在这里统一处理错误信息格式化
-							error.message = `Request failed: ${response.status} ${response.statusText}`;
+							// 尝试解析错误信息
+							try {
+								const errorData = (await response.json()) as { message?: string };
+								error.message = errorData.message || `Request failed: ${response.status}`;
+							} catch {
+								error.message = `Request failed: ${response.status} ${response.statusText}`;
+							}
 						}
 						return error;
 					},
