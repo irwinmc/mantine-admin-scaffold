@@ -1,5 +1,5 @@
 import http from '@/services/http';
-import type { LoginCredentials, RegisterCredentials, AuthResponse, User } from '@/types';
+import type { LoginCredentials, AuthResponse, User } from '@/types';
 
 /**
  * 认证相关 API
@@ -9,23 +9,13 @@ import type { LoginCredentials, RegisterCredentials, AuthResponse, User } from '
  * 用户登录
  */
 export const login = async (credentials: LoginCredentials): Promise<AuthResponse> => {
-	const response = await http.post<AuthResponse>('auth/login', {
+	const response = await http.post<{ data: AuthResponse }>('auth/login', {
 		json: {
 			email: credentials.email,
 			password: credentials.password,
 		},
 	});
-	return response;
-};
-
-/**
- * 用户注册
- */
-export const register = async (credentials: RegisterCredentials): Promise<AuthResponse> => {
-	const response = await http.post<AuthResponse>('auth/register', {
-		json: credentials,
-	});
-	return response;
+	return response.data;
 };
 
 /**

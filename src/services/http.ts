@@ -5,6 +5,7 @@ const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || '/api';
 
 // 标记是否正在刷新 token，避免并发刷新
 let isRefreshing = false;
+
 // 存储等待 token 刷新的请求队列
 let refreshSubscribers: Array<(token: string) => void> = [];
 
@@ -31,7 +32,7 @@ async function handleTokenRefresh(): Promise<string | null> {
 
 	if (!refreshToken) {
 		useAuthStore.getState().clearAuth();
-		window.dispatchEvent(new CustomEvent('auth:unauthorized'));
+		window.location.href = '/login';
 		return null;
 	}
 
@@ -52,7 +53,7 @@ async function handleTokenRefresh(): Promise<string | null> {
 	} catch (error) {
 		// 刷新失败，清空认证状态
 		useAuthStore.getState().clearAuth();
-		window.dispatchEvent(new CustomEvent('auth:unauthorized'));
+		window.location.href = '/login';
 		return null;
 	}
 }
@@ -100,7 +101,7 @@ class HttpClient {
 							// 如果是刷新 token 的请求失败，直接返回
 							if (request.url.includes('/auth/refresh')) {
 								useAuthStore.getState().clearAuth();
-								window.dispatchEvent(new CustomEvent('auth:unauthorized'));
+								window.location.href = '/login';
 								return response;
 							}
 

@@ -56,7 +56,6 @@ export const useAuthStore = create<AuthState>()(
 		}),
 		{
 			name: 'auth-storage',
-			// 只持久化必要的字段
 			partialize: state => ({
 				user: state.user,
 				token: state.token,
