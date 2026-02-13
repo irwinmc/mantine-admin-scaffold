@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router';
 import { supabase } from '../libs/supabase';
-import { useAuthStore } from '../store/authStore';
+import { useAuthStore } from '../stores/authStore';
 import { useLocalStorage } from './useLocalStorage';
 import type { User, LoginCredentials } from '../types';
 

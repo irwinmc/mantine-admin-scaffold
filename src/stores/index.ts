@@ -1,5 +1,5 @@
 /**
- * Store 入口文件
+ * Stores 入口文件
  */
 
 export { useAuthStore } from './authStore';
