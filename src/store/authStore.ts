@@ -14,7 +14,7 @@ interface AuthState {
 	clearAuth: () => void;
 }
 
-const useAuthStore = create<AuthState>()((set, get) => ({
+export const useAuthStore = create<AuthState>()((set, get) => ({
 	user: null,
 	isAuthenticated: false,
 	token: null,
@@ -37,5 +37,3 @@ const useAuthStore = create<AuthState>()((set, get) => ({
 			refreshToken: null,
 		}),
 }));
-
-export { useAuthStore };
