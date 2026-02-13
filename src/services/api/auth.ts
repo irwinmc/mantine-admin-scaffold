@@ -1,5 +1,5 @@
 import http from '@/services/http';
-import type { LoginCredentials, AuthResponse, User } from '@/types';
+import type { AuthCredentials, AuthResponse, AuthUser } from '@/types';
 
 /**
  * 认证相关 API
@@ -8,7 +8,7 @@ import type { LoginCredentials, AuthResponse, User } from '@/types';
 /**
  * 用户登录
  */
-export const login = async (credentials: LoginCredentials): Promise<AuthResponse> => {
+export const login = async (credentials: AuthCredentials): Promise<AuthResponse> => {
 	const response = await http.post<{ data: AuthResponse }>('auth/login', {
 		json: {
 			email: credentials.email,
@@ -31,8 +31,8 @@ export const refreshToken = async (refreshToken: string): Promise<AuthResponse> 
 /**
  * 获取当前用户信息
  */
-export const getCurrentUser = async (): Promise<User> => {
-	const response = await http.get<User>('auth/me');
+export const getCurrentUser = async (): Promise<AuthUser> => {
+	const response = await http.get<AuthUser>('auth/me');
 	return response;
 };
 

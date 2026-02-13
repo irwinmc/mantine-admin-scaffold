@@ -1,8 +1,8 @@
 /**
- * 用户相关类型定义
+ * 认证相关类型定义
  */
 
-export interface User {
+export interface AuthUser {
 	id: number;
 	email: string;
 	displayName: string;
@@ -10,7 +10,7 @@ export interface User {
 	avatar?: string;
 }
 
-export interface LoginCredentials {
+export interface AuthCredentials {
 	email: string;
 	password: string;
 	rememberMe?: boolean;
@@ -19,5 +19,5 @@ export interface LoginCredentials {
 export interface AuthResponse {
 	accessToken: string;
 	refreshToken: string;
-	user: User;
+	user: AuthUser;
 }

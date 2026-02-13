@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router';
 import { useAuthStore } from '@/stores';
 import { useLocalStorage } from './useLocalStorage';
 import * as authApi from '@/services/api/auth';
-import type { User, LoginCredentials } from '@/types';
+import type { AuthUser, AuthCredentials } from '@/types';
 
 export function useAuth() {
 	const navigate = useNavigate();
@@ -14,7 +14,7 @@ export function useAuth() {
 	const [rememberedEmail, setRememberedEmail] = useLocalStorage<string>('rememberedEmail', '');
 
 	const login = useCallback(
-		async (credentials: LoginCredentials) => {
+		async (credentials: AuthCredentials) => {
 			setIsLoading(true);
 			setError(null);
 
@@ -55,7 +55,7 @@ export function useAuth() {
 	}, [clearAuth, navigate]);
 
 	const updateUser = useCallback(
-		(updatedUser: Partial<User>) => {
+		(updatedUser: Partial<AuthUser>) => {
 			if (user) {
 				const newUser = { ...user, ...updatedUser };
 				useAuthStore.getState().setUser(newUser);
