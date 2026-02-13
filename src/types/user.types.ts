@@ -43,6 +43,18 @@ export interface RegisterCredentials {
 	password: string;
 }
 
+// Supabase 返回的原始用户结构，用于从 Supabase 映射到应用内部的 User
+export interface SupabaseUser {
+	id: string;
+	created_at: string;
+	email?: string | null;
+	user_metadata?: {
+		name?: string;
+		avatar_url?: string;
+		role?: UserRole;
+	};
+}
+
 export interface AuthResponse {
 	user: User;
 	token: string;
