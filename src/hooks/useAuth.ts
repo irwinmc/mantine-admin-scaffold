@@ -46,15 +46,24 @@ export function useAuth() {
 			const {
 				data: { session },
 			} = await supabase.auth.getSession();
-			updateAuthFromSession(
-				session
-					? {
-							user: session.user as unknown as SupabaseUser,
-							access_token: session.access_token,
-							refresh_token: session.refresh_token,
-						}
-					: null,
-			);
+
+			if (session) {
+				updateAuthFromSession({
+					user: session.user as unknown as SupabaseUser,
+					access_token: session.access_token,
+					refresh_token: session.refresh_token,
+				});
+
+				// 刷新时也同步用户数据，确保后端数据最新
+				try {
+					await syncUser(session.user as SupabaseUser, session.access_token);
+				} catch (error) {
+					console.error('Failed to sync user on refresh:', error);
+				}
+			} else {
+				updateAuthFromSession(null);
+			}
+
 			setIsLoading(false);
 		};
 
@@ -62,16 +71,26 @@ export function useAuth() {
 
 		const {
 			data: { subscription },
-		} = supabase.auth.onAuthStateChange(async (_event, session) => {
-			updateAuthFromSession(
-				session
-					? {
-							user: session.user as unknown as SupabaseUser,
-							access_token: session.access_token,
-							refresh_token: session.refresh_token,
-						}
-					: null,
-			);
+		} = supabase.auth.onAuthStateChange(async (event, session) => {
+			if (session) {
+				updateAuthFromSession({
+					user: session.user as unknown as SupabaseUser,
+					access_token: session.access_token,
+					refresh_token: session.refresh_token,
+				});
+
+				// TOKEN_REFRESHED 事件时也同步，确保 token 刷新后数据一致
+				if (event === 'TOKEN_REFRESHED' || event === 'SIGNED_IN') {
+					try {
+						await syncUser(session.user as SupabaseUser, session.access_token);
+					} catch (error) {
+						console.error('Failed to sync user on auth state change:', error);
+					}
+				}
+			} else {
+				updateAuthFromSession(null);
+			}
+
 			setIsLoading(false);
 		});
 
@@ -107,7 +126,7 @@ export function useAuth() {
 						refresh_token: refreshToken ?? undefined,
 					});
 
-					await syncUser(data.user as SupabaseUser);
+					await syncUser(data.user as SupabaseUser, accessToken);
 					navigate('/');
 				}
 				return data;
