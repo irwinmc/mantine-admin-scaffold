@@ -3,10 +3,46 @@ import { useNavigate } from 'react-router';
 import { supabase } from '../libs/supabase';
 import { useAuthStore } from '../store/authStore';
 import { useLocalStorage } from './useLocalStorage';
-import type { User, LoginCredentials, RegisterCredentials } from '../types';
+import type { User, LoginCredentials } from '../types';
+
+interface SupabaseUser {
+	id: string;
+	email?: string | null;
+	user_metadata?: {
+		name?: string;
+		avatar_url?: string;
+		role?: string;
+	};
+}
+
+const syncUserToBackend = async (supabaseUser: SupabaseUser, accessToken: string): Promise<void> => {
+	try {
+		const response = await fetch('/api/auth/sync', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+				Authorization: `Bearer ${accessToken}`,
+			},
+			body: JSON.stringify({
+				id: supabaseUser.id,
+				email: supabaseUser.email,
+				name: supabaseUser.user_metadata?.name || supabaseUser.email,
+				avatar: supabaseUser.user_metadata?.avatar_url,
+				role: supabaseUser.user_metadata?.role || 'user',
+			}),
+		});
+
+		if (!response.ok) {
+			console.error('Failed to sync user to backend');
+		}
+	} catch (error) {
+		console.error('Error syncing user to backend:', error);
+	}
+};
 
 export function useAuth() {
 	const navigate = useNavigate();
+
 	const { user, isAuthenticated, setUser } = useAuthStore();
 	const [isLoading, setIsLoading] = useState(true);
 	const [error, setError] = useState<string | null>(null);
@@ -79,6 +115,10 @@ export function useAuth() {
 				}
 
 				if (data.user) {
+					const accessToken = data.session?.access_token;
+					if (accessToken) {
+						await syncUserToBackend(data.user, accessToken);
+					}
 					navigate('/');
 				}
 				return data;
@@ -93,40 +133,12 @@ export function useAuth() {
 		[navigate, setRememberedEmail],
 	);
 
-	const register = useCallback(async (credentials: RegisterCredentials) => {
-		setIsLoading(true);
-		setError(null);
-
-		try {
-			const { data, error: authError } = await supabase.auth.signUp({
-				email: credentials.email,
-				password: credentials.password,
-				options: {
-					data: {
-						name: credentials.name,
-					},
-				},
-			});
-
-			if (authError) throw authError;
-
-			return data;
-		} catch (err) {
-			const errorMessage = err instanceof Error ? err.message : 'Registration failed';
-			setError(errorMessage);
-			throw err;
-		} finally {
-			setIsLoading(false);
-		}
-	}, []);
-
 	const logout = useCallback(async () => {
 		setIsLoading(true);
 		setError(null);
 		try {
 			await supabase.auth.signOut();
 			setUser(null);
-			// 登出时不清除记住的邮箱，用户可能还想用同一个邮箱登录
 			navigate('/login');
 		} catch (err) {
 			const errorMessage = err instanceof Error ? err.message : 'Logout failed';
@@ -157,7 +169,6 @@ export function useAuth() {
 		error,
 		rememberedEmail,
 		login,
-		register,
 		logout,
 		updateUser,
 		clearRememberedEmail,

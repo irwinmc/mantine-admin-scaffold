@@ -1,0 +1,52 @@
+{
+	"access_token": "eyJhbGciOiJFUzI1NiIsImtpZCI6IjZhMjEyZDI2LWU5ZjUtNDhhOS05YmUxLTIyOWJkMjI4NmFhYyIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJodHRwczovL2lwdHdqYm14dmdqYmVrb3Zkd3RyLnN1cGFiYXNlLmNvL2F1dGgvdjEiLCJzdWIiOiJkN2RiYjZmOS1lODIyLTQyYTQtOTdjNS1hMzBjNGRkNzNmOWQiLCJhdWQiOiJhdXRoZW50aWNhdGVkIiwiZXhwIjoxNzcwOTc0NTExLCJpYXQiOjE3NzA5NzA5MTEsImVtYWlsIjoia3lpYS54NTJAZ21haWwuY29tIiwicGhvbmUiOiIiLCJhcHBfbWV0YWRhdGEiOnsicHJvdmlkZXIiOiJlbWFpbCIsInByb3ZpZGVycyI6WyJlbWFpbCJdfSwidXNlcl9tZXRhZGF0YSI6eyJlbWFpbCI6Imt5aWEueDUyQGdtYWlsLmNvbSIsImVtYWlsX3ZlcmlmaWVkIjp0cnVlLCJuYW1lIjoiS2VsdmluIiwicGhvbmVfdmVyaWZpZWQiOmZhbHNlLCJzdWIiOiJkN2RiYjZmOS1lODIyLTQyYTQtOTdjNS1hMzBjNGRkNzNmOWQifSwicm9sZSI6ImF1dGhlbnRpY2F0ZWQiLCJhYWwiOiJhYWwxIiwiYW1yIjpbeyJtZXRob2QiOiJwYXNzd29yZCIsInRpbWVzdGFtcCI6MTc3MDk3MDkxMX1dLCJzZXNzaW9uX2lkIjoiZjc2YjgxNjgtZmU3Yi00YWVlLWFhNjgtMjJlMjRlMWEyYTMxIiwiaXNfYW5vbnltb3VzIjpmYWxzZX0.iHnRy_xhfkFJAF8qakkXxTkJdLH9cmn8123-9_PFaa8aQa4Og2rFTTrL2Xc2tqf1MBZ--XyWxxtAZXXjNyNQzQ",
+	"token_type": "bearer",
+	"expires_in": 3600,
+	"expires_at": 1770974511,
+	"refresh_token": "fqmbvsjyl3gr",
+	"user": {
+		"id": "d7dbb6f9-e822-42a4-97c5-a30c4dd73f9d",
+		"aud": "authenticated",
+		"role": "authenticated",
+		"email": "kyia.x52@gmail.com",
+		"email_confirmed_at": "2026-01-26T09:39:04.137014Z",
+		"phone": "",
+		"confirmation_sent_at": "2026-01-26T09:38:26.172741Z",
+		"confirmed_at": "2026-01-26T09:39:04.137014Z",
+		"last_sign_in_at": "2026-02-13T08:21:51.068590351Z",
+		"app_metadata": {
+			"provider": "email",
+			"providers": ["email"]
+		},
+		"user_metadata": {
+			"email": "kyia.x52@gmail.com",
+			"email_verified": true,
+			"name": "Kelvin",
+			"phone_verified": false,
+			"sub": "d7dbb6f9-e822-42a4-97c5-a30c4dd73f9d"
+		},
+		"identities": [
+			{
+				"identity_id": "514c24d8-5e94-4fb7-874e-daaa1e57e8df",
+				"id": "d7dbb6f9-e822-42a4-97c5-a30c4dd73f9d",
+				"user_id": "d7dbb6f9-e822-42a4-97c5-a30c4dd73f9d",
+				"identity_data": {
+					"email": "kyia.x52@gmail.com",
+					"email_verified": true,
+					"name": "Kelvin",
+					"phone_verified": false,
+					"sub": "d7dbb6f9-e822-42a4-97c5-a30c4dd73f9d"
+				},
+				"provider": "email",
+				"last_sign_in_at": "2026-01-26T09:38:26.156323Z",
+				"created_at": "2026-01-26T09:38:26.156379Z",
+				"updated_at": "2026-01-26T09:38:26.156379Z",
+				"email": "kyia.x52@gmail.com"
+			}
+		],
+		"created_at": "2026-01-26T09:38:26.11055Z",
+		"updated_at": "2026-02-13T08:21:51.082432Z",
+		"is_anonymous": false
+	},
+	"weak_password": null
+}

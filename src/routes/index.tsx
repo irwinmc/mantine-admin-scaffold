@@ -10,7 +10,6 @@ import { CategoryList } from '../pages/categories';
 import { OrderList, OrderDetail } from '../pages/orders';
 import { Settings } from '../pages/settings';
 import { Login } from '../pages/auth/login';
-import { Register } from '../pages/auth/register';
 
 export function AppRoutes() {
 	return (
@@ -18,7 +17,6 @@ export function AppRoutes() {
 			<Routes>
 				{/* 认证路由 - 独立布局 */}
 				<Route path="/login" element={<Login />} />
-				<Route path="/register" element={<Register />} />
 
 				{/* Dashboard 路由 - 使用 DashboardLayout 和 ProtectedRoute */}
 				<Route

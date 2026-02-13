@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import {
 	Paper,
 	TextInput,
@@ -16,7 +16,6 @@ import {
 	LoadingOverlay,
 } from '@mantine/core';
 import { IconBrandGithub, IconBrandGoogle, IconBrandTwitter } from '@tabler/icons-react';
-import { useNavigate } from 'react-router';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '../../../hooks/useAuth';
 import { notifications } from '@mantine/notifications';
@@ -24,18 +23,10 @@ import classes from './Login.module.css';
 
 export function Login() {
 	const { t } = useTranslation();
-	const [email, setEmail] = useState('');
-	const [password, setPassword] = useState('');
-	const [rememberMe, setRememberMe] = useState(false);
-	const navigate = useNavigate();
 	const { login, isLoading, rememberedEmail } = useAuth();
-
-	useEffect(() => {
-		if (rememberedEmail) {
-			setEmail(rememberedEmail);
-			setRememberMe(true);
-		}
-	}, [rememberedEmail]);
+	const [email, setEmail] = useState(rememberedEmail);
+	const [password, setPassword] = useState('');
+	const [rememberMe, setRememberMe] = useState(!!rememberedEmail);
 
 	const handleSubmit = async (e: React.FormEvent) => {
 		e.preventDefault();
@@ -68,12 +59,6 @@ export function Login() {
 									<Title order={2} fw={700} mb="xs">
 										{t('auth.sign_in')}
 									</Title>
-									<Text size="sm" c="dimmed">
-										{t('auth.dont_have_account')}{' '}
-										<Anchor size="sm" fw={500} onClick={() => navigate('/register')}>
-											{t('auth.sign_up')}
-										</Anchor>
-									</Text>
 								</div>
 
 								<form onSubmit={handleSubmit}>
