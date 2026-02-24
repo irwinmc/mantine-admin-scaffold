@@ -123,7 +123,7 @@ export function AppHeader({ opened, toggle, collapsed = false, onToggleCollapse,
 								<Avatar src={user?.avatar} radius="xl" size="sm" />
 								<Box visibleFrom="sm">
 									<Text size="sm" fw={500}>
-										{user?.name || 'User'}
+										{user?.displayName || 'User'}
 									</Text>
 									<Text size="xs" c="dimmed">
 										{user?.email}
