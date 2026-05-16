@@ -20,7 +20,7 @@ export function RevenueChart({ data }: RevenueChartProps) {
 
 	return (
 		<SectionCard title={t('dashboard.revenue_overview')} rightSection={rightSection}>
-			<ResponsiveContainer width="100%" height={300}>
+			<ResponsiveContainer width="100%" height={300} debounce={300}>
 				<AreaChart
 					data={data}
 					dataKey="month"
