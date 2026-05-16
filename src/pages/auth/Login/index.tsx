@@ -1,24 +1,23 @@
 import { useState } from 'react';
 import {
-	Paper,
 	TextInput,
 	PasswordInput,
 	Button,
 	Title,
 	Text,
 	Anchor,
-	Container,
 	Group,
 	Checkbox,
 	Stack,
+	Divider,
 	Box,
-	Avatar,
 	LoadingOverlay,
 } from '@mantine/core';
-import { IconBrandGithub, IconBrandGoogle, IconBrandTwitter } from '@tabler/icons-react';
+import { IconBrandGithub, IconBrandGoogle, IconBrandTwitter, IconMail, IconLock } from '@tabler/icons-react';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '../../../hooks/useAuth';
 import { notifications } from '@mantine/notifications';
+import { LoginIllustration } from './LoginIllustration';
 import classes from './Login.module.css';
 
 export function Login() {
@@ -30,7 +29,6 @@ export function Login() {
 
 	const handleSubmit = async (e: React.FormEvent) => {
 		e.preventDefault();
-
 		try {
 			await login({ email, password, rememberMe });
 			notifications.show({
@@ -49,131 +47,79 @@ export function Login() {
 
 	return (
 		<div className={classes.wrapper}>
-			<Container size={1000}>
-				<Paper shadow="xl" radius="lg" className={classes.card}>
-					<LoadingOverlay visible={isLoading} zIndex={1000} overlayProps={{ radius: 'sm', blur: 2 }} />
-					<div className={classes.content}>
-						<div className={classes.form}>
-							<Stack gap="lg">
-								<div>
-									<Title order={2} fw={700} mb="xs">
-										{t('auth.sign_in')}
-									</Title>
-								</div>
+			{/* Left: Brand */}
+			<div className={classes.brand}>
+				<Stack gap="md" align="center" style={{ position: 'relative', zIndex: 1 }}>
+					<Title order={2}>Mantine Admin</Title>
+					<Text>{t('auth.brand_description')}</Text>
+					<Box className={classes.illustration}>
+						<LoginIllustration />
+					</Box>
+				</Stack>
+			</div>
 
-								<form onSubmit={handleSubmit}>
-									<Stack gap="md">
-										<TextInput
-											label={t('auth.email')}
-											placeholder={t('auth.email_placeholder')}
-											value={email}
-											onChange={e => setEmail(e.currentTarget.value)}
-											required
-											size="md"
-										/>
+			{/* Right: Form */}
+			<div className={classes.form} style={{ position: 'relative' }}>
+				<LoadingOverlay visible={isLoading} overlayProps={{ radius: 'sm', blur: 2 }} />
 
-										<PasswordInput
-											label={t('auth.password')}
-											placeholder={t('auth.password_placeholder')}
-											value={password}
-											onChange={e => setPassword(e.currentTarget.value)}
-											required
-											size="md"
-										/>
+				<Title order={2}>{t('auth.login_title')}</Title>
+				<Text c="dimmed" size="sm" mt={4} mb="xl">
+					{t('auth.login_subtitle')}
+				</Text>
 
-										<Group justify="space-between">
-											<Checkbox
-												label={t('auth.remember_me')}
-												checked={rememberMe}
-												onChange={e => setRememberMe(e.currentTarget.checked)}
-											/>
-											<Anchor size="sm" onClick={() => console.log('Forgot password')}>
-												{t('auth.forgot_password')}
-											</Anchor>
-										</Group>
+				<form onSubmit={handleSubmit}>
+					<Stack gap="md">
+						<TextInput
+							label={t('auth.email')}
+							placeholder={t('auth.email_placeholder')}
+							value={email}
+							onChange={e => setEmail(e.currentTarget.value)}
+							required
+							leftSection={<IconMail size={18} stroke={1.5} />}
+						/>
+						<PasswordInput
+							label={t('auth.password')}
+							placeholder={t('auth.password_placeholder')}
+							value={password}
+							onChange={e => setPassword(e.currentTarget.value)}
+							required
+							leftSection={<IconLock size={18} stroke={1.5} />}
+						/>
+						<Group justify="space-between">
+							<Checkbox
+								label={t('auth.remember_me')}
+								checked={rememberMe}
+								onChange={e => setRememberMe(e.currentTarget.checked)}
+							/>
+							<Anchor size="sm" onClick={() => console.log('Forgot password')}>
+								{t('auth.forgot_password')}
+							</Anchor>
+						</Group>
+						<Button type="submit" fullWidth size="md" loading={isLoading}>
+							{t('auth.sign_in')}
+						</Button>
+					</Stack>
+				</form>
 
-										<Button type="submit" fullWidth size="md" radius="md" loading={isLoading}>
-											{t('auth.sign_in')}
-										</Button>
-									</Stack>
-								</form>
+				<Divider my="lg" label={t('auth.or_continue_with')} labelPosition="center" />
 
-								<div>
-									<Text size="sm" c="dimmed" ta="center" mb="md">
-										Or continue with
-									</Text>
-									<Group grow>
-										<Button
-											variant="default"
-											leftSection={<IconBrandGoogle size={16} />}
-											radius="md"
-										>
-											Google
-										</Button>
-										<Button
-											variant="default"
-											leftSection={<IconBrandGithub size={16} />}
-											radius="md"
-										>
-											GitHub
-										</Button>
-										<Button
-											variant="default"
-											leftSection={<IconBrandTwitter size={16} />}
-											radius="md"
-										>
-											Twitter
-										</Button>
-									</Group>
-								</div>
-							</Stack>
-						</div>
+				<Group grow>
+					<Button variant="default" leftSection={<IconBrandGoogle size={18} />} h={44}>
+						Google
+					</Button>
+					<Button variant="default" leftSection={<IconBrandGithub size={18} />} h={44}>
+						GitHub
+					</Button>
+					<Button variant="default" leftSection={<IconBrandTwitter size={18} />} h={44}>
+						Twitter
+					</Button>
+				</Group>
 
-						<div className={classes.hero}>
-							<Stack gap="xl" align="center" justify="center" h="100%">
-								<Title order={1} fw={700} c="white" ta="center" className={classes.heroTitle}>
-									Welcome to
-									<br />
-									Mantine Admin
-								</Title>
-
-								<Text size="lg" c="rgba(255, 255, 255, 0.8)" ta="center" maw={500}>
-									Build organized and well-coded dashboards full of beautiful and rich modules. Join
-									us and start building your application today.
-								</Text>
-
-								<Box>
-									<Group gap="xs" justify="center" mb="sm">
-										<Avatar
-											src="https://api.dicebear.com/7.x/avataaars/svg?seed=John"
-											size="md"
-											radius="xl"
-										/>
-										<Avatar
-											src="https://api.dicebear.com/7.x/avataaars/svg?seed=Jane"
-											size="md"
-											radius="xl"
-										/>
-										<Avatar
-											src="https://api.dicebear.com/7.x/avataaars/svg?seed=Bob"
-											size="md"
-											radius="xl"
-										/>
-										<Avatar
-											src="https://api.dicebear.com/7.x/avataaars/svg?seed=Alice"
-											size="md"
-											radius="xl"
-										/>
-									</Group>
-									<Text size="sm" c="rgba(255, 255, 255, 0.7)" ta="center">
-										More than 17k people joined us, it's your turn
-									</Text>
-								</Box>
-							</Stack>
-						</div>
-					</div>
-				</Paper>
-			</Container>
+				<Text ta="center" size="sm" mt="xl" c="dimmed">
+					{t('auth.dont_have_account')}{' '}
+					<Anchor onClick={() => console.log('Navigate to register')}>{t('auth.create_account')}</Anchor>
+				</Text>
+			</div>
 		</div>
 	);
 }

@@ -1,11 +1,11 @@
 {
 	"printWidth": 120,
-    "tabWidth": 4,
-    "useTabs": true,
-    "singleQuote": true,
-    "TrailingCooma": "all",
-    "bracketSpacing": true,
-    "arrowParens": "avoid",
+	"tabWidth": 4,
+	"useTabs": true,
+	"singleQuote": true,
+	"TrailingCooma": "all",
+	"bracketSpacing": true,
+	"arrowParens": "avoid",
 	"proseWrap": "preserve",
 	"htmlWhitespaceSensitivity": "ignore"
 }
