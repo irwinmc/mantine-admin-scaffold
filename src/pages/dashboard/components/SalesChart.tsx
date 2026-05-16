@@ -1,6 +1,5 @@
 import { Stack, Group, Text } from '@mantine/core';
 import { DonutChart } from '@mantine/charts';
-import { ResponsiveContainer } from 'recharts';
 import { useTranslation } from 'react-i18next';
 import { SectionCard } from '@/components';
 import type { CategoryData } from '../types';
@@ -16,18 +15,17 @@ export function SalesChart({ data }: SalesChartProps) {
 		<SectionCard title={t('dashboard.sales_by_category')}>
 			<Stack gap="lg" h="100%" justify="space-between">
 				<Stack align="center" style={{ flex: 1 }} justify="center">
-					<ResponsiveContainer width="100%" height={240} debounce={300}>
-						<DonutChart
-							data={data}
-							size={200}
-							thickness={50}
-							withLabelsLine
-							withLabels
-							labelsType="percent"
-							paddingAngle={2}
-							strokeWidth={1}
-						/>
-					</ResponsiveContainer>
+					<DonutChart
+						h={240}
+						data={data}
+						size={200}
+						thickness={50}
+						withLabelsLine
+						withLabels
+						labelsType="percent"
+						paddingAngle={2}
+						strokeWidth={1}
+					/>
 				</Stack>
 				<Group gap="md" justify="center" wrap="wrap">
 					{data.map(item => (
