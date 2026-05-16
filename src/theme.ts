@@ -6,7 +6,7 @@ export default createTheme({
 	defaultRadius: 'md',
 
 	// 字体配置
-	fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
+	fontFamily: '"Outfit", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
 	fontFamilyMonospace: 'Monaco, Courier, monospace',
 
 	// 颜色方案
