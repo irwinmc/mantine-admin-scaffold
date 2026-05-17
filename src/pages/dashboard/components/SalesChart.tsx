@@ -1,7 +1,8 @@
-import { Stack, Group, Text } from '@mantine/core';
-import { DonutChart } from '@mantine/charts';
+import { Stack, Group, Text, useMantineColorScheme } from '@mantine/core';
+import { PieChart, Pie, Tooltip } from 'recharts';
 import { useTranslation } from 'react-i18next';
 import { SectionCard } from '@/components';
+import { chartTheme, chartColors } from './chartTheme';
 import type { CategoryData } from '../types';
 
 interface SalesChartProps {
@@ -10,22 +11,34 @@ interface SalesChartProps {
 
 export function SalesChart({ data }: SalesChartProps) {
 	const { t } = useTranslation();
+	const { colorScheme } = useMantineColorScheme();
+	const isDark = colorScheme === 'dark';
+
+	// 给每条数据加上 fill 颜色，recharts 3.x 自动读取
+	const chartData = data.map((item, index) => ({
+		...item,
+		fill: chartColors.pie[index % chartColors.pie.length],
+	}));
 
 	return (
 		<SectionCard title={t('dashboard.sales_by_category')}>
 			<Stack gap="lg" h="100%" justify="space-between">
 				<Stack align="center" style={{ flex: 1 }} justify="center">
-					<DonutChart
-						h={240}
-						data={data}
-						size={200}
-						thickness={50}
-						withLabelsLine
-						withLabels
-						labelsType="percent"
-						paddingAngle={2}
-						strokeWidth={1}
-					/>
+					<PieChart style={{ width: '100%', height: 240 }} responsive>
+						<Pie
+							data={chartData}
+							dataKey="value"
+							nameKey="name"
+							cx="50%"
+							cy="50%"
+							outerRadius={100}
+							innerRadius={50}
+							paddingAngle={2}
+							stroke="none"
+							strokeWidth={0}
+						/>
+						<Tooltip contentStyle={chartTheme.tooltipContent(isDark)} />
+					</PieChart>
 				</Stack>
 				<Group gap="md" justify="center" wrap="wrap">
 					{data.map(item => (
