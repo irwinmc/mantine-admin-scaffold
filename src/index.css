@@ -35,29 +35,6 @@ body {
 	}
 }
 
-/* 平滑过渡 - 只应用于颜色相关属性 */
-* {
-	transition:
-		background-color 0.2s ease,
-		color 0.2s ease,
-		border-color 0.2s ease;
-}
-
-/* 禁用链接和按钮的过渡，避免影响交互 */
-a,
-button,
-[role='button'] {
-	transition: none;
-}
-
-/* 保持布局元素的过渡性能 */
-nav,
-aside,
-.navbar,
-.sidebar {
-	transition: none !important;
-}
-
 /* 确保卡片有正确的背景 */
 .mantine-Card-root {
 	background-color: light-dark(var(--mantine-color-white), var(--mantine-color-dark-6));
