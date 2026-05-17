@@ -25,7 +25,7 @@ export function Dashboard() {
 			</SimpleGrid>
 
 			{/* 图表区域 */}
-			<Grid gutter="lg">
+			<Grid>
 				<Grid.Col span={{ base: 12, lg: 8 }}>
 					<RevenueChart data={revenueData} />
 				</Grid.Col>
@@ -35,7 +35,7 @@ export function Dashboard() {
 			</Grid>
 
 			{/* 表格区域 */}
-			<Grid gutter="lg">
+			<Grid>
 				<Grid.Col span={{ base: 12, lg: 6 }}>
 					<TopProductsTable data={topProducts} />
 				</Grid.Col>

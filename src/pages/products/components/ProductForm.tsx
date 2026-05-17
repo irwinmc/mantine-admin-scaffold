@@ -85,7 +85,7 @@ export function ProductForm({
 			</Group>
 
 			<form onSubmit={form.onSubmit(onSubmit)}>
-				<Grid gutter="lg">
+				<Grid>
 					{/* 左侧 - 主要信息 */}
 					<Grid.Col span={{ base: 12, md: 8 }}>
 						<Stack gap="lg">

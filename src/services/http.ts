@@ -1,4 +1,4 @@
-import ky, { type KyInstance, type Options } from 'ky';
+import ky, { type KyInstance, type Options, isHTTPError } from 'ky';
 import { useAuthStore } from '@/stores/authStore';
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || '/api';
@@ -50,7 +50,7 @@ async function handleTokenRefresh(): Promise<string | null> {
 		useAuthStore.getState().setRefreshToken(response.refreshToken);
 
 		return response.token;
-	} catch (error) {
+	} catch {
 		// 刷新失败，清空认证状态
 		useAuthStore.getState().clearAuth();
 		window.location.href = '/login';
@@ -75,7 +75,7 @@ class HttpClient {
 
 	constructor() {
 		this.client = ky.create({
-			prefixUrl: API_BASE_URL,
+			prefix: API_BASE_URL,
 			timeout: 30000,
 			retry: {
 				limit: 2,
@@ -84,7 +84,7 @@ class HttpClient {
 			},
 			hooks: {
 				beforeRequest: [
-					request => {
+					({ request }) => {
 						// 如果请求已经设置了 Authorization，则不覆盖
 						if (!request.headers.has('Authorization')) {
 							const token = useAuthStore.getState().getToken();
@@ -95,7 +95,7 @@ class HttpClient {
 					},
 				],
 				afterResponse: [
-					async (request, _options, response) => {
+					async ({ request, response }) => {
 						// 401 表示 token 无效或过期
 						if (response.status === 401) {
 							// 如果是刷新 token 的请求失败，直接返回
@@ -140,16 +140,13 @@ class HttpClient {
 					},
 				],
 				beforeError: [
-					async error => {
-						const { response } = error;
-						if (response) {
-							// 尝试解析错误信息
-							try {
-								const errorData = (await response.json()) as { message?: string };
-								error.message = errorData.message || `Request failed: ${response.status}`;
-							} catch {
-								error.message = `Request failed: ${response.status} ${response.statusText}`;
-							}
+					({ error }) => {
+						if (isHTTPError(error) && error.data) {
+							// ky 2.x 的 HTTPError 已自动预解析响应体到 error.data
+							const errorData = error.data as { message?: string };
+							error.message = errorData.message || `Request failed: ${error.response.status}`;
+						} else if (isHTTPError(error)) {
+							error.message = `Request failed: ${error.response.status} ${error.response.statusText}`;
 						}
 						return error;
 					},

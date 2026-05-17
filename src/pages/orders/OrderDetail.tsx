@@ -71,7 +71,7 @@ export function OrderDetail() {
 				</Group>
 			</Group>
 
-			<Grid gutter="lg">
+			<Grid>
 				{/* 左侧列 - 产品信息和订单状态 */}
 				<Grid.Col span={{ base: 12, md: 8 }}>
 					<Stack gap="lg">
