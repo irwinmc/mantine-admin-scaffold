@@ -20,10 +20,8 @@ export const login = async (credentials: AuthCredentials): Promise<AuthResponse>
 	}
 
 	const response = await http.post<{ data: AuthResponse }>('auth/login', {
-		json: {
-			email: credentials.email,
-			password: credentials.password,
-		},
+		email: credentials.email,
+		password: credentials.password,
 	});
 	return response.data;
 };
@@ -36,10 +34,9 @@ export const refreshToken = async (refreshTokenStr: string): Promise<AuthRespons
 		return mockRefresh();
 	}
 
-	const response = await http.post<AuthResponse>('auth/refresh', {
-		json: { refreshToken: refreshTokenStr },
+	return http.post<AuthResponse>('auth/refresh', {
+		refreshToken: refreshTokenStr,
 	});
-	return response;
 };
 
 /**
@@ -51,8 +48,7 @@ export const getCurrentUser = async (): Promise<AuthUser> => {
 		return mockGetCurrentUser();
 	}
 
-	const response = await http.get<AuthUser>('auth/me');
-	return response;
+	return http.get<AuthUser>('auth/me');
 };
 
 /**

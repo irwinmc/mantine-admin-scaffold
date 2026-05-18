@@ -1,32 +1,27 @@
-import ky, { type KyInstance, type Options, isHTTPError } from 'ky';
+import axios, {
+	type AxiosInstance,
+	type AxiosRequestConfig,
+	type AxiosError,
+	type InternalAxiosRequestConfig,
+} from 'axios';
 import { useAuthStore } from '@/stores/authStore';
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || '/api';
 
-// 标记是否正在刷新 token，避免并发刷新
-let isRefreshing = false;
+// ── Token 刷新队列管理 ──────────────────────────────────────────
 
-// 存储等待 token 刷新的请求队列
+let isRefreshing = false;
 let refreshSubscribers: Array<(token: string) => void> = [];
 
-/**
- * 添加请求到刷新队列
- */
 function subscribeTokenRefresh(callback: (token: string) => void) {
 	refreshSubscribers.push(callback);
 }
 
-/**
- * 通知所有等待的请求使用新 token
- */
 function onTokenRefreshed(token: string) {
-	refreshSubscribers.forEach(callback => callback(token));
+	refreshSubscribers.forEach(cb => cb(token));
 	refreshSubscribers = [];
 }
 
-/**
- * 刷新 token
- */
 async function handleTokenRefresh(): Promise<string | null> {
 	const refreshToken = useAuthStore.getState().getRefreshToken();
 
@@ -37,163 +32,169 @@ async function handleTokenRefresh(): Promise<string | null> {
 	}
 
 	try {
-		// 调用刷新 token API
-		const response = await ky
-			.post(`${API_BASE_URL}/auth/refresh`, {
-				json: { refreshToken },
-				timeout: 10000,
-			})
-			.json<{ token: string; refreshToken: string }>();
+		const { data } = await axios.post<{ token: string; refreshToken: string }>(
+			`${API_BASE_URL}/auth/refresh`,
+			{ refreshToken },
+			{ timeout: 10000 },
+		);
 
-		// 更新 store 中的 token
-		useAuthStore.getState().setToken(response.token);
-		useAuthStore.getState().setRefreshToken(response.refreshToken);
+		useAuthStore.getState().setToken(data.token);
+		useAuthStore.getState().setRefreshToken(data.refreshToken);
 
-		return response.token;
+		return data.token;
 	} catch {
-		// 刷新失败，清空认证状态
 		useAuthStore.getState().clearAuth();
 		window.location.href = '/login';
 		return null;
 	}
 }
 
+// ── 重试辅助 ────────────────────────────────────────────────────
+
+interface RetryableConfig extends InternalAxiosRequestConfig {
+	_retryCount?: number;
+	_isTokenRetry?: boolean;
+}
+
+const RETRY_LIMIT = 2;
+const RETRY_STATUS_CODES = [408, 413, 429, 500, 502, 503, 504];
+
+function shouldRetry(error: AxiosError): boolean {
+	if (!error.response) return true; // 网络错误
+	return RETRY_STATUS_CODES.includes(error.response.status);
+}
+
+// ── 错误格式化 ───────────────────────────────────────────────────
+
+function normalizeError(error: AxiosError): Error {
+	if (error.response) {
+		const responseData = error.response.data as { message?: string } | undefined;
+		const msg = responseData?.message ?? `Request failed: ${error.response.status} ${error.response.statusText}`;
+		return new Error(msg);
+	}
+	if (error.request) {
+		return new Error('Network error: No response received');
+	}
+	return error as Error;
+}
+
+// ── HttpClient ───────────────────────────────────────────────────
+
 /**
- * HTTP 客户端
+ * HTTP 客户端（基于 axios）
  *
  * 职责：
  * - 自动为每个请求添加 Authorization header
  * - 401 响应时自动刷新 token 并重试
- * - Token 刷新失败时清空认证状态
- *
- * 使用：
- * - 普通请求：http.get/post/put/delete 会自动处理 token
- * - 特殊场景：可通过 headers 参数覆盖 Authorization
+ * - 网络错误/5xx 自动重试（最多 2 次）
+ * - Token 刷新失败时清空认证状态并跳转登录页
+ * - 统一错误格式化，提取服务端返回的 message
  */
 class HttpClient {
-	private client: KyInstance;
+	private client: AxiosInstance;
 
 	constructor() {
-		this.client = ky.create({
-			prefix: API_BASE_URL,
+		this.client = axios.create({
+			baseURL: API_BASE_URL,
 			timeout: 30000,
-			retry: {
-				limit: 2,
-				methods: ['get', 'put', 'head', 'delete', 'options', 'trace'],
-				statusCodes: [408, 413, 429, 500, 502, 503, 504],
-			},
-			hooks: {
-				beforeRequest: [
-					({ request }) => {
-						// 如果请求已经设置了 Authorization，则不覆盖
-						if (!request.headers.has('Authorization')) {
-							const token = useAuthStore.getState().getToken();
-							if (token) {
-								request.headers.set('Authorization', `Bearer ${token}`);
-							}
-						}
-					},
-				],
-				afterResponse: [
-					async ({ request, response }) => {
-						// 401 表示 token 无效或过期
-						if (response.status === 401) {
-							// 如果是刷新 token 的请求失败，直接返回
-							if (request.url.includes('/auth/refresh')) {
-								useAuthStore.getState().clearAuth();
-								window.location.href = '/login';
-								return response;
-							}
-
-							// 如果正在刷新，等待刷新完成
-							if (isRefreshing) {
-								return new Promise(resolve => {
-									subscribeTokenRefresh(async (newToken: string) => {
-										// 使用新 token 重试请求
-										request.headers.set('Authorization', `Bearer ${newToken}`);
-										const retryResponse = await ky(request);
-										resolve(retryResponse);
-									});
-								});
-							}
-
-							// 开始刷新 token
-							isRefreshing = true;
-
-							try {
-								const newToken = await handleTokenRefresh();
-
-								if (newToken) {
-									// 通知所有等待的请求
-									onTokenRefreshed(newToken);
-
-									// 使用新 token 重试当前请求
-									request.headers.set('Authorization', `Bearer ${newToken}`);
-									return ky(request);
-								}
-							} finally {
-								isRefreshing = false;
-							}
-						}
-
-						return response;
-					},
-				],
-				beforeError: [
-					({ error }) => {
-						if (isHTTPError(error) && error.data) {
-							// ky 2.x 的 HTTPError 已自动预解析响应体到 error.data
-							const errorData = error.data as { message?: string };
-							error.message = errorData.message || `Request failed: ${error.response.status}`;
-						} else if (isHTTPError(error)) {
-							error.message = `Request failed: ${error.response.status} ${error.response.statusText}`;
-						}
-						return error;
-					},
-				],
-			},
 		});
+
+		// ── 请求拦截器：注入 Authorization ──
+		this.client.interceptors.request.use(config => {
+			if (!config.headers.Authorization) {
+				const token = useAuthStore.getState().getToken();
+				if (token) {
+					config.headers.Authorization = `Bearer ${token}`;
+				}
+			}
+			return config;
+		});
+
+		// ── 响应拦截器：重试、401 刷新、错误格式化 ──
+		this.client.interceptors.response.use(
+			response => response,
+			async (error: AxiosError) => {
+				const config = error.config as RetryableConfig | undefined;
+
+				// -- 重试逻辑 --
+				if (config && (config._retryCount ?? 0) < RETRY_LIMIT && shouldRetry(error)) {
+					config._retryCount = (config._retryCount ?? 0) + 1;
+					const delay = 300 * 2 ** (config._retryCount - 1);
+					await new Promise(r => setTimeout(r, delay));
+					return this.client(config);
+				}
+
+				// -- 401 处理 --
+				if (error.response?.status === 401 && config && !config._isTokenRetry) {
+					const url = config.url ?? '';
+
+					// 刷新 token 接口自身 401，直接踢出
+					if (url.includes('/auth/refresh')) {
+						useAuthStore.getState().clearAuth();
+						window.location.href = '/login';
+						return Promise.reject(error);
+					}
+
+					// 其他请求 401：排队等待 token 刷新
+					if (isRefreshing) {
+						return new Promise(resolve => {
+							subscribeTokenRefresh((newToken: string) => {
+								config.headers.Authorization = `Bearer ${newToken}`;
+								resolve(this.client(config));
+							});
+						});
+					}
+
+					// 自己负责刷新
+					isRefreshing = true;
+					config._isTokenRetry = true;
+
+					try {
+						const newToken = await handleTokenRefresh();
+						if (newToken) {
+							onTokenRefreshed(newToken);
+							config.headers.Authorization = `Bearer ${newToken}`;
+							return this.client(config);
+						}
+					} finally {
+						isRefreshing = false;
+					}
+				}
+
+				return Promise.reject(normalizeError(error));
+			},
+		);
 	}
 
-	/**
-	 * GET 请求
-	 */
-	async get<T = unknown>(url: string, options?: Options): Promise<T> {
-		return this.client.get(url, options).json<T>();
+	// ── HTTP 方法 ──────────────────────────────────────────────
+
+	async get<T = unknown>(url: string, config?: AxiosRequestConfig): Promise<T> {
+		const { data } = await this.client.get<T>(url, config);
+		return data;
 	}
 
-	/**
-	 * POST 请求
-	 */
-	async post<T = unknown>(url: string, options?: Options): Promise<T> {
-		return this.client.post(url, options).json<T>();
+	async post<T = unknown>(url: string, data?: unknown, config?: AxiosRequestConfig): Promise<T> {
+		const response = await this.client.post<T>(url, data, config);
+		return response.data;
 	}
 
-	/**
-	 * PUT 请求
-	 */
-	async put<T = unknown>(url: string, options?: Options): Promise<T> {
-		return this.client.put(url, options).json<T>();
+	async put<T = unknown>(url: string, data?: unknown, config?: AxiosRequestConfig): Promise<T> {
+		const response = await this.client.put<T>(url, data, config);
+		return response.data;
 	}
 
-	/**
-	 * PATCH 请求
-	 */
-	async patch<T = unknown>(url: string, options?: Options): Promise<T> {
-		return this.client.patch(url, options).json<T>();
+	async patch<T = unknown>(url: string, data?: unknown, config?: AxiosRequestConfig): Promise<T> {
+		const response = await this.client.patch<T>(url, data, config);
+		return response.data;
 	}
 
-	/**
-	 * DELETE 请求
-	 */
-	async delete<T = unknown>(url: string, options?: Options): Promise<T> {
-		return this.client.delete(url, options).json<T>();
+	async delete<T = unknown>(url: string, config?: AxiosRequestConfig): Promise<T> {
+		const { data } = await this.client.delete<T>(url, config);
+		return data;
 	}
 
-	/**
-	 * 获取原始 ky 实例（用于特殊场景）
-	 */
-	get raw(): KyInstance {
+	/** 获取原始 axios 实例（用于特殊场景） */
+	get raw(): AxiosInstance {
 		return this.client;
 	}
 }
@@ -201,3 +202,4 @@ class HttpClient {
 const http = new HttpClient();
 
 export default http;
+export type { AxiosRequestConfig };
